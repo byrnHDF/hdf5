@@ -40,9 +40,11 @@ jobs:
         with:
           msystem: ${{matrix.sys}}
           update: true
+          path-type: minimal
           install: >-
            git
            make
+           perl
           pacboy: >-
            toolchain:p
            cmake:p

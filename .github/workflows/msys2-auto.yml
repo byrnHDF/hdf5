@@ -35,12 +35,13 @@ jobs:
         with:
           msystem: ${{matrix.sys}}
           update: true
+          path-type: minimal
           install: >-
             git
             autotools
+            perl
           pacboy: >-
             toolchain:p
-            libjpeg-turbo:p
 
       - name: Set git to use LF
         run: |
