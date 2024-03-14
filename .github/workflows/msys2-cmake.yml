@@ -36,10 +36,6 @@ jobs:
 
     steps:
       # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
-      - name: Set git to use LF
-        run: |
-          git config --global core.autocrlf input
-
       - name: Get Sources
         uses: actions/checkout@v4.1.1
 
@@ -56,9 +52,6 @@ jobs:
            cmake:p
            ninja:p
 
-      #
-      # CMAKE CONFIGURE
-      #
       - name: CMake Configure
         run: |
           mkdir "${{ runner.workspace }}/build"
@@ -78,18 +71,16 @@ jobs:
             -DZLIB_USE_LOCALCONTENT=OFF \
             $GITHUB_WORKSPACE
 
-      #
-      # BUILD
-      #
+      - name: CMake fix generated files
+        run: |
+          dos2unix H5Einit.h
+        working-directory: $GITHUB_WORKSPACE/src
+
       - name: CMake Build
         run: |
           cmake --build . --parallel 3 --config ${{ inputs.build_mode }}
         working-directory: ${{ runner.workspace }}/build
 
-      #
-      # RUN TESTS
-      #
-      # NORMAL
       - name: CMake Run Tests
         run: |
           ctest . --parallel 2 -C ${{ inputs.build_mode }} -V

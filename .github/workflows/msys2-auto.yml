@@ -30,10 +30,6 @@ jobs:
       run:
         shell: msys2 {0}
     steps:
-      - name: Set git to use LF
-        run: |
-          git config --global core.autocrlf input
-
       - name: Get Sources
         uses: actions/checkout@v4.1.1
 
@@ -58,6 +54,11 @@ jobs:
             ${{ inputs.build_option }} \
             --disable-netcdf \
             --enable-static-exec
+
+      - name: Autotools fix generated files
+        run: |
+          dos2unix H5Einit.h
+        working-directory: $GITHUB_WORKSPACE/src
 
       - name: Autotools Build
         run: |
