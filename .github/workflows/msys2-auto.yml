@@ -35,7 +35,7 @@ jobs:
         with:
           msystem: ${{matrix.sys}}
           update: true
-          path-type: minimal
+          path-type: strict
           install: >-
             git
             autotools
