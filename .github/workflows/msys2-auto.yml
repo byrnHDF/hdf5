@@ -30,9 +30,6 @@ jobs:
       run:
         shell: msys2 {0}
     steps:
-      - name: Get Sources
-        uses: actions/checkout@v4.1.1
-
       - name: '${{ matrix.icon }} Setup MSYS2'
         uses: msys2/setup-msys2@v2
         with:
@@ -44,6 +41,13 @@ jobs:
           pacboy: >-
             toolchain:p
             libjpeg-turbo:p
+
+      - name: Set git to use LF
+        run: |
+          git config --global core.autocrlf input
+
+      - name: Get Sources
+        uses: actions/checkout@v4.1.1
 
       - name: Autotools Configure
         run: |
