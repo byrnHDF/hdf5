@@ -59,10 +59,6 @@ jobs:
             --disable-netcdf \
             --enable-static-exec
 
-      - name: Autotools fix generated files
-        run: |
-          dos2unix src/H5Einit.h
-
       - name: Autotools Build
         run: |
           make -j3

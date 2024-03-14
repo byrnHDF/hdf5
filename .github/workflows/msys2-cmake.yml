@@ -74,10 +74,6 @@ jobs:
             -DZLIB_USE_LOCALCONTENT=OFF \
             $GITHUB_WORKSPACE
 
-      - name: CMake fix generated files
-        run: |
-          dos2unix src/H5Einit.h
-
       - name: CMake Build
         run: |
           cmake --build . --parallel 3 --config ${{ inputs.build_mode }}
