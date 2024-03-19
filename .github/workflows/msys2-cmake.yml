@@ -40,11 +40,12 @@ jobs:
         with:
           msystem: ${{matrix.sys}}
           update: true
-          path-type: strict
           install: >-
+           base-devel
            git
+           gcc
            make
-           perl
+           development
           pacboy: >-
            toolchain:p
            cmake:p
