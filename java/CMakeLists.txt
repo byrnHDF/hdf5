@@ -30,7 +30,6 @@ set (HDF5_JAVA_INCLUDE_DIRECTORIES
     ${JAVA_INCLUDE_PATH}
     ${JAVA_INCLUDE_PATH2}
 )
-set_directory_properties(PROPERTIES INCLUDE_DIRECTORIES "${HDF5_JAVA_INCLUDE_DIRECTORIES}")
 
 set (CMAKE_JAVA_INCLUDE_PATH "")
 
@@ -68,4 +67,12 @@ if (HDF5_JAVA_PACK_JRE)
       DESTINATION ${HDF5_INSTALL_BIN_DIR}
       USE_SOURCE_PERMISSIONS
   )
+endif ()
+
+message (VERBOSE "Java version is ${Java_VERSION_STRING}")
+if (Java_VERSION_STRING VERSION_GREATER_EQUAL "22.0.0")
+  add_subdirectory (jsrc)
+  if (NOT HDF5_EXTERNALLY_CONFIGURED AND BUILD_TESTING)
+    add_subdirectory (jtest)
+  endif ()
 endif ()
