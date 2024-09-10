@@ -119,8 +119,7 @@ public class TestH5Fparams {
         File file = null;
 
         try {
-            fid = H5.H5Fcreate("test.h5", H5F_ACC_TRUNC(), H5P_DEFAULT(),
-                               H5P_DEFAULT());
+            fid = H5.H5Fcreate("test.h5", H5F_ACC_TRUNC(), H5P_DEFAULT(), H5P_DEFAULT());
             if (fid > 0) {
                 H5.H5Fclose(fid);
             }
@@ -146,8 +145,7 @@ public class TestH5Fparams {
         long fid = H5I_INVALID_HID();
 
         try {
-            fid = H5.H5Fcreate("test.h5", H5F_ACC_TRUNC(), H5P_DEFAULT(),
-                               H5P_DEFAULT());
+            fid = H5.H5Fcreate("test.h5", H5F_ACC_TRUNC(), H5P_DEFAULT(), H5P_DEFAULT());
         }
         catch (Throwable err) {
             fail("H5.H5Fopen: " + err);
@@ -173,8 +171,7 @@ public class TestH5Fparams {
         long fid = H5I_INVALID_HID();
 
         try {
-            fid = H5.H5Fcreate("test.h5", H5F_ACC_TRUNC(), H5P_DEFAULT(),
-                               H5P_DEFAULT());
+            fid = H5.H5Fcreate("test.h5", H5F_ACC_TRUNC(), H5P_DEFAULT(), H5P_DEFAULT());
         }
         catch (Throwable err) {
             fail("H5.H5Fopen: " + err);
@@ -201,8 +198,7 @@ public class TestH5Fparams {
 
         try {
             try {
-                fid = H5.H5Fcreate("test.h5", H5F_ACC_TRUNC(), H5P_DEFAULT(),
-                                   H5P_DEFAULT());
+                fid = H5.H5Fcreate("test.h5", H5F_ACC_TRUNC(), H5P_DEFAULT(), H5P_DEFAULT());
             }
             catch (Throwable err) {
                 fail("H5.H5Fcreate: " + err);
@@ -237,8 +233,7 @@ public class TestH5Fparams {
 
         try {
             try {
-                fid = H5.H5Fcreate("test.h5", H5F_ACC_TRUNC(), H5P_DEFAULT(),
-                                   H5P_DEFAULT());
+                fid = H5.H5Fcreate("test.h5", H5F_ACC_TRUNC(), H5P_DEFAULT(), H5P_DEFAULT());
             }
             catch (Throwable err) {
                 fail("H5.H5Fcreate: " + err);
@@ -261,14 +256,12 @@ public class TestH5Fparams {
 
         try {
             try {
-                fid = H5.H5Fcreate("test.h5", H5F_ACC_TRUNC(), H5P_DEFAULT(),
-                                   H5P_DEFAULT());
+                fid = H5.H5Fcreate("test.h5", H5F_ACC_TRUNC(), H5P_DEFAULT(), H5P_DEFAULT());
             }
             catch (Throwable err) {
                 fail("H5.H5Fcreate: " + err);
             }
-            H5.H5Fset_libver_bounds(fid, H5F_LIBVER_LATEST(),
-                                    H5F_LIBVER_LATEST() + 1);
+            H5.H5Fset_libver_bounds(fid, H5F_LIBVER_LATEST(), H5F_LIBVER_LATEST() + 1);
         }
         finally {
             try {

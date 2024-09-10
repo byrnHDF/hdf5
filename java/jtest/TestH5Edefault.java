@@ -187,8 +187,7 @@ public class TestH5Edefault {
             fail("H5.H5Eget_current_stack: " + err);
         }
         assertFalse("H5.H5Eget_current_stack: get_current_stack - " + stack_id, stack_id < 0);
-        assertFalse("H5.H5Eget_current_stack: get_current_stack - " + stack_id,
-                    stack_id == H5E_DEFAULT());
+        assertFalse("H5.H5Eget_current_stack: get_current_stack - " + stack_id, stack_id == H5E_DEFAULT());
 
         // Verify the stack is empty
         try {
@@ -342,8 +341,7 @@ public class TestH5Edefault {
             fail("H5.H5Eset_current_stack: " + err);
         }
         assertFalse("H5.H5Eset_current_stack: get_current_stack - " + stack_id, stack_id < 0);
-        assertFalse("H5.H5Eset_current_stack: get_current_stack - " + stack_id,
-                    stack_id == H5E_DEFAULT());
+        assertFalse("H5.H5Eset_current_stack: get_current_stack - " + stack_id, stack_id == H5E_DEFAULT());
 
         // Verify the copy has the same number of messages as the original stack
         try {
@@ -451,8 +449,8 @@ public class TestH5Edefault {
     @Test(expected = NullPointerException.class)
     public void testH5Epush_null_name() throws Throwable
     {
-        H5.H5Epush(H5E_DEFAULT(), null, "Invalid", 0, H5E_DEFAULT(),
-                   H5E_DEFAULT(), H5E_DEFAULT(), "Invalid message");
+        H5.H5Epush(H5E_DEFAULT(), null, "Invalid", 0, H5E_DEFAULT(), H5E_DEFAULT(), H5E_DEFAULT(),
+                   "Invalid message");
     }
 
     @Test(expected = IllegalArgumentException.class)

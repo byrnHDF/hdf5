@@ -71,8 +71,7 @@ public class TestH5A {
     {
         long did = H5I_INVALID_HID();
         try {
-            did = H5.H5Dcreate(fid, name, H5T_STD_I32BE_g(), dsid, H5P_DEFAULT(),
-                               H5P_DEFAULT(), dapl);
+            did = H5.H5Dcreate(fid, name, H5T_STD_I32BE_g(), dsid, H5P_DEFAULT(), H5P_DEFAULT(), dapl);
         }
         catch (Throwable err) {
             err.printStackTrace();
@@ -90,8 +89,7 @@ public class TestH5A {
         System.out.print(testname.getMethodName());
 
         try {
-            H5fid = H5.H5Fcreate(H5_FILE, H5F_ACC_TRUNC(), H5P_DEFAULT(),
-                                 H5P_DEFAULT());
+            H5fid = H5.H5Fcreate(H5_FILE, H5F_ACC_TRUNC(), H5P_DEFAULT(), H5P_DEFAULT());
             assertTrue("TestH5A.createH5file: H5.H5Fcreate: ", H5fid > 0);
             H5dsid = H5.H5Screate_simple(2, H5dims, null);
             assertTrue("TestH5A.createH5file: H5.H5Screate_simple: ", H5dsid > 0);
@@ -178,8 +176,7 @@ public class TestH5A {
     {
         long attr_id = H5I_INVALID_HID();
         try {
-            attr_id = H5.H5Acreate(H5did, "dset", type_id, space_id, H5P_DEFAULT(),
-                                   H5P_DEFAULT());
+            attr_id = H5.H5Acreate(H5did, "dset", type_id, space_id, H5P_DEFAULT(), H5P_DEFAULT());
             assertTrue("testH5Acreate2", attr_id >= 0);
         }
         catch (Throwable err) {
@@ -216,8 +213,7 @@ public class TestH5A {
         long attr_id      = H5I_INVALID_HID();
 
         try {
-            attr_id = H5.H5Acreate(H5did, attr_name, type_id, space_id, H5P_DEFAULT(),
-                                   H5P_DEFAULT());
+            attr_id = H5.H5Acreate(H5did, attr_name, type_id, space_id, H5P_DEFAULT(), H5P_DEFAULT());
 
             // Opening the existing attribute, attr_name(Created by H5ACreate2)
             // attached to an object identifier.
@@ -262,13 +258,12 @@ public class TestH5A {
         long attribute_id = H5I_INVALID_HID();
 
         try {
-            attr_id = H5.H5Acreate(H5did, "file", type_id, space_id, H5P_DEFAULT(),
-                                   H5P_DEFAULT());
+            attr_id = H5.H5Acreate(H5did, "file", type_id, space_id, H5P_DEFAULT(), H5P_DEFAULT());
 
             // Opening the existing attribute, obj_name(Created by H5ACreate2)
             // by index, attached to an object identifier.
-            attribute_id = H5.H5Aopen_by_idx(H5did, ".", H5_INDEX_CRT_ORDER(),
-                                             H5_ITER_INC(), 0, aapl_id, lapl_id);
+            attribute_id =
+                H5.H5Aopen_by_idx(H5did, ".", H5_INDEX_CRT_ORDER(), H5_ITER_INC(), 0, aapl_id, lapl_id);
 
             assertTrue("testH5Aopen_by_idx: H5Aopen_by_idx", attribute_id >= 0);
 
@@ -330,8 +325,8 @@ public class TestH5A {
         boolean bool_val  = false;
 
         try {
-            attribute_id = H5.H5Acreate_by_name(H5fid, obj_name, attr_name, type_id, space_id,
-                                                H5P_DEFAULT(), aapl_id, lapl_id);
+            attribute_id = H5.H5Acreate_by_name(H5fid, obj_name, attr_name, type_id, space_id, H5P_DEFAULT(),
+                                                aapl_id, lapl_id);
             assertTrue("testH5Acreate_by_name: H5Acreate_by_name", attribute_id >= 0);
 
             // Check if the name of attribute attached to the object specified
@@ -364,8 +359,7 @@ public class TestH5A {
         boolean bool_val     = false;
 
         try {
-            attr_id =
-                H5.H5Acreate(loc_id, old_attr_name, type_id, space_id, H5P_DEFAULT(), aapl_id);
+            attr_id = H5.H5Acreate(loc_id, old_attr_name, type_id, space_id, H5P_DEFAULT(), aapl_id);
 
             ret_val = H5.H5Arename(loc_id, old_attr_name, new_attr_name);
 
@@ -408,8 +402,8 @@ public class TestH5A {
         boolean bool_val     = false;
 
         try {
-            attr_id = H5.H5Acreate_by_name(loc_id, obj_name, old_attr_name, type_id, space_id,
-                                           H5P_DEFAULT(), aapl_id, lapl_id);
+            attr_id = H5.H5Acreate_by_name(loc_id, obj_name, old_attr_name, type_id, space_id, H5P_DEFAULT(),
+                                           aapl_id, lapl_id);
 
             ret_val = H5.H5Arename_by_name(loc_id, obj_name, old_attr_name, new_attr_name, lapl_id);
 
@@ -449,8 +443,8 @@ public class TestH5A {
         long attribute_id = H5I_INVALID_HID();
 
         try {
-            attribute_id = H5.H5Acreate_by_name(H5fid, obj_name, attr_name, type_id, space_id,
-                                                H5P_DEFAULT(), aapl_id, lapl_id);
+            attribute_id = H5.H5Acreate_by_name(H5fid, obj_name, attr_name, type_id, space_id, H5P_DEFAULT(),
+                                                aapl_id, lapl_id);
             assertTrue("testH5Aget_name: H5Acreate_by_name ", attribute_id > 0);
             ret_name = H5.H5Aget_name(attribute_id);
             assertEquals(ret_name, attr_name);
@@ -483,10 +477,10 @@ public class TestH5A {
         long attr2_id   = H5I_INVALID_HID();
 
         try {
-            attr1_id = H5.H5Acreate_by_name(loc_id, obj_name, attr_name, type_id, space_id,
-                                            H5P_DEFAULT(), H5P_DEFAULT(), lapl_id);
-            attr2_id = H5.H5Acreate_by_name(loc_id, obj_name, attr2_name, type_id, space_id,
-                                            H5P_DEFAULT(), H5P_DEFAULT(), lapl_id);
+            attr1_id = H5.H5Acreate_by_name(loc_id, obj_name, attr_name, type_id, space_id, H5P_DEFAULT(),
+                                            H5P_DEFAULT(), lapl_id);
+            attr2_id = H5.H5Acreate_by_name(loc_id, obj_name, attr2_name, type_id, space_id, H5P_DEFAULT(),
+                                            H5P_DEFAULT(), lapl_id);
 
             // getting the 1st attribute name(n=0).
             ret_name = H5.H5Aget_name_by_idx(loc_id, obj_name, idx_type, order, n, lapl_id);
@@ -525,8 +519,7 @@ public class TestH5A {
         long attr_size = H5I_INVALID_HID();
 
         try {
-            attr_id = H5.H5Acreate(H5did, "dset", type_id, space_id, H5P_DEFAULT(),
-                                   H5P_DEFAULT());
+            attr_id = H5.H5Acreate(H5did, "dset", type_id, space_id, H5P_DEFAULT(), H5P_DEFAULT());
 
             attr_size = H5.H5Aget_storage_size(attr_id);
             assertTrue("The size of attribute is :", attr_size == 0);
@@ -553,15 +546,13 @@ public class TestH5A {
         long attr_id         = H5I_INVALID_HID();
 
         try {
-            attr_id      = H5.H5Acreate(H5did, "dset", type_id, space_id, H5P_DEFAULT(),
-                                        H5P_DEFAULT());
+            attr_id      = H5.H5Acreate(H5did, "dset", type_id, space_id, H5P_DEFAULT(), H5P_DEFAULT());
             attribute_id = H5.H5Aopen(H5did, "dset", H5P_DEFAULT());
             // Calling H5Aget_info with attribute_id returned from H5Aopen.
             attr_info = H5.H5Aget_info(attribute_id);
             assertFalse("H5Aget_info ", attr_info == null);
             assertTrue("Corder_Valid should be false", attr_info.corder_valid == false);
-            assertTrue("Character set used for attribute name",
-                       attr_info.cset == H5T_CSET_ASCII());
+            assertTrue("Character set used for attribute name", attr_info.cset == H5T_CSET_ASCII());
             assertTrue("Corder ", attr_info.corder == 0);
             assertEquals(attr_info.data_size, H5.H5Aget_storage_size(attr_id));
         }
@@ -594,10 +585,9 @@ public class TestH5A {
         int order            = H5_ITER_INC();
 
         try {
-            attr_id      = H5.H5Acreate(H5did, ".", type_id, space_id, H5P_DEFAULT(),
-                                        H5P_DEFAULT());
-            attribute_id = H5.H5Aopen_by_idx(H5did, ".", H5_INDEX_CRT_ORDER(), order, 0,
-                                             H5P_DEFAULT(), lapl_id);
+            attr_id = H5.H5Acreate(H5did, ".", type_id, space_id, H5P_DEFAULT(), H5P_DEFAULT());
+            attribute_id =
+                H5.H5Aopen_by_idx(H5did, ".", H5_INDEX_CRT_ORDER(), order, 0, H5P_DEFAULT(), lapl_id);
             // Calling H5Aget_info with attribute_id returned from
             // H5Aopen_by_idx.
             attr_info = H5.H5Aget_info(attribute_id);
@@ -637,50 +627,42 @@ public class TestH5A {
         H5A_info_t attr_info = null;
 
         try {
-            attr_id  = H5.H5Acreate(H5did, "dset1", type_id, space_id, H5P_DEFAULT(),
-                                    H5P_DEFAULT());
-            attr2_id = H5.H5Acreate(H5did, "dataset2", type_id, space_id, H5P_DEFAULT(),
-                                    H5P_DEFAULT());
+            attr_id  = H5.H5Acreate(H5did, "dset1", type_id, space_id, H5P_DEFAULT(), H5P_DEFAULT());
+            attr2_id = H5.H5Acreate(H5did, "dataset2", type_id, space_id, H5P_DEFAULT(), H5P_DEFAULT());
 
             // Verify info for 1st attribute, in increasing creation order
-            attr_info = H5.H5Aget_info_by_idx(H5did, ".", H5_INDEX_CRT_ORDER(),
-                                              H5_ITER_INC(), 0, lapl_id);
+            attr_info = H5.H5Aget_info_by_idx(H5did, ".", H5_INDEX_CRT_ORDER(), H5_ITER_INC(), 0, lapl_id);
             assertNotNull(attr_info);
             assertTrue("Corder ", attr_info.corder ==
                                       0); // should equal 0 as this is the order of 1st attribute created.
             assertEquals(attr_info.data_size, H5.H5Aget_storage_size(attr_id));
 
             // Verify info for 2nd attribute, in increasing creation order
-            attr_info = H5.H5Aget_info_by_idx(H5did, ".", H5_INDEX_CRT_ORDER(),
-                                              H5_ITER_INC(), 1, lapl_id);
+            attr_info = H5.H5Aget_info_by_idx(H5did, ".", H5_INDEX_CRT_ORDER(), H5_ITER_INC(), 1, lapl_id);
             assertNotNull(attr_info);
             assertTrue("Corder", attr_info.corder == 1);
             assertEquals(attr_info.data_size, H5.H5Aget_storage_size(attr2_id));
 
             // verify info for 2nd attribute, in decreasing creation order
-            attr_info = H5.H5Aget_info_by_idx(H5did, ".", H5_INDEX_CRT_ORDER(),
-                                              H5_ITER_DEC(), 0, lapl_id);
+            attr_info = H5.H5Aget_info_by_idx(H5did, ".", H5_INDEX_CRT_ORDER(), H5_ITER_DEC(), 0, lapl_id);
             assertNotNull(attr_info);
             assertTrue("Corder", attr_info.corder ==
                                      1); // should equal 1 as this is the order of 2nd attribute created.
 
             // verify info for 1st attribute, in decreasing creation order
-            attr_info = H5.H5Aget_info_by_idx(H5did, ".", H5_INDEX_CRT_ORDER(),
-                                              H5_ITER_DEC(), 1, lapl_id);
+            attr_info = H5.H5Aget_info_by_idx(H5did, ".", H5_INDEX_CRT_ORDER(), H5_ITER_DEC(), 1, lapl_id);
             assertNotNull(attr_info);
             assertTrue("Corder", attr_info.corder ==
                                      0); // should equal 0 as this is the order of 1st attribute created.
 
             // verify info for 1st attribute, in increasing name order
-            attr_info = H5.H5Aget_info_by_idx(H5did, ".", H5_INDEX_NAME(),
-                                              H5_ITER_INC(), 1, lapl_id);
+            attr_info = H5.H5Aget_info_by_idx(H5did, ".", H5_INDEX_NAME(), H5_ITER_INC(), 1, lapl_id);
             assertNotNull(attr_info);
             assertTrue("Corder", attr_info.corder ==
                                      0); // should equal 0 as this is the order of 1st attribute created.
 
             // verify info for 2nd attribute, in decreasing name order
-            attr_info = H5.H5Aget_info_by_idx(H5did, ".", H5_INDEX_NAME(),
-                                              H5_ITER_DEC(), 1, lapl_id);
+            attr_info = H5.H5Aget_info_by_idx(H5did, ".", H5_INDEX_NAME(), H5_ITER_DEC(), 1, lapl_id);
             assertNotNull(attr_info);
             assertTrue("Corder", attr_info.corder ==
                                      1); // should equal 1 as this is the order of 2nd attribute created.
@@ -714,8 +696,8 @@ public class TestH5A {
         String attr_name     = "DATASET";
 
         try {
-            attr_id   = H5.H5Acreate_by_name(H5fid, obj_name, attr_name, type_id, space_id,
-                                             H5P_DEFAULT(), H5P_DEFAULT(), lapl_id);
+            attr_id   = H5.H5Acreate_by_name(H5fid, obj_name, attr_name, type_id, space_id, H5P_DEFAULT(),
+                                             H5P_DEFAULT(), lapl_id);
             attr_info = H5.H5Aget_info_by_name(H5fid, obj_name, attr_name, lapl_id);
             assertNotNull(attr_info);
         }
@@ -742,8 +724,8 @@ public class TestH5A {
         boolean exists   = false;
 
         try {
-            attr_id = H5.H5Acreate_by_name(H5fid, ".", "DATASET", type_id, space_id,
-                                           H5P_DEFAULT(), H5P_DEFAULT(), lapl_id);
+            attr_id = H5.H5Acreate_by_name(H5fid, ".", "DATASET", type_id, space_id, H5P_DEFAULT(),
+                                           H5P_DEFAULT(), lapl_id);
             ret_val = H5.H5Adelete_by_name(H5fid, ".", "DATASET", lapl_id);
             assertTrue("H5Adelete_by_name", ret_val >= 0);
 
@@ -796,15 +778,13 @@ public class TestH5A {
         assertFalse("H5Aexists ", exists);
 
         try {
-            attr_id = H5.H5Acreate(H5fid, "dset", type_id, space_id, H5P_DEFAULT(),
-                                   H5P_DEFAULT());
+            attr_id = H5.H5Acreate(H5fid, "dset", type_id, space_id, H5P_DEFAULT(), H5P_DEFAULT());
             exists  = H5.H5Aexists(H5fid, "dset");
             assertTrue("H5Aexists ", exists);
 
-            attribute_id =
-                H5.H5Acreate_by_name(H5fid, ".", "attribute", type_id, space_id, H5P_DEFAULT(),
-                                     H5P_DEFAULT(), lapl_id);
-            exists = H5.H5Aexists(H5fid, "attribute");
+            attribute_id = H5.H5Acreate_by_name(H5fid, ".", "attribute", type_id, space_id, H5P_DEFAULT(),
+                                                H5P_DEFAULT(), lapl_id);
+            exists       = H5.H5Aexists(H5fid, "attribute");
             assertTrue("H5Aexists ", exists);
         }
         catch (Throwable err) {
@@ -837,17 +817,16 @@ public class TestH5A {
         long attr4_id  = H5I_INVALID_HID();
 
         try {
-            attr1_id = H5.H5Acreate_by_name(H5fid, ".", "attribute1", type_id, space_id,
-                                            H5P_DEFAULT(), H5P_DEFAULT(), lapl_id);
-            attr2_id = H5.H5Acreate_by_name(H5fid, ".", "attribute2", type_id, space_id,
-                                            H5P_DEFAULT(), H5P_DEFAULT(), lapl_id);
-            attr3_id = H5.H5Acreate_by_name(H5fid, ".", "attribute3", type_id, space_id,
-                                            H5P_DEFAULT(), H5P_DEFAULT(), lapl_id);
-            attr4_id = H5.H5Acreate_by_name(H5fid, ".", "attribute4", type_id, space_id,
-                                            H5P_DEFAULT(), H5P_DEFAULT(), lapl_id);
+            attr1_id = H5.H5Acreate_by_name(H5fid, ".", "attribute1", type_id, space_id, H5P_DEFAULT(),
+                                            H5P_DEFAULT(), lapl_id);
+            attr2_id = H5.H5Acreate_by_name(H5fid, ".", "attribute2", type_id, space_id, H5P_DEFAULT(),
+                                            H5P_DEFAULT(), lapl_id);
+            attr3_id = H5.H5Acreate_by_name(H5fid, ".", "attribute3", type_id, space_id, H5P_DEFAULT(),
+                                            H5P_DEFAULT(), lapl_id);
+            attr4_id = H5.H5Acreate_by_name(H5fid, ".", "attribute4", type_id, space_id, H5P_DEFAULT(),
+                                            H5P_DEFAULT(), lapl_id);
 
-            H5.H5Adelete_by_idx(H5fid, ".", H5_INDEX_CRT_ORDER(), H5_ITER_INC(), 3,
-                                lapl_id);
+            H5.H5Adelete_by_idx(H5fid, ".", H5_INDEX_CRT_ORDER(), H5_ITER_INC(), 3, lapl_id);
             exists = H5.H5Aexists(H5fid, "attribute4");
             assertFalse("H5Adelete_by_idx: H5Aexists", exists);
         }
@@ -892,14 +871,13 @@ public class TestH5A {
         long attr3_id  = H5I_INVALID_HID();
 
         try {
-            attr1_id = H5.H5Acreate_by_name(H5fid, ".", "attribute1", type_id, space_id,
-                                            H5P_DEFAULT(), H5P_DEFAULT(), lapl_id);
-            attr2_id = H5.H5Acreate_by_name(H5fid, ".", "attribute2", type_id, space_id,
-                                            H5P_DEFAULT(), H5P_DEFAULT(), lapl_id);
-            attr3_id = H5.H5Acreate_by_name(H5fid, ".", "attribute3", type_id, space_id,
-                                            H5P_DEFAULT(), H5P_DEFAULT(), lapl_id);
-            H5.H5Adelete_by_idx(H5fid, ".", H5_INDEX_NAME(), H5_ITER_INC(), 2,
-                                lapl_id);
+            attr1_id = H5.H5Acreate_by_name(H5fid, ".", "attribute1", type_id, space_id, H5P_DEFAULT(),
+                                            H5P_DEFAULT(), lapl_id);
+            attr2_id = H5.H5Acreate_by_name(H5fid, ".", "attribute2", type_id, space_id, H5P_DEFAULT(),
+                                            H5P_DEFAULT(), lapl_id);
+            attr3_id = H5.H5Acreate_by_name(H5fid, ".", "attribute3", type_id, space_id, H5P_DEFAULT(),
+                                            H5P_DEFAULT(), lapl_id);
+            H5.H5Adelete_by_idx(H5fid, ".", H5_INDEX_NAME(), H5_ITER_INC(), 2, lapl_id);
             exists = H5.H5Aexists(H5fid, "attribute3");
             assertFalse("H5Adelete_by_idx: H5Aexists", exists);
         }
@@ -939,17 +917,16 @@ public class TestH5A {
         long attr4_id  = H5I_INVALID_HID();
 
         try {
-            attr1_id = H5.H5Acreate_by_name(H5fid, ".", "attribute1", type_id, space_id,
-                                            H5P_DEFAULT(), H5P_DEFAULT(), lapl_id);
-            attr2_id = H5.H5Acreate_by_name(H5fid, ".", "attribute2", type_id, space_id,
-                                            H5P_DEFAULT(), H5P_DEFAULT(), lapl_id);
-            attr3_id = H5.H5Acreate_by_name(H5fid, ".", "attribute3", type_id, space_id,
-                                            H5P_DEFAULT(), H5P_DEFAULT(), lapl_id);
-            attr4_id = H5.H5Acreate_by_name(H5fid, ".", "attribute4", type_id, space_id,
-                                            H5P_DEFAULT(), H5P_DEFAULT(), lapl_id);
+            attr1_id = H5.H5Acreate_by_name(H5fid, ".", "attribute1", type_id, space_id, H5P_DEFAULT(),
+                                            H5P_DEFAULT(), lapl_id);
+            attr2_id = H5.H5Acreate_by_name(H5fid, ".", "attribute2", type_id, space_id, H5P_DEFAULT(),
+                                            H5P_DEFAULT(), lapl_id);
+            attr3_id = H5.H5Acreate_by_name(H5fid, ".", "attribute3", type_id, space_id, H5P_DEFAULT(),
+                                            H5P_DEFAULT(), lapl_id);
+            attr4_id = H5.H5Acreate_by_name(H5fid, ".", "attribute4", type_id, space_id, H5P_DEFAULT(),
+                                            H5P_DEFAULT(), lapl_id);
 
-            H5.H5Adelete_by_idx(H5fid, ".", H5_INDEX_NAME(), H5_ITER_DEC(), 3,
-                                lapl_id);
+            H5.H5Adelete_by_idx(H5fid, ".", H5_INDEX_NAME(), H5_ITER_DEC(), 3, lapl_id);
             exists = H5.H5Aexists(H5fid, "attribute1");
             assertFalse("H5Adelete_by_idx: H5Aexists", exists);
         }
@@ -988,15 +965,13 @@ public class TestH5A {
     @Test(expected = NullPointerException.class)
     public void testH5Adelete_by_idx_null() throws Throwable
     {
-        H5.H5Adelete_by_idx(H5fid, null, H5_INDEX_CRT_ORDER(), H5_ITER_INC(), 0,
-                            lapl_id);
+        H5.H5Adelete_by_idx(H5fid, null, H5_INDEX_CRT_ORDER(), H5_ITER_INC(), 0, lapl_id);
     }
 
     @Test(expected = HDF5LibraryException.class)
     public void testH5Adelete_by_idx_invalidobject() throws Throwable
     {
-        H5.H5Adelete_by_idx(H5fid, "invalid", H5_INDEX_CRT_ORDER(), H5_ITER_INC(), 0,
-                            lapl_id);
+        H5.H5Adelete_by_idx(H5fid, "invalid", H5_INDEX_CRT_ORDER(), H5_ITER_INC(), 0, lapl_id);
     }
 
     @Test
@@ -1008,9 +983,8 @@ public class TestH5A {
         long aid          = H5I_INVALID_HID();
 
         try {
-            attribute_id =
-                H5.H5Acreate_by_name(H5fid, obj_name, attr_name, type_id, space_id, H5P_DEFAULT(),
-                                     H5P_DEFAULT(), lapl_id);
+            attribute_id = H5.H5Acreate_by_name(H5fid, obj_name, attr_name, type_id, space_id, H5P_DEFAULT(),
+                                                H5P_DEFAULT(), lapl_id);
 
             // open Attribute by name
             if (attribute_id >= 0) {
@@ -1075,8 +1049,7 @@ public class TestH5A {
         try {
             aspace_id = H5.H5Screate_simple(1, dims, null);
             assertTrue(aspace_id > 0);
-            attr_id = H5.H5Acreate(H5did, attr_name, atype_id, aspace_id, H5P_DEFAULT(),
-                                   H5P_DEFAULT());
+            attr_id = H5.H5Acreate(H5did, attr_name, atype_id, aspace_id, H5P_DEFAULT(), H5P_DEFAULT());
             assertTrue("testH5Awrite_readVL: ", attr_id >= 0);
 
             H5.H5AwriteVL(attr_id, atype_id, str_data);
@@ -1152,13 +1125,11 @@ public class TestH5A {
                 err.printStackTrace();
                 fail("H5Pget_char_encoding: " + err);
             }
-            assertTrue("testH5Aget_create_plist: get_char_encoding",
-                       char_encoding == H5T_CSET_ASCII());
+            assertTrue("testH5Aget_create_plist: get_char_encoding", char_encoding == H5T_CSET_ASCII());
 
             // Create an attribute for the dataset using the property list
             try {
-                attribute_id =
-                    H5.H5Acreate(H5fid, attr_name, type_id, space_id, plist_id, H5P_DEFAULT());
+                attribute_id = H5.H5Acreate(H5fid, attr_name, type_id, space_id, plist_id, H5P_DEFAULT());
                 assertTrue("testH5Aget_create_plist: H5Acreate", attribute_id >= 0);
             }
             catch (Throwable err) {
@@ -1179,8 +1150,7 @@ public class TestH5A {
                 err.printStackTrace();
                 fail("H5Pget_char_encoding: " + err);
             }
-            assertTrue("testH5Aget_create_plist: get_char_encoding",
-                       char_encoding == H5T_CSET_ASCII());
+            assertTrue("testH5Aget_create_plist: get_char_encoding", char_encoding == H5T_CSET_ASCII());
         }
         catch (Throwable err) {
             err.printStackTrace();
@@ -1227,18 +1197,17 @@ public class TestH5A {
             }
         }
         try {
-            attr1_id               = H5.H5Acreate_by_name(H5fid, ".", "attribute1", type_id, space_id,
-                                                          H5P_DEFAULT(), H5P_DEFAULT(), lapl_id);
-            attr2_id               = H5.H5Acreate_by_name(H5fid, ".", "attribute2", type_id, space_id,
-                                                          H5P_DEFAULT(), H5P_DEFAULT(), lapl_id);
-            attr3_id               = H5.H5Acreate_by_name(H5fid, ".", "attribute3", type_id, space_id,
-                                                          H5P_DEFAULT(), H5P_DEFAULT(), lapl_id);
-            attr4_id               = H5.H5Acreate_by_name(H5fid, ".", "attribute4", type_id, space_id,
-                                                          H5P_DEFAULT(), H5P_DEFAULT(), lapl_id);
+            attr1_id = H5.H5Acreate_by_name(H5fid, ".", "attribute1", type_id, space_id, H5P_DEFAULT(),
+                                            H5P_DEFAULT(), lapl_id);
+            attr2_id = H5.H5Acreate_by_name(H5fid, ".", "attribute2", type_id, space_id, H5P_DEFAULT(),
+                                            H5P_DEFAULT(), lapl_id);
+            attr3_id = H5.H5Acreate_by_name(H5fid, ".", "attribute3", type_id, space_id, H5P_DEFAULT(),
+                                            H5P_DEFAULT(), lapl_id);
+            attr4_id = H5.H5Acreate_by_name(H5fid, ".", "attribute4", type_id, space_id, H5P_DEFAULT(),
+                                            H5P_DEFAULT(), lapl_id);
             H5A_iterate_cb iter_cb = new H5A_iter_callback();
             try {
-                H5.H5Aiterate(H5fid, H5_INDEX_CRT_ORDER(), H5_ITER_INC(), 0L, iter_cb,
-                              iter_data);
+                H5.H5Aiterate(H5fid, H5_INDEX_CRT_ORDER(), H5_ITER_INC(), 0L, iter_cb, iter_data);
             }
             catch (Throwable err) {
                 err.printStackTrace();
@@ -1320,18 +1289,18 @@ public class TestH5A {
             }
         }
         try {
-            attr1_id               = H5.H5Acreate_by_name(H5fid, ".", "attribute4", type_id, space_id,
-                                                          H5P_DEFAULT(), H5P_DEFAULT(), lapl_id);
-            attr2_id               = H5.H5Acreate_by_name(H5fid, ".", "attribute3", type_id, space_id,
-                                                          H5P_DEFAULT(), H5P_DEFAULT(), lapl_id);
-            attr3_id               = H5.H5Acreate_by_name(H5fid, ".", "attribute2", type_id, space_id,
-                                                          H5P_DEFAULT(), H5P_DEFAULT(), lapl_id);
-            attr4_id               = H5.H5Acreate_by_name(H5fid, ".", "attribute1", type_id, space_id,
-                                                          H5P_DEFAULT(), H5P_DEFAULT(), lapl_id);
+            attr1_id = H5.H5Acreate_by_name(H5fid, ".", "attribute4", type_id, space_id, H5P_DEFAULT(),
+                                            H5P_DEFAULT(), lapl_id);
+            attr2_id = H5.H5Acreate_by_name(H5fid, ".", "attribute3", type_id, space_id, H5P_DEFAULT(),
+                                            H5P_DEFAULT(), lapl_id);
+            attr3_id = H5.H5Acreate_by_name(H5fid, ".", "attribute2", type_id, space_id, H5P_DEFAULT(),
+                                            H5P_DEFAULT(), lapl_id);
+            attr4_id = H5.H5Acreate_by_name(H5fid, ".", "attribute1", type_id, space_id, H5P_DEFAULT(),
+                                            H5P_DEFAULT(), lapl_id);
             H5A_iterate_cb iter_cb = new H5A_iter_callback();
             try {
-                H5.H5Aiterate_by_name(H5fid, ".", H5_INDEX_NAME(), H5_ITER_INC(), 0L,
-                                      iter_cb, iter_data, H5P_DEFAULT());
+                H5.H5Aiterate_by_name(H5fid, ".", H5_INDEX_NAME(), H5_ITER_INC(), 0L, iter_cb, iter_data,
+                                      H5P_DEFAULT());
             }
             catch (Throwable err) {
                 err.printStackTrace();
@@ -1418,8 +1387,8 @@ public class TestH5A {
             try {
                 aspace_id = H5.H5Screate_simple(1, dims, null);
                 assertTrue(aspace_id > 0);
-                attr_int_id = H5.H5Acreate(H5did, attr_int_name, atype_int_id, aspace_id,
-                                           H5P_DEFAULT(), H5P_DEFAULT());
+                attr_int_id =
+                    H5.H5Acreate(H5did, attr_int_name, atype_int_id, aspace_id, H5P_DEFAULT(), H5P_DEFAULT());
                 assertTrue("testH5AVLwr: ", attr_int_id >= 0);
 
                 H5.H5AwriteVL(attr_int_id, atype_int_id, vl_int_data);
@@ -1475,8 +1444,8 @@ public class TestH5A {
             try {
                 aspace_id = H5.H5Screate_simple(1, dims, null);
                 assertTrue(aspace_id > 0);
-                attr_dbl_id = H5.H5Acreate(H5did, attr_dbl_name, atype_dbl_id, aspace_id,
-                                           H5P_DEFAULT(), H5P_DEFAULT());
+                attr_dbl_id =
+                    H5.H5Acreate(H5did, attr_dbl_name, atype_dbl_id, aspace_id, H5P_DEFAULT(), H5P_DEFAULT());
                 assertTrue("testH5AVLwr: ", attr_dbl_id >= 0);
 
                 H5.H5AwriteVL(attr_dbl_id, atype_dbl_id, vl_dbl_data);
@@ -1647,8 +1616,8 @@ public class TestH5A {
             try {
                 aspace_id = H5.H5Screate_simple(1, dims, null);
                 assertTrue(aspace_id > 0);
-                attr_int_id = H5.H5Acreate(H5did, attr_int_name, base_atype_int_id, aspace_id,
-                                           H5P_DEFAULT(), H5P_DEFAULT());
+                attr_int_id = H5.H5Acreate(H5did, attr_int_name, base_atype_int_id, aspace_id, H5P_DEFAULT(),
+                                           H5P_DEFAULT());
                 assertTrue("testH5AVLwrVL: ", attr_int_id >= 0);
 
                 H5.H5AwriteVL(attr_int_id, base_atype_int_id, base_vl_int_data);
@@ -1795,8 +1764,8 @@ public class TestH5A {
             try {
                 aspace_id = H5.H5Screate_simple(1, dims, null);
                 assertTrue(aspace_id > 0);
-                att_int_id = H5.H5Acreate(H5did, att_int_name, atype_int_id, aspace_id,
-                                          H5P_DEFAULT(), H5P_DEFAULT());
+                att_int_id =
+                    H5.H5Acreate(H5did, att_int_name, atype_int_id, aspace_id, H5P_DEFAULT(), H5P_DEFAULT());
                 assertTrue("testH5AVLwr: ", att_int_id >= 0);
 
                 H5.H5AwriteVL(att_int_id, atype_int_id, arr_int_data);
@@ -1931,8 +1900,8 @@ public class TestH5A {
         try {
             aspace_id = H5.H5Screate_simple(1, dims, null);
             assertTrue(aspace_id > 0);
-            att_str_id = H5.H5Acreate(H5did, att_str_name, atype_str_id, aspace_id, H5P_DEFAULT(),
-                                      H5P_DEFAULT());
+            att_str_id =
+                H5.H5Acreate(H5did, att_str_name, atype_str_id, aspace_id, H5P_DEFAULT(), H5P_DEFAULT());
             assertTrue("testH5AArray_string_buffer: ", att_str_id >= 0);
 
             H5.H5AwriteVL(att_str_id, atype_str_id, arr_str_data);

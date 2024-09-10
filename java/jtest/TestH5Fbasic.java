@@ -56,8 +56,7 @@ public class TestH5Fbasic {
         assertTrue("H5 open ids is 0", H5.getOpenIDCount() == 0);
         System.out.print(testname.getMethodName());
 
-        H5fid = H5.H5Fcreate(H5_FILE, H5F_ACC_TRUNC(), H5P_DEFAULT(),
-                             H5P_DEFAULT());
+        H5fid = H5.H5Fcreate(H5_FILE, H5F_ACC_TRUNC(), H5P_DEFAULT(), H5P_DEFAULT());
         H5.H5Fflush(H5fid, H5F_SCOPE_LOCAL());
     }
 
@@ -98,8 +97,7 @@ public class TestH5Fbasic {
     @Test(expected = HDF5LibraryException.class)
     public void testH5Fcreate_EXCL() throws Throwable
     {
-        H5.H5Fcreate(H5_FILE, H5F_ACC_EXCL(), H5P_DEFAULT(),
-                     H5P_DEFAULT());
+        H5.H5Fcreate(H5_FILE, H5F_ACC_EXCL(), H5P_DEFAULT(), H5P_DEFAULT());
     }
 
     @Test(expected = HDF5LibraryException.class)

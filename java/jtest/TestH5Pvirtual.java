@@ -82,8 +82,7 @@ public class TestH5Pvirtual {
                 H5.H5Sselect_hyperslab(dsid, HDF5Constants.H5S_SELECT_SET, start, stride, count, block);
                 H5.H5Pset_virtual(dcpl, dsid, SRC_FILE[i], SRC_DATASET[i], H5dssid);
             }
-            did = H5.H5Dcreate(fid, name, H5T_NATIVE_INT_g(), dsid, H5P_DEFAULT(), dcpl,
-                               dapl);
+            did = H5.H5Dcreate(fid, name, H5T_NATIVE_INT_g(), dsid, H5P_DEFAULT(), dcpl, dapl);
         }
         catch (Throwable err) {
             err.printStackTrace();
@@ -106,14 +105,11 @@ public class TestH5Pvirtual {
                 dset_data[j] = i + 1;
 
             try {
-                file_id  = H5.H5Fcreate(SRC_FILE[i], H5F_ACC_TRUNC(), H5P_DEFAULT(),
-                                        H5P_DEFAULT());
+                file_id  = H5.H5Fcreate(SRC_FILE[i], H5F_ACC_TRUNC(), H5P_DEFAULT(), H5P_DEFAULT());
                 space_id = H5.H5Screate_simple(1, H5dims, null);
-                dset_id  = H5.H5Dcreate(file_id, SRC_DATASET[i], H5T_NATIVE_INT_g(), space_id,
-                                        H5P_DEFAULT(), H5P_DEFAULT(),
-                                        H5P_DEFAULT());
-                H5.H5Dwrite(dset_id, H5T_NATIVE_INT_g(), H5S_ALL(),
-                            H5S_ALL(), H5P_DEFAULT(), dset_data);
+                dset_id  = H5.H5Dcreate(file_id, SRC_DATASET[i], H5T_NATIVE_INT_g(), space_id, H5P_DEFAULT(),
+                                        H5P_DEFAULT(), H5P_DEFAULT());
+                H5.H5Dwrite(dset_id, H5T_NATIVE_INT_g(), H5S_ALL(), H5S_ALL(), H5P_DEFAULT(), dset_data);
             }
             catch (Throwable err) {
                 err.printStackTrace();
@@ -143,8 +139,7 @@ public class TestH5Pvirtual {
 
         try {
             int[] fill_value = {-1};
-            H5fid            = H5.H5Fcreate(H5_FILE, H5F_ACC_TRUNC(), H5P_DEFAULT(),
-                                            H5P_DEFAULT());
+            H5fid            = H5.H5Fcreate(H5_FILE, H5F_ACC_TRUNC(), H5P_DEFAULT(), H5P_DEFAULT());
             H5dsid           = H5.H5Screate_simple(2, VDSH5dims, null);
             H5dcplid         = H5.H5Pcreate(H5P_CLS_DATASET_CREATE_ID_g());
             H5.H5Pset_fill_value(H5dcplid, H5T_NATIVE_INT_g(), fill_value);

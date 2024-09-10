@@ -183,8 +183,7 @@ public class TestH5PL {
 
             // Create a new file using default properties.
             try {
-                file_id = H5.H5Fcreate(FILENAME, H5F_ACC_TRUNC(), H5P_DEFAULT(),
-                                       H5P_DEFAULT());
+                file_id = H5.H5Fcreate(FILENAME, H5F_ACC_TRUNC(), H5P_DEFAULT(), H5P_DEFAULT());
             }
             catch (Exception e) {
                 e.printStackTrace();
@@ -237,9 +236,8 @@ public class TestH5PL {
             // Create the chunked dataset.
             try {
                 if ((file_id >= 0) && (filespace_id >= 0) && (dcpl_id >= 0))
-                    dataset_id =
-                        H5.H5Dcreate(file_id, DATASETNAME, H5T_NATIVE_INT_g(), filespace_id,
-                                     H5P_DEFAULT(), dcpl_id, H5P_DEFAULT());
+                    dataset_id = H5.H5Dcreate(file_id, DATASETNAME, H5T_NATIVE_INT_g(), filespace_id,
+                                              H5P_DEFAULT(), dcpl_id, H5P_DEFAULT());
             }
             catch (Exception e) {
                 e.printStackTrace();
@@ -248,8 +246,7 @@ public class TestH5PL {
 
             try {
                 if (dataset_id >= 0)
-                    H5.H5Dwrite(dataset_id, H5T_NATIVE_INT_g(), H5S_ALL(),
-                                H5S_ALL(), H5S_ALL(), dset_data);
+                    H5.H5Dwrite(dataset_id, H5T_NATIVE_INT_g(), H5S_ALL(), H5S_ALL(), H5S_ALL(), dset_data);
             }
             catch (Exception e) {
                 e.printStackTrace();

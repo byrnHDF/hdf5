@@ -44,9 +44,8 @@ public class TestH5F {
         (COUNT_OBJ_FILE + COUNT_OBJ_DATASET + COUNT_OBJ_GROUP + COUNT_OBJ_DATATYPE + COUNT_OBJ_ATTR);
     private static final int[] OBJ_COUNTS = {COUNT_OBJ_FILE,     COUNT_OBJ_DATASET, COUNT_OBJ_GROUP,
                                              COUNT_OBJ_DATATYPE, COUNT_OBJ_ATTR,    COUNT_OBJ_ALL};
-    private static final int[] OBJ_TYPES  = {H5F_OBJ_FILE(),  H5F_OBJ_DATASET(),
-                                            H5F_OBJ_GROUP(), H5F_OBJ_DATATYPE(),
-                                            H5F_OBJ_ATTR(),  H5F_OBJ_ALL()};
+    private static final int[] OBJ_TYPES  = {H5F_OBJ_FILE(),     H5F_OBJ_DATASET(), H5F_OBJ_GROUP(),
+                                            H5F_OBJ_DATATYPE(), H5F_OBJ_ATTR(),    H5F_OBJ_ALL()};
     long H5fid                            = H5I_INVALID_HID();
 
     private final void _deleteFile(String filename)
@@ -68,8 +67,7 @@ public class TestH5F {
         assertTrue("H5 open ids is 0", H5.getOpenIDCount() == 0);
         System.out.print(testname.getMethodName());
 
-        H5fid = H5.H5Fcreate(H5_FILE, H5F_ACC_TRUNC(), H5P_DEFAULT(),
-                             H5P_DEFAULT());
+        H5fid = H5.H5Fcreate(H5_FILE, H5F_ACC_TRUNC(), H5P_DEFAULT(), H5P_DEFAULT());
         H5.H5Fflush(H5fid, H5F_SCOPE_LOCAL());
     }
 
@@ -225,8 +223,7 @@ public class TestH5F {
         long fid2    = H5I_INVALID_HID();
 
         try {
-            fid1 = H5.H5Fcreate(H5_FILE2, H5F_ACC_TRUNC(), H5P_DEFAULT(),
-                                H5P_DEFAULT());
+            fid1 = H5.H5Fcreate(H5_FILE2, H5F_ACC_TRUNC(), H5P_DEFAULT(), H5P_DEFAULT());
             H5.H5Fflush(fid1, H5F_SCOPE_LOCAL());
             assertTrue("H5Fcreate failed", fid1 > 0);
             fid2 = H5.H5Fopen(H5_FILE2, H5F_ACC_RDWR(), H5P_DEFAULT());
@@ -255,8 +252,7 @@ public class TestH5F {
         long fid2    = H5I_INVALID_HID();
 
         try {
-            fid2 = H5.H5Fcreate(H5_FILE2, H5F_ACC_TRUNC(), H5P_DEFAULT(),
-                                H5P_DEFAULT());
+            fid2 = H5.H5Fcreate(H5_FILE2, H5F_ACC_TRUNC(), H5P_DEFAULT(), H5P_DEFAULT());
             H5.H5Fflush(fid2, H5F_SCOPE_LOCAL());
             assertTrue("H5Fcreate failed", fid2 > 0);
 

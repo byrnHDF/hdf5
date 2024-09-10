@@ -75,8 +75,7 @@ public class TestH5R {
     {
         long did = H5I_INVALID_HID();
         try {
-            did = H5.H5Dcreate(fid, name, H5T_STD_I32BE_g(), dsid, H5P_DEFAULT(),
-                               H5P_DEFAULT(), dapl);
+            did = H5.H5Dcreate(fid, name, H5T_STD_I32BE_g(), dsid, H5P_DEFAULT(), H5P_DEFAULT(), dapl);
         }
         catch (Throwable err) {
             err.printStackTrace();
@@ -91,8 +90,7 @@ public class TestH5R {
     {
         long gid = H5I_INVALID_HID();
         try {
-            gid = H5.H5Gcreate(fid, name, H5P_DEFAULT(), H5P_DEFAULT(),
-                               H5P_DEFAULT());
+            gid = H5.H5Gcreate(fid, name, H5P_DEFAULT(), H5P_DEFAULT(), H5P_DEFAULT());
         }
         catch (Throwable err) {
             err.printStackTrace();
@@ -110,8 +108,7 @@ public class TestH5R {
         System.out.print(testname.getMethodName());
 
         try {
-            H5fid  = H5.H5Fcreate(H5_FILE, H5F_ACC_TRUNC(), H5P_DEFAULT(),
-                                  H5P_DEFAULT());
+            H5fid  = H5.H5Fcreate(H5_FILE, H5F_ACC_TRUNC(), H5P_DEFAULT(), H5P_DEFAULT());
             H5dsid = H5.H5Screate_simple(2, H5dims, null);
             H5gid  = _createGroup(H5fid, "Group1");
             H5did2 = _createDataset(H5gid, H5dsid, "dset2", H5P_DEFAULT());
@@ -124,8 +121,7 @@ public class TestH5R {
 
             try {
                 if (H5did >= 0)
-                    H5.H5Dwrite(H5did, H5T_NATIVE_INT_g(), H5S_ALL(),
-                                H5S_ALL(), H5P_DEFAULT(), dset_data[0]);
+                    H5.H5Dwrite(H5did, H5T_NATIVE_INT_g(), H5S_ALL(), H5S_ALL(), H5P_DEFAULT(), dset_data[0]);
             }
             catch (Exception e) {
                 e.printStackTrace();
@@ -596,8 +592,8 @@ public class TestH5R {
             try {
                 aspace_id = H5.H5Screate_simple(1, dims, null);
                 assertTrue(aspace_id > 0);
-                attr_obj_id = H5.H5Acreate(H5did, attr_obj_name, atype_obj_id, aspace_id,
-                                           H5P_DEFAULT(), H5P_DEFAULT());
+                attr_obj_id =
+                    H5.H5Acreate(H5did, attr_obj_name, atype_obj_id, aspace_id, H5P_DEFAULT(), H5P_DEFAULT());
                 assertTrue("testH5RVLattr_ref: ", attr_obj_id >= 0);
 
                 H5.H5Awrite(attr_obj_id, atype_obj_id, vl_obj_data);
@@ -653,8 +649,8 @@ public class TestH5R {
             try {
                 aspace_id = H5.H5Screate_simple(1, dims, null);
                 assertTrue(aspace_id > 0);
-                attr_reg_id = H5.H5Acreate(H5did, attr_reg_name, atype_reg_id, aspace_id,
-                                           H5P_DEFAULT(), H5P_DEFAULT());
+                attr_reg_id =
+                    H5.H5Acreate(H5did, attr_reg_name, atype_reg_id, aspace_id, H5P_DEFAULT(), H5P_DEFAULT());
                 assertTrue("testH5RVLattr_ref: ", attr_reg_id >= 0);
 
                 H5.H5Awrite(attr_reg_id, atype_reg_id, vl_reg_data);
@@ -826,13 +822,11 @@ public class TestH5R {
             try {
                 dspace_id = H5.H5Screate_simple(1, dims, null);
                 assertTrue(dspace_id > 0);
-                dset_obj_id =
-                    H5.H5Dcreate(H5fid, dset_obj_name, dtype_obj_id, dspace_id, H5P_DEFAULT(),
-                                 H5P_DEFAULT(), H5P_DEFAULT());
+                dset_obj_id = H5.H5Dcreate(H5fid, dset_obj_name, dtype_obj_id, dspace_id, H5P_DEFAULT(),
+                                           H5P_DEFAULT(), H5P_DEFAULT());
                 assertTrue("testH5RVLdset_ref: ", dset_obj_id >= 0);
 
-                H5.H5Dwrite(dset_obj_id, dtype_obj_id, H5S_ALL(), H5S_ALL(),
-                            H5P_DEFAULT(), vl_obj_data);
+                H5.H5Dwrite(dset_obj_id, dtype_obj_id, H5S_ALL(), H5S_ALL(), H5P_DEFAULT(), vl_obj_data);
             }
             catch (Exception err) {
                 if (dset_obj_id > 0)
@@ -885,13 +879,11 @@ public class TestH5R {
             try {
                 dspace_id = H5.H5Screate_simple(1, dims, null);
                 assertTrue(dspace_id > 0);
-                dset_reg_id =
-                    H5.H5Dcreate(H5fid, dset_reg_name, dtype_reg_id, dspace_id, H5P_DEFAULT(),
-                                 H5P_DEFAULT(), H5P_DEFAULT());
+                dset_reg_id = H5.H5Dcreate(H5fid, dset_reg_name, dtype_reg_id, dspace_id, H5P_DEFAULT(),
+                                           H5P_DEFAULT(), H5P_DEFAULT());
                 assertTrue("testH5RVLdset_ref: ", dset_reg_id >= 0);
 
-                H5.H5Dwrite(dset_reg_id, dtype_reg_id, H5S_ALL(), H5S_ALL(),
-                            H5P_DEFAULT(), vl_reg_data);
+                H5.H5Dwrite(dset_reg_id, dtype_reg_id, H5S_ALL(), H5S_ALL(), H5P_DEFAULT(), vl_reg_data);
             }
             catch (Exception err) {
                 if (dset_reg_id > 0)
@@ -930,8 +922,7 @@ public class TestH5R {
                 vl_readbuf[j] = new ArrayList<byte[]>();
 
             try {
-                H5.H5Dread(dset_obj_id, dtype_obj_id, H5S_ALL(), H5S_ALL(),
-                           H5P_DEFAULT(), vl_readbuf);
+                H5.H5Dread(dset_obj_id, dtype_obj_id, H5S_ALL(), H5S_ALL(), H5P_DEFAULT(), vl_readbuf);
             }
             catch (Exception ex) {
                 ex.printStackTrace();
@@ -951,8 +942,7 @@ public class TestH5R {
                 vl_readbuf[j] = new ArrayList<byte[]>();
 
             try {
-                H5.H5Dread(dset_reg_id, dtype_reg_id, H5S_ALL(), H5S_ALL(),
-                           H5P_DEFAULT(), vl_readbuf);
+                H5.H5Dread(dset_reg_id, dtype_reg_id, H5S_ALL(), H5S_ALL(), H5P_DEFAULT(), vl_readbuf);
             }
             catch (Exception ex) {
                 ex.printStackTrace();

@@ -250,29 +250,25 @@ public class TestH5Obasic {
     @Test(expected = HDF5LibraryException.class)
     public void testH5Oget_info_by_idx_name_not_exist_name() throws Throwable
     {
-        H5.H5Oget_info_by_idx(H5fid, "None", H5_INDEX_NAME(), H5_ITER_INC(), 0,
-                              H5P_DEFAULT());
+        H5.H5Oget_info_by_idx(H5fid, "None", H5_INDEX_NAME(), H5_ITER_INC(), 0, H5P_DEFAULT());
     }
 
     @Test(expected = HDF5LibraryException.class)
     public void testH5Oget_info_by_idx_name_not_exist_create() throws Throwable
     {
-        H5.H5Oget_info_by_idx(H5fid, "None", H5_INDEX_CRT_ORDER(), H5_ITER_INC(), 0,
-                              H5P_DEFAULT());
+        H5.H5Oget_info_by_idx(H5fid, "None", H5_INDEX_CRT_ORDER(), H5_ITER_INC(), 0, H5P_DEFAULT());
     }
 
     @Test(expected = HDF5LibraryException.class)
     public void testH5Oget_info_by_idx_not_exist_name() throws Throwable
     {
-        H5.H5Oget_info_by_idx(H5fid, "/", H5_INDEX_NAME(), H5_ITER_INC(), 5,
-                              H5P_DEFAULT());
+        H5.H5Oget_info_by_idx(H5fid, "/", H5_INDEX_NAME(), H5_ITER_INC(), 5, H5P_DEFAULT());
     }
 
     @Test(expected = HDF5LibraryException.class)
     public void testH5Oget_info_by_idx_not_exist_create() throws Throwable
     {
-        H5.H5Oget_info_by_idx(H5fid, "/", H5_INDEX_CRT_ORDER(), H5_ITER_INC(), 5,
-                              H5P_DEFAULT());
+        H5.H5Oget_info_by_idx(H5fid, "/", H5_INDEX_CRT_ORDER(), H5_ITER_INC(), 5, H5P_DEFAULT());
     }
 
     @Test
@@ -295,8 +291,7 @@ public class TestH5Obasic {
         catch (Exception ex) {
         }
         try {
-            obj_info = H5.H5Oget_info_by_idx(H5fid, "/", H5_INDEX_NAME(),
-                                             H5_ITER_INC(), 0, H5P_DEFAULT());
+            obj_info = H5.H5Oget_info_by_idx(H5fid, "/", H5_INDEX_NAME(), H5_ITER_INC(), 0, H5P_DEFAULT());
         }
         catch (Throwable err) {
             err.printStackTrace();
@@ -328,8 +323,7 @@ public class TestH5Obasic {
         catch (Exception ex) {
         }
         try {
-            obj_info = H5.H5Oget_info_by_idx(H5fid, "/", H5_INDEX_NAME(),
-                                             H5_ITER_INC(), 3, H5P_DEFAULT());
+            obj_info = H5.H5Oget_info_by_idx(H5fid, "/", H5_INDEX_NAME(), H5_ITER_INC(), 3, H5P_DEFAULT());
         }
         catch (Throwable err) {
             err.printStackTrace();
@@ -528,29 +522,25 @@ public class TestH5Obasic {
     @Test(expected = HDF5LibraryException.class)
     public void testH5Oget_native_info_by_idx_name_not_exist_name() throws Throwable
     {
-        H5.H5Oget_native_info_by_idx(H5fid, "None", H5_INDEX_NAME(), H5_ITER_INC(), 0,
-                                     H5P_DEFAULT());
+        H5.H5Oget_native_info_by_idx(H5fid, "None", H5_INDEX_NAME(), H5_ITER_INC(), 0, H5P_DEFAULT());
     }
 
     @Test(expected = HDF5LibraryException.class)
     public void testH5Oget_native_info_by_idx_name_not_exist_create() throws Throwable
     {
-        H5.H5Oget_native_info_by_idx(H5fid, "None", H5_INDEX_CRT_ORDER(),
-                                     H5_ITER_INC(), 0, H5P_DEFAULT());
+        H5.H5Oget_native_info_by_idx(H5fid, "None", H5_INDEX_CRT_ORDER(), H5_ITER_INC(), 0, H5P_DEFAULT());
     }
 
     @Test(expected = HDF5LibraryException.class)
     public void testH5Oget_native_info_by_idx_not_exist_name() throws Throwable
     {
-        H5.H5Oget_native_info_by_idx(H5fid, "/", H5_INDEX_NAME(), H5_ITER_INC(), 5,
-                                     H5P_DEFAULT());
+        H5.H5Oget_native_info_by_idx(H5fid, "/", H5_INDEX_NAME(), H5_ITER_INC(), 5, H5P_DEFAULT());
     }
 
     @Test(expected = HDF5LibraryException.class)
     public void testH5Oget_native_info_by_idx_not_exist_create() throws Throwable
     {
-        H5.H5Oget_native_info_by_idx(H5fid, "/", H5_INDEX_CRT_ORDER(), H5_ITER_INC(),
-                                     5, H5P_DEFAULT());
+        H5.H5Oget_native_info_by_idx(H5fid, "/", H5_INDEX_CRT_ORDER(), H5_ITER_INC(), 5, H5P_DEFAULT());
     }
 
     @Test
@@ -583,8 +573,7 @@ public class TestH5Obasic {
 
         try {
             native_info =
-                H5.H5Oget_native_info_by_idx(H5fid, "/", H5_INDEX_NAME(),
-                                             H5_ITER_INC(), 0, H5P_DEFAULT());
+                H5.H5Oget_native_info_by_idx(H5fid, "/", H5_INDEX_NAME(), H5_ITER_INC(), 0, H5P_DEFAULT());
         }
         catch (Throwable err) {
             err.printStackTrace();
@@ -629,8 +618,7 @@ public class TestH5Obasic {
 
         try {
             native_info =
-                H5.H5Oget_native_info_by_idx(H5fid, "/", H5_INDEX_NAME(),
-                                             H5_ITER_INC(), 3, H5P_DEFAULT());
+                H5.H5Oget_native_info_by_idx(H5fid, "/", H5_INDEX_NAME(), H5_ITER_INC(), 3, H5P_DEFAULT());
         }
         catch (Throwable err) {
             err.printStackTrace();
@@ -720,8 +708,8 @@ public class TestH5Obasic {
         }
         H5O_iterate_t iter_cb = new H5O_iter_callback();
         try {
-            H5.H5Ovisit_by_name(H5fid, "G1", H5_INDEX_NAME(), H5_ITER_INC(), iter_cb,
-                                iter_data, H5P_DEFAULT());
+            H5.H5Ovisit_by_name(H5fid, "G1", H5_INDEX_NAME(), H5_ITER_INC(), iter_cb, iter_data,
+                                H5P_DEFAULT());
         }
         catch (Throwable err) {
             err.printStackTrace();
@@ -820,8 +808,7 @@ public class TestH5Obasic {
             catch (Exception ex) {
             }
             try {
-                oid = H5.H5Oopen_by_idx(H5fid, "/", H5_INDEX_NAME(), H5_ITER_INC(), 0,
-                                        H5P_DEFAULT());
+                oid = H5.H5Oopen_by_idx(H5fid, "/", H5_INDEX_NAME(), H5_ITER_INC(), 0, H5P_DEFAULT());
             }
             catch (Throwable err) {
                 err.printStackTrace();
@@ -869,8 +856,7 @@ public class TestH5Obasic {
             catch (Exception ex) {
             }
             try {
-                oid = H5.H5Oopen_by_idx(H5fid, "/", H5_INDEX_NAME(), H5_ITER_INC(), 3,
-                                        H5P_DEFAULT());
+                oid = H5.H5Oopen_by_idx(H5fid, "/", H5_INDEX_NAME(), H5_ITER_INC(), 3, H5P_DEFAULT());
             }
             catch (Throwable err) {
                 err.printStackTrace();

@@ -68,8 +68,7 @@ public class TestH5Ocreate {
     {
         long did = H5I_INVALID_HID();
         try {
-            did = H5.H5Dcreate(fid, name, H5T_STD_I32BE_g(), dsid, H5P_DEFAULT(),
-                               H5P_DEFAULT(), dapl);
+            did = H5.H5Dcreate(fid, name, H5T_STD_I32BE_g(), dsid, H5P_DEFAULT(), H5P_DEFAULT(), dapl);
         }
         catch (Throwable err) {
             err.printStackTrace();
@@ -244,8 +243,7 @@ public class TestH5Ocreate {
     @Test(expected = HDF5LibraryException.class)
     public void testH5Ocopy_dst_link_exists() throws Throwable
     {
-        _createHardLink(H5fid, H5fid, "/G1/DS2", H5fid, "CPY1", H5P_DEFAULT(),
-                        H5P_DEFAULT());
+        _createHardLink(H5fid, H5fid, "/G1/DS2", H5fid, "CPY1", H5P_DEFAULT(), H5P_DEFAULT());
         H5.H5Ocopy(H5fid, "CPY1", H5fid, "/G1/DS2", H5P_DEFAULT(), H5P_DEFAULT());
     }
 
@@ -263,8 +261,8 @@ public class TestH5Ocreate {
             fail("H5.H5Oget_info_by_idx_n0:H5Pget_link_creation_order " + err);
         }
         try {
-            obj_info = H5.H5Oget_info_by_idx(H5fid, "/", H5_INDEX_CRT_ORDER(),
-                                             H5_ITER_INC(), 0, H5P_DEFAULT());
+            obj_info =
+                H5.H5Oget_info_by_idx(H5fid, "/", H5_INDEX_CRT_ORDER(), H5_ITER_INC(), 0, H5P_DEFAULT());
         }
         catch (Throwable err) {
             err.printStackTrace();
@@ -288,8 +286,8 @@ public class TestH5Ocreate {
             fail("H5.H5Oget_info_by_idx_n1:H5Pget_link_creation_order " + err);
         }
         try {
-            obj_info = H5.H5Oget_info_by_idx(H5fid, "/", H5_INDEX_CRT_ORDER(),
-                                             H5_ITER_INC(), 1, H5P_DEFAULT());
+            obj_info =
+                H5.H5Oget_info_by_idx(H5fid, "/", H5_INDEX_CRT_ORDER(), H5_ITER_INC(), 1, H5P_DEFAULT());
         }
         catch (Throwable err) {
             err.printStackTrace();
@@ -327,8 +325,7 @@ public class TestH5Ocreate {
     public void testH5Oget_info_externallink()
     {
         H5O_info_t obj_info = null;
-        _createExternalLink(H5fid, H5_EXTFILE, "DT1", H5fid, "L1", H5P_DEFAULT(),
-                            H5P_DEFAULT());
+        _createExternalLink(H5fid, H5_EXTFILE, "DT1", H5fid, "L1", H5P_DEFAULT(), H5P_DEFAULT());
         try {
             obj_info = H5.H5Oget_info_by_name(H5fid, "L1", H5P_DEFAULT());
         }
@@ -396,10 +393,8 @@ public class TestH5Ocreate {
             fail("H5.H5Ovisit_create:H5Pget_link_creation_order " + err);
         }
 
-        _createHardLink(H5fid, H5fid, "/G1/DS2", H5fid, "CPY1", H5P_DEFAULT(),
-                        H5P_DEFAULT());
-        _createExternalLink(H5fid, H5_EXTFILE, "DT1", H5fid, "LE", H5P_DEFAULT(),
-                            H5P_DEFAULT());
+        _createHardLink(H5fid, H5fid, "/G1/DS2", H5fid, "CPY1", H5P_DEFAULT(), H5P_DEFAULT());
+        _createExternalLink(H5fid, H5_EXTFILE, "DT1", H5fid, "LE", H5P_DEFAULT(), H5P_DEFAULT());
         _createSoftLink(H5fid, "/G1/DS2", H5fid, "LS", H5P_DEFAULT(), H5P_DEFAULT());
 
         class idata {
@@ -425,8 +420,7 @@ public class TestH5Ocreate {
         }
         H5O_iterate_t iter_cb = new H5O_iter_callback();
         try {
-            H5.H5Ovisit(H5fid, H5_INDEX_CRT_ORDER(), H5_ITER_INC(), iter_cb,
-                        iter_data);
+            H5.H5Ovisit(H5fid, H5_INDEX_CRT_ORDER(), H5_ITER_INC(), iter_cb, iter_data);
         }
         catch (Throwable err) {
             err.printStackTrace();

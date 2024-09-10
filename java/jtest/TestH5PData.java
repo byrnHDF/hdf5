@@ -84,8 +84,7 @@ public class TestH5PData {
     {
         long did = H5I_INVALID_HID();
         try {
-            did = H5.H5Dcreate(fid, name, H5T_NATIVE_FLOAT_g(), dsid, H5P_DEFAULT(),
-                               H5P_DEFAULT(), dapl);
+            did = H5.H5Dcreate(fid, name, H5T_NATIVE_FLOAT_g(), dsid, H5P_DEFAULT(), H5P_DEFAULT(), dapl);
         }
         catch (Throwable err) {
             err.printStackTrace();
@@ -103,8 +102,7 @@ public class TestH5PData {
         System.out.print(testname.getMethodName());
 
         try {
-            H5fid    = H5.H5Fcreate(H5_FILE, H5F_ACC_TRUNC(), H5P_DEFAULT(),
-                                    H5P_DEFAULT());
+            H5fid    = H5.H5Fcreate(H5_FILE, H5F_ACC_TRUNC(), H5P_DEFAULT(), H5P_DEFAULT());
             H5dsid   = H5.H5Screate_simple(2, H5dims, null);
             H5did    = _createFloatDataset(H5fid, H5dsid, "dset", H5P_DEFAULT());
             plist_id = H5.H5Pcreate(HDF5Constants.H5P_DATASET_XFER);
@@ -164,10 +162,8 @@ public class TestH5PData {
 
         try {
             H5.H5Pset_data_transform(plist_id, f_to_c);
-            H5.H5Dwrite(H5did, H5T_NATIVE_DOUBLE_g(), H5S_ALL(), H5S_ALL(),
-                        plist_id, windchillF);
-            H5.H5Dread(H5did, H5T_NATIVE_DOUBLE_g(), H5S_ALL(), H5S_ALL(),
-                       H5P_DEFAULT(), windchillFread);
+            H5.H5Dwrite(H5did, H5T_NATIVE_DOUBLE_g(), H5S_ALL(), H5S_ALL(), plist_id, windchillF);
+            H5.H5Dread(H5did, H5T_NATIVE_DOUBLE_g(), H5S_ALL(), H5S_ALL(), H5P_DEFAULT(), windchillFread);
         }
         catch (Throwable err) {
             err.printStackTrace();

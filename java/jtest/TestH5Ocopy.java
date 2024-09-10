@@ -63,8 +63,7 @@ public class TestH5Ocopy {
     {
         long did = H5I_INVALID_HID();
         try {
-            did = H5.H5Dcreate(fid, name, H5T_STD_I32BE_g(), dsid, H5P_DEFAULT(),
-                               H5P_DEFAULT(), dapl);
+            did = H5.H5Dcreate(fid, name, H5T_STD_I32BE_g(), dsid, H5P_DEFAULT(), H5P_DEFAULT(), dapl);
         }
         catch (Throwable err) {
             err.printStackTrace();
@@ -97,8 +96,7 @@ public class TestH5Ocopy {
         assertTrue("H5 open ids is 0", H5.getOpenIDCount() == 0);
         System.out.print(testname.getMethodName());
         try {
-            H5fid   = H5.H5Fcreate(FILENAME, H5F_ACC_TRUNC(), H5P_DEFAULT(),
-                                   H5P_DEFAULT());
+            H5fid   = H5.H5Fcreate(FILENAME, H5F_ACC_TRUNC(), H5P_DEFAULT(), H5P_DEFAULT());
             H5dsid2 = H5.H5Screate(HDF5Constants.H5S_SCALAR);
             H5did1  = _createDataset(H5fid, H5dsid2, "DS2", H5P_DEFAULT());
             H5dsid  = H5.H5Screate_simple(1, dims, null);
@@ -185,8 +183,8 @@ public class TestH5Ocopy {
             }
 
             try {
-                attribute_id = H5.H5Acreate(H5did2, "A1", HDF5Constants.H5T_STD_REF, H5dsid,
-                                            H5P_DEFAULT(), H5P_DEFAULT());
+                attribute_id = H5.H5Acreate(H5did2, "A1", HDF5Constants.H5T_STD_REF, H5dsid, H5P_DEFAULT(),
+                                            H5P_DEFAULT());
                 assertTrue("testH5OcopyRefsAttr.H5Acreate: ", attribute_id >= 0);
                 H5.H5Awrite(attribute_id, HDF5Constants.H5T_STD_REF, dset_data);
 
@@ -262,12 +260,11 @@ public class TestH5Ocopy {
             }
 
             try {
-                dataset_id =
-                    H5.H5Dcreate(H5fid, "DSREF", HDF5Constants.H5T_STD_REF, H5dsid, H5P_DEFAULT(),
-                                 H5P_DEFAULT(), H5P_DEFAULT());
+                dataset_id = H5.H5Dcreate(H5fid, "DSREF", HDF5Constants.H5T_STD_REF, H5dsid, H5P_DEFAULT(),
+                                          H5P_DEFAULT(), H5P_DEFAULT());
                 assertTrue("testH5OcopyRefsDatasettodiffFile.H5Dcreate: ", dataset_id >= 0);
-                H5.H5Dwrite(dataset_id, HDF5Constants.H5T_STD_REF, H5S_ALL(),
-                            H5S_ALL(), H5P_DEFAULT(), dset_data);
+                H5.H5Dwrite(dataset_id, HDF5Constants.H5T_STD_REF, H5S_ALL(), H5S_ALL(), H5P_DEFAULT(),
+                            dset_data);
                 H5.H5Dclose(dataset_id);
             }
             catch (Exception ex) {
@@ -299,8 +296,7 @@ public class TestH5Ocopy {
 
         try {
             // create new file
-            H5fid2 = H5.H5Fcreate("copy.h5", H5F_ACC_TRUNC(), H5P_DEFAULT(),
-                                  H5P_DEFAULT());
+            H5fid2 = H5.H5Fcreate("copy.h5", H5F_ACC_TRUNC(), H5P_DEFAULT(), H5P_DEFAULT());
             assertTrue("testH5OcopyRefsDatasettodiffFile.H5Fcreate: ", H5fid2 >= 0);
             H5.H5Fflush(H5fid2, H5F_SCOPE_LOCAL());
         }
@@ -370,12 +366,11 @@ public class TestH5Ocopy {
 
             try {
                 // Create a dataset and write object references to it.
-                dataset_id =
-                    H5.H5Dcreate(H5fid, "DSREF", HDF5Constants.H5T_STD_REF, H5dsid, H5P_DEFAULT(),
-                                 H5P_DEFAULT(), H5P_DEFAULT());
+                dataset_id = H5.H5Dcreate(H5fid, "DSREF", HDF5Constants.H5T_STD_REF, H5dsid, H5P_DEFAULT(),
+                                          H5P_DEFAULT(), H5P_DEFAULT());
                 assertTrue("testH5OcopyRefsDatasettosameFile.H5Dcreate: ", dataset_id >= 0);
-                H5.H5Dwrite(dataset_id, HDF5Constants.H5T_STD_REF, H5S_ALL(),
-                            H5S_ALL(), H5P_DEFAULT(), dset_data);
+                H5.H5Dwrite(dataset_id, HDF5Constants.H5T_STD_REF, H5S_ALL(), H5S_ALL(), H5P_DEFAULT(),
+                            dset_data);
                 // Close the dataset.
                 H5.H5Dclose(dataset_id);
             }
@@ -442,8 +437,7 @@ public class TestH5Ocopy {
 
             // Read the dataset object references in the read_data buffer.
             try {
-                H5.H5Dread(did, HDF5Constants.H5T_STD_REF, H5S_ALL(), H5S_ALL(),
-                           H5P_DEFAULT(), read_data);
+                H5.H5Dread(did, HDF5Constants.H5T_STD_REF, H5S_ALL(), H5S_ALL(), H5P_DEFAULT(), read_data);
             }
             catch (Exception e) {
                 e.printStackTrace();
@@ -498,8 +492,7 @@ public class TestH5Ocopy {
         try {
             sid = H5.H5Screate_simple(1, new long[] {1}, null);
             assertTrue("testH5OcopyNullRef.H5Screate_simple: ", sid >= 0);
-            did = H5.H5Dcreate(H5fid, "Dataset_with_null_Ref", H5T_NATIVE_INT_g(), sid, _pid_,
-                               _pid_, _pid_);
+            did = H5.H5Dcreate(H5fid, "Dataset_with_null_Ref", H5T_NATIVE_INT_g(), sid, _pid_, _pid_, _pid_);
             assertTrue("testH5OcopyNullRef.H5Dcreate: ", did > 0);
             aid = H5.H5Acreate(did, "Null_Ref", HDF5Constants.H5T_STD_REF, sid, _pid_, _pid_);
             assertTrue("testH5OcopyNullRef.H5Acreate: ", aid > 0);

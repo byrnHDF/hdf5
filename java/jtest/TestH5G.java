@@ -46,8 +46,7 @@ public class TestH5G {
     {
         long gid = H5I_INVALID_HID();
         try {
-            gid = H5.H5Gcreate(fid, name, H5P_DEFAULT(), H5P_DEFAULT(),
-                               H5P_DEFAULT());
+            gid = H5.H5Gcreate(fid, name, H5P_DEFAULT(), H5P_DEFAULT(), H5P_DEFAULT());
         }
         catch (Throwable err) {
             err.printStackTrace();
@@ -137,11 +136,9 @@ public class TestH5G {
         System.out.print(testname.getMethodName());
 
         try {
-            H5fid = H5.H5Fcreate(H5_FILE, H5F_ACC_TRUNC(), H5P_DEFAULT(),
-                                 H5P_DEFAULT());
+            H5fid = H5.H5Fcreate(H5_FILE, H5F_ACC_TRUNC(), H5P_DEFAULT(), H5P_DEFAULT());
 
-            H5fid2 = H5.H5Fcreate(H5_FILE2, H5F_ACC_TRUNC(), H5P_DEFAULT(),
-                                  H5P_DEFAULT());
+            H5fid2 = H5.H5Fcreate(H5_FILE2, H5F_ACC_TRUNC(), H5P_DEFAULT(), H5P_DEFAULT());
         }
         catch (Throwable err) {
             err.printStackTrace();
@@ -291,8 +288,7 @@ public class TestH5G {
         H5G_info_t info = null;
         for (int i = 0; i < 2; i++) {
             try {
-                info = H5.H5Gget_info_by_idx(H5fid, "/G1", H5_INDEX_NAME(),
-                                             H5_ITER_INC(), i, H5P_DEFAULT());
+                info = H5.H5Gget_info_by_idx(H5fid, "/G1", H5_INDEX_NAME(), H5_ITER_INC(), i, H5P_DEFAULT());
             }
             catch (Throwable err) {
                 err.printStackTrace();

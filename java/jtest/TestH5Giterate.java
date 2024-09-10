@@ -105,8 +105,8 @@ public class TestH5Giterate {
 
         int names_found = 0;
         try {
-            names_found = H5.H5Gget_obj_info_all(H5fid, "/", objNames, objTypes, lnkTypes, objTokens,
-                                                 H5_INDEX_NAME());
+            names_found =
+                H5.H5Gget_obj_info_all(H5fid, "/", objNames, objTypes, lnkTypes, objTokens, H5_INDEX_NAME());
         }
         catch (Throwable err) {
             err.printStackTrace();

@@ -73,8 +73,7 @@ public class TestH5P {
     {
         long did = H5I_INVALID_HID();
         try {
-            did = H5.H5Dcreate(fid, name, H5T_STD_I32BE_g(), dsid, H5P_DEFAULT(),
-                               H5P_DEFAULT(), dapl);
+            did = H5.H5Dcreate(fid, name, H5T_STD_I32BE_g(), dsid, H5P_DEFAULT(), H5P_DEFAULT(), dapl);
         }
         catch (Throwable err) {
             err.printStackTrace();
@@ -273,15 +272,13 @@ public class TestH5P {
     @Test(expected = HDF5FunctionArgumentException.class)
     public void testH5Pset_libver_bounds_invalidlow() throws Throwable
     {
-        H5.H5Pset_libver_bounds(fapl_id, H5F_LIBVER_LATEST() + 1,
-                                H5F_LIBVER_LATEST());
+        H5.H5Pset_libver_bounds(fapl_id, H5F_LIBVER_LATEST() + 1, H5F_LIBVER_LATEST());
     }
 
     @Test(expected = HDF5FunctionArgumentException.class)
     public void testH5Pset_libver_bounds_invalidhigh() throws Throwable
     {
-        H5.H5Pset_libver_bounds(fapl_id, H5F_LIBVER_LATEST(),
-                                H5F_LIBVER_LATEST() + 1);
+        H5.H5Pset_libver_bounds(fapl_id, H5F_LIBVER_LATEST(), H5F_LIBVER_LATEST() + 1);
     }
 
     @Test

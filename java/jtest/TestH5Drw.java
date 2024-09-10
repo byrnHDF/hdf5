@@ -136,8 +136,7 @@ public class TestH5Drw {
 
         // Read data.
         try {
-            H5.H5Dread(H5did, H5T_NATIVE_UINT8_g(), H5S_ALL(), H5S_ALL(),
-                       H5P_DEFAULT(), dset_data);
+            H5.H5Dread(H5did, H5T_NATIVE_UINT8_g(), H5S_ALL(), H5S_ALL(), H5P_DEFAULT(), dset_data);
         }
         catch (Exception err) {
             err.printStackTrace();
@@ -163,8 +162,7 @@ public class TestH5Drw {
 
         // Read data.
         try {
-            H5.H5Dread(H5did, H5T_NATIVE_INT8_g(), H5S_ALL(), H5S_ALL(),
-                       H5P_DEFAULT(), dset_data);
+            H5.H5Dread(H5did, H5T_NATIVE_INT8_g(), H5S_ALL(), H5S_ALL(), H5P_DEFAULT(), dset_data);
         }
         catch (Exception err) {
             err.printStackTrace();
@@ -187,8 +185,7 @@ public class TestH5Drw {
 
         // Read data.
         try {
-            H5.H5Dread(H5did, H5T_NATIVE_UINT16_g(), H5S_ALL(), H5S_ALL(),
-                       H5P_DEFAULT(), dset_data);
+            H5.H5Dread(H5did, H5T_NATIVE_UINT16_g(), H5S_ALL(), H5S_ALL(), H5P_DEFAULT(), dset_data);
         }
         catch (Exception err) {
             err.printStackTrace();
@@ -214,8 +211,7 @@ public class TestH5Drw {
 
         // Read data.
         try {
-            H5.H5Dread(H5did, H5T_NATIVE_INT16_g(), H5S_ALL(), H5S_ALL(),
-                       H5P_DEFAULT(), dset_data);
+            H5.H5Dread(H5did, H5T_NATIVE_INT16_g(), H5S_ALL(), H5S_ALL(), H5P_DEFAULT(), dset_data);
         }
         catch (Exception err) {
             err.printStackTrace();
@@ -238,8 +234,7 @@ public class TestH5Drw {
 
         // Read data.
         try {
-            H5.H5Dread(H5did, H5T_NATIVE_UINT32_g(), H5S_ALL(), H5S_ALL(),
-                       H5P_DEFAULT(), dset_data);
+            H5.H5Dread(H5did, H5T_NATIVE_UINT32_g(), H5S_ALL(), H5S_ALL(), H5P_DEFAULT(), dset_data);
         }
         catch (Exception err) {
             err.printStackTrace();
@@ -265,8 +260,7 @@ public class TestH5Drw {
 
         // Read data.
         try {
-            H5.H5Dread(H5did, H5T_NATIVE_INT32_g(), H5S_ALL(), H5S_ALL(),
-                       H5P_DEFAULT(), dset_data);
+            H5.H5Dread(H5did, H5T_NATIVE_INT32_g(), H5S_ALL(), H5S_ALL(), H5P_DEFAULT(), dset_data);
         }
         catch (Exception err) {
             err.printStackTrace();
@@ -289,8 +283,7 @@ public class TestH5Drw {
 
         // Read data.
         try {
-            H5.H5Dread(H5did, H5T_NATIVE_UINT64_g(), H5S_ALL(), H5S_ALL(),
-                       H5P_DEFAULT(), dset_data);
+            H5.H5Dread(H5did, H5T_NATIVE_UINT64_g(), H5S_ALL(), H5S_ALL(), H5P_DEFAULT(), dset_data);
         }
         catch (Exception err) {
             err.printStackTrace();
@@ -316,8 +309,7 @@ public class TestH5Drw {
 
         // Read data.
         try {
-            H5.H5Dread(H5did, H5T_NATIVE_INT64_g(), H5S_ALL(), H5S_ALL(),
-                       H5P_DEFAULT(), dset_data);
+            H5.H5Dread(H5did, H5T_NATIVE_INT64_g(), H5S_ALL(), H5S_ALL(), H5P_DEFAULT(), dset_data);
         }
         catch (Exception err) {
             err.printStackTrace();
@@ -340,8 +332,7 @@ public class TestH5Drw {
 
         // Read data.
         try {
-            H5.H5Dread(H5did, H5T_NATIVE_FLOAT_g(), H5S_ALL(), H5S_ALL(),
-                       H5P_DEFAULT(), dset_data);
+            H5.H5Dread(H5did, H5T_NATIVE_FLOAT_g(), H5S_ALL(), H5S_ALL(), H5P_DEFAULT(), dset_data);
         }
         catch (Exception err) {
             err.printStackTrace();
@@ -366,8 +357,7 @@ public class TestH5Drw {
 
         // Read data.
         try {
-            H5.H5Dread(H5did, H5T_NATIVE_DOUBLE_g(), H5S_ALL(), H5S_ALL(),
-                       H5P_DEFAULT(), dset_data);
+            H5.H5Dread(H5did, H5T_NATIVE_DOUBLE_g(), H5S_ALL(), H5S_ALL(), H5P_DEFAULT(), dset_data);
         }
         catch (Exception err) {
             err.printStackTrace();
@@ -392,8 +382,7 @@ public class TestH5Drw {
 
         // Read data.
         try {
-            H5.H5Dread(H5did, H5T_NATIVE_LDOUBLE_g(), H5S_ALL(), H5S_ALL(),
-                       H5P_DEFAULT(), dset_data);
+            H5.H5Dread(H5did, H5T_NATIVE_LDOUBLE_g(), H5S_ALL(), H5S_ALL(), H5P_DEFAULT(), dset_data);
         }
         catch (Exception err) {
             err.printStackTrace();

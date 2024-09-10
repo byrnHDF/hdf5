@@ -13,8 +13,6 @@
 package test;
 
 import static org.hdfgroup.javahdf5.hdf5_h.*;
-import org.hdfgroup.javahdf5.*;
-
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
@@ -32,6 +30,7 @@ import java.io.ObjectOutputStream;
 import java.io.Reader;
 import java.io.StreamTokenizer;
 
+import org.hdfgroup.javahdf5.*;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Ignore;
@@ -89,8 +88,7 @@ public class TestH5 {
     {
         long did = H5I_INVALID_HID();
         try {
-            did = H5Dcreate(fid, name, H5T_STD_I32LE_g(), dsid, H5P_DEFAULT(),
-                               H5P_DEFAULT(), dapl);
+            did = H5Dcreate(fid, name, H5T_STD_I32LE_g(), dsid, H5P_DEFAULT(), H5P_DEFAULT(), dapl);
         }
         catch (Throwable err) {
             err.printStackTrace();
@@ -104,8 +102,7 @@ public class TestH5 {
     private final void _createH5File()
     {
         try {
-            H5fid  = H5Fcreate(H5_FILE, H5F_ACC_TRUNC(), H5P_DEFAULT(),
-                                  H5P_DEFAULT());
+            H5fid  = H5Fcreate(H5_FILE, H5F_ACC_TRUNC(), H5P_DEFAULT(), H5P_DEFAULT());
             H5dsid = H5Screate_simple(2, H5dims, null);
             H5did  = _createDataset(H5fid, H5dsid, "dset", H5P_DEFAULT());
         }
@@ -188,14 +185,14 @@ public class TestH5 {
     public void closeH5File() throws Exception
     {
         _closeH5File();
-        //assertTrue("H5 open ids is 0", getOpenIDCount() == 0);
+        // assertTrue("H5 open ids is 0", getOpenIDCount() == 0);
         System.out.println();
     }
 
     @Before
     public void verifyCount() throws NullPointerException, Exception
     {
-        //assertTrue("H5 open ids is 0", getOpenIDCount() == 0);
+        // assertTrue("H5 open ids is 0", getOpenIDCount() == 0);
         System.out.print(testname.getMethodName());
     }
 
@@ -225,11 +222,9 @@ public class TestH5 {
                                H5F_ACC_CREAT,    H5F_OBJ_FILE, H5F_OBJ_DATASET, H5F_OBJ_GROUP,
                                H5F_OBJ_DATATYPE, H5F_OBJ_ATTR, H5F_OBJ_ALL,     H5F_OBJ_LOCAL};
 
-        int j2cValues[] = {
-            H5F_ACC_RDONLY(),  H5F_ACC_RDWR(),  H5F_ACC_TRUNC(),
-            H5F_ACC_EXCL(),    H5F_ACC_CREAT(), H5F_OBJ_FILE(),
-            H5F_OBJ_DATASET(), H5F_OBJ_GROUP(), H5F_OBJ_DATATYPE(),
-            H5F_OBJ_ATTR(),    H5F_OBJ_ALL(),   H5F_OBJ_LOCAL()};
+        int j2cValues[] = {H5F_ACC_RDONLY(),   H5F_ACC_RDWR(), H5F_ACC_TRUNC(),   H5F_ACC_EXCL(),
+                           H5F_ACC_CREAT(),    H5F_OBJ_FILE(), H5F_OBJ_DATASET(), H5F_OBJ_GROUP(),
+                           H5F_OBJ_DATATYPE(), H5F_OBJ_ATTR(), H5F_OBJ_ALL(),     H5F_OBJ_LOCAL()};
 
         for (int i = 0; i < definedValues.length; i++) {
             assertEquals(definedValues[i], j2cValues[i]);
@@ -297,8 +292,8 @@ public class TestH5 {
         int blk_list_lim   = 1;
 
         try {
-            H5set_free_list_limits(reg_global_lim, reg_list_lim, arr_global_lim, arr_list_lim,
-                                      blk_global_lim, blk_list_lim);
+            H5set_free_list_limits(reg_global_lim, reg_list_lim, arr_global_lim, arr_list_lim, blk_global_lim,
+                                   blk_list_lim);
         }
         catch (Throwable err) {
             fail("H5set_free_list_limits failed: " + err);
@@ -313,15 +308,15 @@ public class TestH5 {
     {
         int libversion[] = {1, 15, 0};
 
-        //try {
-        //    H5get_libversion(libversion);
-        //}
-        //catch (Throwable err) {
-        //    fail("H5get_libversion: " + err);
-        //}
+        // try {
+        //     H5get_libversion(libversion);
+        // }
+        // catch (Throwable err) {
+        //     fail("H5get_libversion: " + err);
+        // }
 
-        //for (int i = 0; i < 2; i++)
-        //    assertEquals(H5.LIB_VERSION[i], libversion[i]);
+        // for (int i = 0; i < 2; i++)
+        //     assertEquals(H5.LIB_VERSION[i], libversion[i]);
 
         for (int i = 0; i < 2; i++)
             assertFalse(libversion[i] == 0);
@@ -385,8 +380,7 @@ public class TestH5 {
 
         try {
             if (H5did >= 0)
-                H5Dwrite(H5did, H5T_STD_I32LE_g(), H5S_ALL(), H5S_ALL(),
-                            H5P_DEFAULT(), dset_data);
+                H5Dwrite(H5did, H5T_STD_I32LE_g(), H5S_ALL(), H5S_ALL(), H5P_DEFAULT(), dset_data);
         }
         catch (Exception e) {
             e.printStackTrace();

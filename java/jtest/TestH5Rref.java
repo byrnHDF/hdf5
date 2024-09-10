@@ -163,8 +163,7 @@ public class TestH5Rref {
         refbuf = new byte[ndims][HDF5Constants.H5R_REF_BUF_SIZE];
         // Read the reference from the dataset.
         try {
-            H5.H5Dread(H5did, HDF5Constants.H5T_STD_REF, H5S_ALL(), H5S_ALL(),
-                       H5P_DEFAULT(), refbuf);
+            H5.H5Dread(H5did, HDF5Constants.H5T_STD_REF, H5S_ALL(), H5S_ALL(), H5P_DEFAULT(), refbuf);
         }
         catch (Exception err) {
             err.printStackTrace();
@@ -243,8 +242,7 @@ public class TestH5Rref {
         refbuf = new byte[ndims][HDF5Constants.H5R_REF_BUF_SIZE];
         // Read the reference from the dataset.
         try {
-            H5.H5Dread(H5did, HDF5Constants.H5T_STD_REF, H5S_ALL(), H5S_ALL(),
-                       H5P_DEFAULT(), refbuf);
+            H5.H5Dread(H5did, HDF5Constants.H5T_STD_REF, H5S_ALL(), H5S_ALL(), H5P_DEFAULT(), refbuf);
         }
         catch (Exception err) {
             err.printStackTrace();
@@ -325,8 +323,7 @@ public class TestH5Rref {
         refbuf = new byte[ndims][HDF5Constants.H5R_REF_BUF_SIZE];
         // Read the reference from the dataset.
         try {
-            H5.H5Dread(H5did, HDF5Constants.H5T_STD_REF, H5S_ALL(), H5S_ALL(),
-                       H5P_DEFAULT(), refbuf);
+            H5.H5Dread(H5did, HDF5Constants.H5T_STD_REF, H5S_ALL(), H5S_ALL(), H5P_DEFAULT(), refbuf);
         }
         catch (Exception err) {
             err.printStackTrace();
@@ -344,12 +341,10 @@ public class TestH5Rref {
                 assertTrue("testH5Rget_region_dataset: H5Rget_type[" + i + "]=" + ret_val,
                            ret_val == ref_type);
                 try {
-                    loc_id =
-                        H5.H5Ropen_object(refbuf[i], H5P_DEFAULT(), H5P_DEFAULT());
+                    loc_id = H5.H5Ropen_object(refbuf[i], H5P_DEFAULT(), H5P_DEFAULT());
                     assertTrue(loc_id >= 0);
                     try {
-                        loc_sid = H5.H5Ropen_region(refbuf[i], H5P_DEFAULT(),
-                                                    H5P_DEFAULT());
+                        loc_sid = H5.H5Ropen_region(refbuf[i], H5P_DEFAULT(), H5P_DEFAULT());
                         assertTrue(loc_sid >= 0);
                         int region_type = -1;
                         try {
@@ -490,8 +485,7 @@ public class TestH5Rref {
         refbuf = new byte[ndims][HDF5Constants.H5R_REF_BUF_SIZE];
         // Read the reference from the dataset.
         try {
-            H5.H5Dread(H5did, HDF5Constants.H5T_STD_REF, H5S_ALL(), H5S_ALL(),
-                       H5P_DEFAULT(), refbuf);
+            H5.H5Dread(H5did, HDF5Constants.H5T_STD_REF, H5S_ALL(), H5S_ALL(), H5P_DEFAULT(), refbuf);
         }
         catch (Exception err) {
             err.printStackTrace();

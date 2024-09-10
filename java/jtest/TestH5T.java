@@ -60,8 +60,7 @@ public class TestH5T {
         assertTrue("H5 open ids is 0", H5.getOpenIDCount() == 0);
         System.out.print(testname.getMethodName());
 
-        H5fid = H5.H5Fcreate(H5_FILE, H5F_ACC_TRUNC(), H5P_DEFAULT(),
-                             H5P_DEFAULT());
+        H5fid = H5.H5Fcreate(H5_FILE, H5F_ACC_TRUNC(), H5P_DEFAULT(), H5P_DEFAULT());
         assertTrue("H5.H5Fcreate", H5fid > 0);
         H5strdid = H5.H5Tcopy(H5T_C_S1());
         assertTrue("H5.H5Tcopy", H5strdid > 0);
@@ -274,8 +273,7 @@ public class TestH5T {
             assertTrue("Can't get correct index number", H5.H5Tget_member_index(filetype_id, "ORANGE") == 3);
 
             // Commit enumeration datatype and close it */
-            H5.H5Tcommit(H5fid, enum_type, filetype_id, H5P_DEFAULT(), H5P_DEFAULT(),
-                         H5P_DEFAULT());
+            H5.H5Tcommit(H5fid, enum_type, filetype_id, H5P_DEFAULT(), H5P_DEFAULT(), H5P_DEFAULT());
 
             H5.H5Tclose(filetype_id);
 
@@ -504,8 +502,7 @@ public class TestH5T {
 
             // Query member type by member index
             long index_type = H5.H5Tget_member_type(filetype_id, 0);
-            assertTrue("Incorrect type for member index",
-                       H5.H5Tequal(H5T_NATIVE_DOUBLE_g(), index_type));
+            assertTrue("Incorrect type for member index", H5.H5Tequal(H5T_NATIVE_DOUBLE_g(), index_type));
             if (index_type >= 0)
                 try {
                     H5.H5Tclose(index_type);

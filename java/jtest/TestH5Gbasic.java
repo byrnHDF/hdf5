@@ -39,8 +39,7 @@ public class TestH5Gbasic {
     {
         long gid = H5I_INVALID_HID();
         try {
-            gid = H5.H5Gcreate(fid, name, H5P_DEFAULT(), H5P_DEFAULT(),
-                               H5P_DEFAULT());
+            gid = H5.H5Gcreate(fid, name, H5P_DEFAULT(), H5P_DEFAULT(), H5P_DEFAULT());
         }
         catch (Throwable err) {
             err.printStackTrace();
@@ -69,8 +68,7 @@ public class TestH5Gbasic {
         assertTrue("H5 open ids is 0", H5.getOpenIDCount() == 0);
         System.out.print(testname.getMethodName());
 
-        H5fid = H5.H5Fcreate(H5_FILE, H5F_ACC_TRUNC(), H5P_DEFAULT(),
-                             H5P_DEFAULT());
+        H5fid = H5.H5Fcreate(H5_FILE, H5F_ACC_TRUNC(), H5P_DEFAULT(), H5P_DEFAULT());
         H5.H5Fflush(H5fid, H5F_SCOPE_LOCAL());
     }
 
@@ -101,8 +99,7 @@ public class TestH5Gbasic {
         long gid = H5I_INVALID_HID();
 
         // it should fail because the group name is null
-        gid = H5.H5Gcreate(H5fid, null, H5P_DEFAULT(), H5P_DEFAULT(),
-                           H5P_DEFAULT());
+        gid = H5.H5Gcreate(H5fid, null, H5P_DEFAULT(), H5P_DEFAULT(), H5P_DEFAULT());
 
         try {
             H5.H5Gclose(gid);
@@ -114,8 +111,7 @@ public class TestH5Gbasic {
     @Test(expected = HDF5LibraryException.class)
     public void testH5Gcreate_invalid() throws Throwable
     {
-        H5.H5Gcreate(-1, "Invalid ID", H5P_DEFAULT(), H5P_DEFAULT(),
-                     H5P_DEFAULT());
+        H5.H5Gcreate(-1, "Invalid ID", H5P_DEFAULT(), H5P_DEFAULT(), H5P_DEFAULT());
     }
 
     @Test
@@ -123,8 +119,7 @@ public class TestH5Gbasic {
     {
         long gid = H5I_INVALID_HID();
         try {
-            gid = H5.H5Gcreate(H5fid, "/testH5Gcreate", H5P_DEFAULT(), H5P_DEFAULT(),
-                               H5P_DEFAULT());
+            gid = H5.H5Gcreate(H5fid, "/testH5Gcreate", H5P_DEFAULT(), H5P_DEFAULT(), H5P_DEFAULT());
         }
         catch (Throwable err) {
             err.printStackTrace();
@@ -166,8 +161,7 @@ public class TestH5Gbasic {
         }
 
         // it should failed now because the group already exists in file
-        gid = H5.H5Gcreate(H5fid, "/testH5Gcreate", H5P_DEFAULT(), H5P_DEFAULT(),
-                           H5P_DEFAULT());
+        gid = H5.H5Gcreate(H5fid, "/testH5Gcreate", H5P_DEFAULT(), H5P_DEFAULT(), H5P_DEFAULT());
     }
 
     @Test
@@ -408,22 +402,19 @@ public class TestH5Gbasic {
     @Test(expected = NullPointerException.class)
     public void testH5Gget_info_by_idx_null() throws Throwable
     {
-        H5.H5Gget_info_by_idx(-1, null, H5_INDEX_NAME(), H5_ITER_INC(), 1L,
-                              H5P_DEFAULT());
+        H5.H5Gget_info_by_idx(-1, null, H5_INDEX_NAME(), H5_ITER_INC(), 1L, H5P_DEFAULT());
     }
 
     @Test(expected = HDF5LibraryException.class)
     public void testH5Gget_info_by_idx_invalid() throws Throwable
     {
-        H5.H5Gget_info_by_idx(-1, "/testH5Gcreate", H5_INDEX_NAME(), H5_ITER_INC(),
-                              1L, H5P_DEFAULT());
+        H5.H5Gget_info_by_idx(-1, "/testH5Gcreate", H5_INDEX_NAME(), H5_ITER_INC(), 1L, H5P_DEFAULT());
     }
 
     @Test(expected = HDF5LibraryException.class)
     public void testH5Gget_info_by_idx_not_exists() throws Throwable
     {
-        H5.H5Gget_info_by_idx(H5fid, "/testH5Gcreate", H5_INDEX_NAME(), H5_ITER_INC(),
-                              1L, H5P_DEFAULT());
+        H5.H5Gget_info_by_idx(H5fid, "/testH5Gcreate", H5_INDEX_NAME(), H5_ITER_INC(), 1L, H5P_DEFAULT());
     }
 
     @Test
@@ -434,8 +425,7 @@ public class TestH5Gbasic {
         assertTrue(gid > 0);
 
         try {
-            info = H5.H5Gget_info_by_idx(gid, "/", H5_INDEX_NAME(), H5_ITER_INC(), 0,
-                                         H5P_DEFAULT());
+            info = H5.H5Gget_info_by_idx(gid, "/", H5_INDEX_NAME(), H5_ITER_INC(), 0, H5P_DEFAULT());
         }
         catch (Throwable err) {
             err.printStackTrace();
@@ -463,8 +453,7 @@ public class TestH5Gbasic {
         }
 
         try {
-            info = H5.H5Gget_info_by_idx(H5fid, "/", H5_INDEX_NAME(), H5_ITER_INC(),
-                                         0, H5P_DEFAULT());
+            info = H5.H5Gget_info_by_idx(H5fid, "/", H5_INDEX_NAME(), H5_ITER_INC(), 0, H5P_DEFAULT());
         }
         catch (Throwable err) {
             err.printStackTrace();

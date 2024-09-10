@@ -68,8 +68,7 @@ public class TestH5Lcreate {
     {
         long did = H5I_INVALID_HID();
         try {
-            did = H5.H5Dcreate(fid, name, H5T_STD_I32BE_g(), dsid, H5P_DEFAULT(),
-                               H5P_DEFAULT(), dapl);
+            did = H5.H5Dcreate(fid, name, H5T_STD_I32BE_g(), dsid, H5P_DEFAULT(), H5P_DEFAULT(), dapl);
         }
         catch (Throwable err) {
             err.printStackTrace();
@@ -240,8 +239,8 @@ public class TestH5Lcreate {
             fail("H5.H5Lget_info_by_idx_n0_create:H5Pget_link_creation_order " + err);
         }
         try {
-            link_info = H5.H5Lget_info_by_idx(H5fid, "/", H5_INDEX_CRT_ORDER(),
-                                              H5_ITER_INC(), 0, H5P_DEFAULT());
+            link_info =
+                H5.H5Lget_info_by_idx(H5fid, "/", H5_INDEX_CRT_ORDER(), H5_ITER_INC(), 0, H5P_DEFAULT());
         }
         catch (Throwable err) {
             err.printStackTrace();
@@ -265,8 +264,8 @@ public class TestH5Lcreate {
             fail("H5.H5Lget_info_by_idx_n1_create:H5Pget_link_creation_order " + err);
         }
         try {
-            link_info = H5.H5Lget_info_by_idx(H5fid, "/", H5_INDEX_CRT_ORDER(),
-                                              H5_ITER_INC(), 1, H5P_DEFAULT());
+            link_info =
+                H5.H5Lget_info_by_idx(H5fid, "/", H5_INDEX_CRT_ORDER(), H5_ITER_INC(), 1, H5P_DEFAULT());
         }
         catch (Throwable err) {
             err.printStackTrace();
@@ -286,8 +285,7 @@ public class TestH5Lcreate {
     public void testH5Lcreate_hard()
     {
         try {
-            H5.H5Lcreate_hard(H5fid, "DS1", H5fid, "L1", H5P_DEFAULT(),
-                              H5P_DEFAULT());
+            H5.H5Lcreate_hard(H5fid, "DS1", H5fid, "L1", H5P_DEFAULT(), H5P_DEFAULT());
             H5.H5Fflush(H5fid, H5F_SCOPE_LOCAL());
             boolean link_exists = H5.H5Lexists(H5fid, "L1", H5P_DEFAULT());
             assertTrue("testH5Lcreate_hard:H5Lexists ", link_exists);
@@ -301,17 +299,14 @@ public class TestH5Lcreate {
     @Test(expected = HDF5LibraryException.class)
     public void testH5Lcreate_hard_dst_link_exists() throws Throwable
     {
-        _createHardLink(H5fid, H5fid, "/G1/DS2", H5fid, "L1", H5P_DEFAULT(),
-                        H5P_DEFAULT());
-        H5.H5Lcreate_hard(H5fid, "L1", H5fid, "/G1/DS2", H5P_DEFAULT(),
-                          H5P_DEFAULT());
+        _createHardLink(H5fid, H5fid, "/G1/DS2", H5fid, "L1", H5P_DEFAULT(), H5P_DEFAULT());
+        H5.H5Lcreate_hard(H5fid, "L1", H5fid, "/G1/DS2", H5P_DEFAULT(), H5P_DEFAULT());
     }
 
     @Test
     public void testH5Ldelete_hard_link()
     {
-        _createHardLink(H5fid, H5fid, "/G1/DS2", H5fid, "L1", H5P_DEFAULT(),
-                        H5P_DEFAULT());
+        _createHardLink(H5fid, H5fid, "/G1/DS2", H5fid, "L1", H5P_DEFAULT(), H5P_DEFAULT());
         try {
             H5.H5Ldelete(H5fid, "L1", H5P_DEFAULT());
             H5.H5Fflush(H5fid, H5F_SCOPE_LOCAL());
@@ -469,8 +464,7 @@ public class TestH5Lcreate {
     public void testH5Lcreate_external()
     {
         try {
-            H5.H5Lcreate_external(H5_EXTFILE, "DT1", H5fid, "L1", H5P_DEFAULT(),
-                                  H5P_DEFAULT());
+            H5.H5Lcreate_external(H5_EXTFILE, "DT1", H5fid, "L1", H5P_DEFAULT(), H5P_DEFAULT());
             H5.H5Fflush(H5fid, H5F_SCOPE_LOCAL());
             boolean link_exists = H5.H5Lexists(H5fid, "L1", H5P_DEFAULT());
             assertTrue("testH5Lcreate_external:H5Lexists ", link_exists);
@@ -485,8 +479,7 @@ public class TestH5Lcreate {
     public void testH5Lget_info_externallink()
     {
         H5L_info_t link_info = null;
-        _createExternalLink(H5fid, H5_EXTFILE, "DT1", H5fid, "L1", H5P_DEFAULT(),
-                            H5P_DEFAULT());
+        _createExternalLink(H5fid, H5_EXTFILE, "DT1", H5fid, "L1", H5P_DEFAULT(), H5P_DEFAULT());
         try {
             link_info = H5.H5Lget_info(H5fid, "L1", H5P_DEFAULT());
         }
@@ -505,8 +498,7 @@ public class TestH5Lcreate {
         String[] link_value = {null, null};
         int link_type       = -1;
 
-        _createExternalLink(H5fid, H5_EXTFILE, "DT1", H5fid, "L1", H5P_DEFAULT(),
-                            H5P_DEFAULT());
+        _createExternalLink(H5fid, H5_EXTFILE, "DT1", H5fid, "L1", H5P_DEFAULT(), H5P_DEFAULT());
         try {
             link_type = H5.H5Lget_value(H5fid, "L1", link_value, H5P_DEFAULT());
         }
@@ -544,8 +536,7 @@ public class TestH5Lcreate {
     @Test(expected = HDF5LibraryException.class)
     public void testH5Lcopy_dst_link_exists() throws Throwable
     {
-        _createHardLink(H5fid, H5fid, "/G1/DS2", H5fid, "CPY1", H5P_DEFAULT(),
-                        H5P_DEFAULT());
+        _createHardLink(H5fid, H5fid, "/G1/DS2", H5fid, "CPY1", H5P_DEFAULT(), H5P_DEFAULT());
         H5.H5Lcopy(H5fid, "CPY1", H5fid, "/G1/DS2", H5P_DEFAULT(), H5P_DEFAULT());
     }
 
@@ -575,8 +566,7 @@ public class TestH5Lcreate {
     @Test(expected = HDF5LibraryException.class)
     public void testH5Lmove_dst_link_exists() throws Throwable
     {
-        _createHardLink(H5fid, H5fid, "/G1/DS2", H5fid, "CPY1", H5P_DEFAULT(),
-                        H5P_DEFAULT());
+        _createHardLink(H5fid, H5fid, "/G1/DS2", H5fid, "CPY1", H5P_DEFAULT(), H5P_DEFAULT());
         H5.H5Lmove(H5fid, "CPY1", H5fid, "/G1/DS2", H5P_DEFAULT(), H5P_DEFAULT());
     }
 
@@ -584,16 +574,15 @@ public class TestH5Lcreate {
     public void testH5Lget_value_by_idx_not_exist_name() throws Throwable
     {
         String[] link_value = {null, null};
-        H5.H5Lget_value_by_idx(H5fid, "None", H5_INDEX_CRT_ORDER(), H5_ITER_INC(), 0,
-                               link_value, H5P_DEFAULT());
+        H5.H5Lget_value_by_idx(H5fid, "None", H5_INDEX_CRT_ORDER(), H5_ITER_INC(), 0, link_value,
+                               H5P_DEFAULT());
     }
 
     @Test(expected = HDF5LibraryException.class)
     public void testH5Lget_value_by_idx_not_exist_create() throws Throwable
     {
         String[] link_value = {null, null};
-        H5.H5Lget_value_by_idx(H5fid, "None", H5_INDEX_NAME(), H5_ITER_INC(), 0,
-                               link_value, H5P_DEFAULT());
+        H5.H5Lget_value_by_idx(H5fid, "None", H5_INDEX_NAME(), H5_ITER_INC(), 0, link_value, H5P_DEFAULT());
     }
 
     @Test
@@ -605,8 +594,7 @@ public class TestH5Lcreate {
 
         _createSoftLink(H5fid, "/G1/DS2", H5fid, "LS", H5P_DEFAULT(), H5P_DEFAULT());
         try {
-            link_info = H5.H5Lget_info_by_idx(H5fid, "/", H5_INDEX_NAME(),
-                                              H5_ITER_INC(), 2, H5P_DEFAULT());
+            link_info = H5.H5Lget_info_by_idx(H5fid, "/", H5_INDEX_NAME(), H5_ITER_INC(), 2, H5P_DEFAULT());
         }
         catch (Throwable err) {
             err.printStackTrace();
@@ -615,9 +603,8 @@ public class TestH5Lcreate {
         assertFalse("testH5Lget_value_by_idx_n2 ", link_info == null);
         assertTrue("testH5Lget_value_by_idx_n2 link type", link_info.type == HDF5Constants.H5L_TYPE_SOFT);
         try {
-            link_type =
-                H5.H5Lget_value_by_idx(H5fid, "/", H5_INDEX_NAME(), H5_ITER_INC(), 2,
-                                       link_value, H5P_DEFAULT());
+            link_type = H5.H5Lget_value_by_idx(H5fid, "/", H5_INDEX_NAME(), H5_ITER_INC(), 2, link_value,
+                                               H5P_DEFAULT());
         }
         catch (Throwable err) {
             err.printStackTrace();
@@ -646,8 +633,8 @@ public class TestH5Lcreate {
         }
         _createSoftLink(H5fid, "/G1/DS2", H5fid, "LS", H5P_DEFAULT(), H5P_DEFAULT());
         try {
-            link_info = H5.H5Lget_info_by_idx(H5fid, "/", H5_INDEX_CRT_ORDER(),
-                                              H5_ITER_INC(), 2, H5P_DEFAULT());
+            link_info =
+                H5.H5Lget_info_by_idx(H5fid, "/", H5_INDEX_CRT_ORDER(), H5_ITER_INC(), 2, H5P_DEFAULT());
         }
         catch (Throwable err) {
             err.printStackTrace();
@@ -656,9 +643,8 @@ public class TestH5Lcreate {
         assertFalse("testH5Lget_value_by_idx_n2 ", link_info == null);
         assertTrue("testH5Lget_value_by_idx_n2 link type", link_info.type == HDF5Constants.H5L_TYPE_SOFT);
         try {
-            link_type =
-                H5.H5Lget_value_by_idx(H5fid, "/", H5_INDEX_CRT_ORDER(),
-                                       H5_ITER_INC(), 2, link_value, H5P_DEFAULT());
+            link_type = H5.H5Lget_value_by_idx(H5fid, "/", H5_INDEX_CRT_ORDER(), H5_ITER_INC(), 2, link_value,
+                                               H5P_DEFAULT());
         }
         catch (Throwable err) {
             err.printStackTrace();
@@ -676,11 +662,9 @@ public class TestH5Lcreate {
         String[] link_value  = {null, null};
         int link_type        = -1;
 
-        _createExternalLink(H5fid, H5_EXTFILE, "DT1", H5fid, "LE", H5P_DEFAULT(),
-                            H5P_DEFAULT());
+        _createExternalLink(H5fid, H5_EXTFILE, "DT1", H5fid, "LE", H5P_DEFAULT(), H5P_DEFAULT());
         try {
-            link_info = H5.H5Lget_info_by_idx(H5fid, "/", H5_INDEX_NAME(),
-                                              H5_ITER_INC(), 2, H5P_DEFAULT());
+            link_info = H5.H5Lget_info_by_idx(H5fid, "/", H5_INDEX_NAME(), H5_ITER_INC(), 2, H5P_DEFAULT());
         }
         catch (Throwable err) {
             err.printStackTrace();
@@ -690,9 +674,8 @@ public class TestH5Lcreate {
         assertTrue("testH5Lget_value_by_idx_ext link type " + link_info.type,
                    link_info.type == HDF5Constants.H5L_TYPE_EXTERNAL);
         try {
-            link_type =
-                H5.H5Lget_value_by_idx(H5fid, "/", H5_INDEX_NAME(), H5_ITER_INC(), 2,
-                                       link_value, H5P_DEFAULT());
+            link_type = H5.H5Lget_value_by_idx(H5fid, "/", H5_INDEX_NAME(), H5_ITER_INC(), 2, link_value,
+                                               H5P_DEFAULT());
         }
         catch (Throwable err) {
             err.printStackTrace();
@@ -711,11 +694,10 @@ public class TestH5Lcreate {
         String[] link_value  = {null, null};
         int link_type        = -1;
 
-        _createExternalLink(H5fid, H5_EXTFILE, "DT1", H5fid, "LE", H5P_DEFAULT(),
-                            H5P_DEFAULT());
+        _createExternalLink(H5fid, H5_EXTFILE, "DT1", H5fid, "LE", H5P_DEFAULT(), H5P_DEFAULT());
         try {
-            link_info = H5.H5Lget_info_by_idx(H5fid, "/", H5_INDEX_CRT_ORDER(),
-                                              H5_ITER_INC(), 2, H5P_DEFAULT());
+            link_info =
+                H5.H5Lget_info_by_idx(H5fid, "/", H5_INDEX_CRT_ORDER(), H5_ITER_INC(), 2, H5P_DEFAULT());
         }
         catch (Throwable err) {
             err.printStackTrace();
@@ -725,9 +707,8 @@ public class TestH5Lcreate {
         assertTrue("testH5Lget_value_by_idx_ext link type " + link_info.type,
                    link_info.type == HDF5Constants.H5L_TYPE_EXTERNAL);
         try {
-            link_type =
-                H5.H5Lget_value_by_idx(H5fid, "/", H5_INDEX_CRT_ORDER(),
-                                       H5_ITER_INC(), 2, link_value, H5P_DEFAULT());
+            link_type = H5.H5Lget_value_by_idx(H5fid, "/", H5_INDEX_CRT_ORDER(), H5_ITER_INC(), 2, link_value,
+                                               H5P_DEFAULT());
         }
         catch (Throwable err) {
             err.printStackTrace();
@@ -742,15 +723,13 @@ public class TestH5Lcreate {
     @Test(expected = HDF5LibraryException.class)
     public void testH5Ldelete_by_idx_not_exist_name() throws Throwable
     {
-        H5.H5Ldelete_by_idx(H5fid, "None", H5_INDEX_NAME(), H5_ITER_INC(), 0,
-                            H5P_DEFAULT());
+        H5.H5Ldelete_by_idx(H5fid, "None", H5_INDEX_NAME(), H5_ITER_INC(), 0, H5P_DEFAULT());
     }
 
     @Test(expected = HDF5LibraryException.class)
     public void testH5Ldelete_by_idx_not_exist_create() throws Throwable
     {
-        H5.H5Ldelete_by_idx(H5fid, "None", H5_INDEX_CRT_ORDER(), H5_ITER_INC(), 0,
-                            H5P_DEFAULT());
+        H5.H5Ldelete_by_idx(H5fid, "None", H5_INDEX_CRT_ORDER(), H5_ITER_INC(), 0, H5P_DEFAULT());
     }
 
     @Test
@@ -759,8 +738,7 @@ public class TestH5Lcreate {
         H5L_info_t link_info = null;
         _createSoftLink(H5fid, "/G1/DS2", H5fid, "LS", H5P_DEFAULT(), H5P_DEFAULT());
         try {
-            link_info = H5.H5Lget_info_by_idx(H5fid, "/", H5_INDEX_NAME(),
-                                              H5_ITER_INC(), 2, H5P_DEFAULT());
+            link_info = H5.H5Lget_info_by_idx(H5fid, "/", H5_INDEX_NAME(), H5_ITER_INC(), 2, H5P_DEFAULT());
         }
         catch (Throwable err) {
             err.printStackTrace();
@@ -769,16 +747,14 @@ public class TestH5Lcreate {
         assertFalse("testH5Ldelete_by_idx_n2 ", link_info == null);
         assertTrue("testH5Ldelete_by_idx_n2 link type", link_info.type == HDF5Constants.H5L_TYPE_SOFT);
         try {
-            H5.H5Ldelete_by_idx(H5fid, "/", H5_INDEX_NAME(), H5_ITER_INC(), 2,
-                                H5P_DEFAULT());
+            H5.H5Ldelete_by_idx(H5fid, "/", H5_INDEX_NAME(), H5_ITER_INC(), 2, H5P_DEFAULT());
         }
         catch (Throwable err) {
             err.printStackTrace();
             fail("H5.H5Ldelete_by_idx: " + err);
         }
         try {
-            link_info = H5.H5Lget_info_by_idx(H5fid, "/", H5_INDEX_NAME(),
-                                              H5_ITER_INC(), 2, H5P_DEFAULT());
+            link_info = H5.H5Lget_info_by_idx(H5fid, "/", H5_INDEX_NAME(), H5_ITER_INC(), 2, H5P_DEFAULT());
         }
         catch (HDF5LibraryException err) {
             link_info = null;
@@ -796,8 +772,8 @@ public class TestH5Lcreate {
         H5L_info_t link_info = null;
         _createSoftLink(H5fid, "/G1/DS2", H5fid, "LS", H5P_DEFAULT(), H5P_DEFAULT());
         try {
-            link_info = H5.H5Lget_info_by_idx(H5fid, "/", H5_INDEX_CRT_ORDER(),
-                                              H5_ITER_INC(), 2, H5P_DEFAULT());
+            link_info =
+                H5.H5Lget_info_by_idx(H5fid, "/", H5_INDEX_CRT_ORDER(), H5_ITER_INC(), 2, H5P_DEFAULT());
         }
         catch (Throwable err) {
             err.printStackTrace();
@@ -806,16 +782,15 @@ public class TestH5Lcreate {
         assertFalse("testH5Ldelete_by_idx_n2 ", link_info == null);
         assertTrue("testH5Ldelete_by_idx_n2 link type", link_info.type == HDF5Constants.H5L_TYPE_SOFT);
         try {
-            H5.H5Ldelete_by_idx(H5fid, "/", H5_INDEX_CRT_ORDER(), H5_ITER_INC(), 2,
-                                H5P_DEFAULT());
+            H5.H5Ldelete_by_idx(H5fid, "/", H5_INDEX_CRT_ORDER(), H5_ITER_INC(), 2, H5P_DEFAULT());
         }
         catch (Throwable err) {
             err.printStackTrace();
             fail("H5.H5Ldelete_by_idx: " + err);
         }
         try {
-            link_info = H5.H5Lget_info_by_idx(H5fid, "/", H5_INDEX_CRT_ORDER(),
-                                              H5_ITER_INC(), 2, H5P_DEFAULT());
+            link_info =
+                H5.H5Lget_info_by_idx(H5fid, "/", H5_INDEX_CRT_ORDER(), H5_ITER_INC(), 2, H5P_DEFAULT());
         }
         catch (HDF5LibraryException err) {
             link_info = null;
@@ -840,10 +815,8 @@ public class TestH5Lcreate {
             fail("H5.H5Lvisit_create: H5Pget_link_creation_order " + err);
         }
 
-        _createHardLink(H5fid, H5fid, "/G1/DS2", H5fid, "CPY1", H5P_DEFAULT(),
-                        H5P_DEFAULT());
-        _createExternalLink(H5fid, H5_EXTFILE, "DT1", H5fid, "LE", H5P_DEFAULT(),
-                            H5P_DEFAULT());
+        _createHardLink(H5fid, H5fid, "/G1/DS2", H5fid, "CPY1", H5P_DEFAULT(), H5P_DEFAULT());
+        _createExternalLink(H5fid, H5_EXTFILE, "DT1", H5fid, "LE", H5P_DEFAULT(), H5P_DEFAULT());
         _createSoftLink(H5fid, "/G1/DS2", H5fid, "LS", H5P_DEFAULT(), H5P_DEFAULT());
 
         class idata {
@@ -869,8 +842,7 @@ public class TestH5Lcreate {
         }
         H5L_iterate_t iter_cb = new H5L_iter_callback();
         try {
-            H5.H5Lvisit(H5fid, H5_INDEX_CRT_ORDER(), H5_ITER_INC(), iter_cb,
-                        iter_data);
+            H5.H5Lvisit(H5fid, H5_INDEX_CRT_ORDER(), H5_ITER_INC(), iter_cb, iter_data);
         }
         catch (Throwable err) {
             err.printStackTrace();
@@ -912,10 +884,8 @@ public class TestH5Lcreate {
             fail("H5.H5Literate_create: H5Pget_link_creation_order " + err);
         }
 
-        _createHardLink(H5fid, H5fid, "/G1/DS2", H5fid, "CPY1", H5P_DEFAULT(),
-                        H5P_DEFAULT());
-        _createExternalLink(H5fid, H5_EXTFILE, "DT1", H5fid, "LE", H5P_DEFAULT(),
-                            H5P_DEFAULT());
+        _createHardLink(H5fid, H5fid, "/G1/DS2", H5fid, "CPY1", H5P_DEFAULT(), H5P_DEFAULT());
+        _createExternalLink(H5fid, H5_EXTFILE, "DT1", H5fid, "LE", H5P_DEFAULT(), H5P_DEFAULT());
         _createSoftLink(H5fid, "/G1/DS2", H5fid, "LS", H5P_DEFAULT(), H5P_DEFAULT());
 
         class idata {
@@ -941,8 +911,7 @@ public class TestH5Lcreate {
         }
         H5L_iterate_t iter_cb = new H5L_iter_callback();
         try {
-            H5.H5Literate(H5fid, H5_INDEX_CRT_ORDER(), H5_ITER_INC(), 0, iter_cb,
-                          iter_data);
+            H5.H5Literate(H5fid, H5_INDEX_CRT_ORDER(), H5_ITER_INC(), 0, iter_cb, iter_data);
         }
         catch (Throwable err) {
             err.printStackTrace();

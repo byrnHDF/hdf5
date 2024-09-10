@@ -108,8 +108,7 @@ public class TestH5Dplist {
     private final void _createDataset(long fid, long dsid, String name, long dcpl, long dapl)
     {
         try {
-            H5did = H5.H5Dcreate(fid, name, H5T_STD_I32BE_g(), dsid, H5P_DEFAULT(),
-                                 dcpl, dapl);
+            H5did = H5.H5Dcreate(fid, name, H5T_STD_I32BE_g(), dsid, H5P_DEFAULT(), dcpl, dapl);
         }
         catch (Throwable err) {
             err.printStackTrace();
@@ -124,8 +123,7 @@ public class TestH5Dplist {
         assertTrue("H5 open ids is 0", H5.getOpenIDCount() == 0);
         System.out.print(testname.getMethodName());
         try {
-            H5fid  = H5.H5Fcreate(H5_FILE, H5F_ACC_TRUNC(), H5P_DEFAULT(),
-                                  H5P_DEFAULT());
+            H5fid  = H5.H5Fcreate(H5_FILE, H5F_ACC_TRUNC(), H5P_DEFAULT(), H5P_DEFAULT());
             H5dsid = H5.H5Screate_simple(RANK, H5dims, H5maxdims);
         }
         catch (Throwable err) {
@@ -186,8 +184,7 @@ public class TestH5Dplist {
 
         // Read values from the dataset, which has not been written to yet.
         try {
-            H5.H5Dread(H5did, H5T_NATIVE_INT_g(), H5S_ALL(), H5S_ALL(),
-                       H5P_DEFAULT(), read_dset_data);
+            H5.H5Dread(H5did, H5T_NATIVE_INT_g(), H5S_ALL(), H5S_ALL(), H5P_DEFAULT(), read_dset_data);
         }
         catch (Exception e) {
             e.printStackTrace();
@@ -196,8 +193,7 @@ public class TestH5Dplist {
 
         // Write the data to the dataset.
         try {
-            H5.H5Dwrite(H5did, H5T_NATIVE_INT_g(), H5S_ALL(), H5S_ALL(),
-                        H5P_DEFAULT(), write_dset_data);
+            H5.H5Dwrite(H5did, H5T_NATIVE_INT_g(), H5S_ALL(), H5S_ALL(), H5P_DEFAULT(), write_dset_data);
         }
         catch (Exception e) {
             e.printStackTrace();
@@ -205,8 +201,7 @@ public class TestH5Dplist {
 
         // Read the data back.
         try {
-            H5.H5Dread(H5did, H5T_NATIVE_INT_g(), H5S_ALL(), H5S_ALL(),
-                       H5P_DEFAULT(), read_dset_data);
+            H5.H5Dread(H5did, H5T_NATIVE_INT_g(), H5S_ALL(), H5S_ALL(), H5P_DEFAULT(), read_dset_data);
         }
         catch (Exception e) {
             e.printStackTrace();
@@ -223,8 +218,7 @@ public class TestH5Dplist {
 
         // Read from the extended dataset.
         try {
-            H5.H5Dread(H5did, H5T_NATIVE_INT_g(), H5S_ALL(), H5S_ALL(),
-                       H5P_DEFAULT(), extend_dset_data);
+            H5.H5Dread(H5did, H5T_NATIVE_INT_g(), H5S_ALL(), H5S_ALL(), H5P_DEFAULT(), extend_dset_data);
         }
         catch (Exception e) {
             e.printStackTrace();

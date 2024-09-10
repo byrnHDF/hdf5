@@ -238,8 +238,7 @@ public class TestH5E {
                 fail("testH5Epush: H5.H5Ecreate_msg_major: " + err);
             }
             try {
-                min_err_id =
-                    H5.H5Ecreate_msg(hdf_java_classid, H5E_MINOR(), "Error in Test Function");
+                min_err_id = H5.H5Ecreate_msg(hdf_java_classid, H5E_MINOR(), "Error in Test Function");
                 assertFalse("H5.H5Ecreate_msg_minor: " + min_err_id, min_err_id < 0);
             }
             catch (Throwable err) {

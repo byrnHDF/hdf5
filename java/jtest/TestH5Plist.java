@@ -121,7 +121,7 @@ public class TestH5Plist {
         long cid1   = H5I_INVALID_HID(); // Generic Property class ID
         long cid2   = H5I_INVALID_HID(); // Generic Property class ID
         long cid3   = H5I_INVALID_HID(); // Generic Property class ID
-        String name = null;                          // Name of class
+        String name = null;              // Name of class
 
         try {
             // Check class name
@@ -662,7 +662,7 @@ public class TestH5Plist {
     {
         boolean status = false;
         long lid1      = H5I_INVALID_HID(); // Generic Property list ID
-        long nprops    = -1;                            // Number of properties in class
+        long nprops    = -1;                // Number of properties in class
 
         try {
             // Add several properties (several w/default values)

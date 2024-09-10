@@ -84,8 +84,7 @@ public class TestH5VL {
     {
         String H5_FILE = "testFvl.h5";
 
-        long H5fid = H5.H5Fcreate(H5_FILE, H5F_ACC_TRUNC(), H5P_DEFAULT(),
-                                  H5P_DEFAULT());
+        long H5fid = H5.H5Fcreate(H5_FILE, H5F_ACC_TRUNC(), H5P_DEFAULT(), H5P_DEFAULT());
 
         try {
             long native_id = H5.H5VLget_connector_id(H5fid);
@@ -149,8 +148,7 @@ public class TestH5VL {
     {
         String H5_FILE = "testFvl.h5";
 
-        long H5fid = H5.H5Fcreate(H5_FILE, H5F_ACC_TRUNC(), H5P_DEFAULT(),
-                                  H5P_DEFAULT());
+        long H5fid = H5.H5Fcreate(H5_FILE, H5F_ACC_TRUNC(), H5P_DEFAULT(), H5P_DEFAULT());
         H5.H5Fflush(H5fid, H5F_SCOPE_LOCAL());
 
         try {

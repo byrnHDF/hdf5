@@ -130,8 +130,7 @@ public class TestH5Eparams {
     public void testH5Ecreate_msg_minor()
     {
         try {
-            long err_id =
-                H5.H5Ecreate_msg(hdf_java_classid, H5E_MINOR(), "Error in Test Function");
+            long err_id = H5.H5Ecreate_msg(hdf_java_classid, H5E_MINOR(), "Error in Test Function");
             assertFalse("H5.H5Ecreate_msg_minor: " + err_id, err_id < 0);
             H5.H5Eclose_msg(err_id);
         }
