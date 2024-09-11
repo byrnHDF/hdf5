@@ -150,7 +150,7 @@ if (HDF5_TEST_JAVA AND HDF5_TEST_SERIAL)
   set_tests_properties (JUnitExt-clean-objects PROPERTIES FIXTURES_CLEANUP clear_JUnitExt)
 
   # enable FFM java access
-  #set (CMAKE_Java_RUNTIME_FLAGS "${CMAKE_Java_RUNTIME_FLAGS};--enable-native-access=ALL-UNNAMED")
+  set (CMAKE_Java_RUNTIME_FLAGS "${CMAKE_Java_RUNTIME_FLAGS};--enable-native-access=ALL-UNNAMED")
   foreach (test_file ${HDF5_JAVA_JTEST_SOURCES})
     set (TEST_JAVA_CLASSPATH "${CMAKE_JAVA_CLASSPATH}${CMAKE_JAVA_INCLUDE_FLAG_SEP}${${HDF5_JAVA_JTEST_LIB_TARGET}_${test_file}_JAR_FILE}")
 
