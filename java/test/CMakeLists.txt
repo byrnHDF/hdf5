@@ -272,3 +272,5 @@ if (HDF5_TEST_JAVA AND HDF5_TEST_SERIAL)
     endforeach ()
   endif ()
 endif ()
+
+set (CMAKE_JAVA_INCLUDE_PATH "")

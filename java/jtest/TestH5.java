@@ -15,8 +15,10 @@ package test;
 import static org.hdfgroup.javahdf5.hdf5_h.*;
 import org.hdfgroup.javahdf5.*;
 
-import java.lang.foreign.MemorySegment;
 import java.lang.foreign.Arena;
+import java.lang.foreign.MemorySegment;
+import java.lang.foreign.ValueLayout;
+
 import java.nio.charset.StandardCharsets;
 
 import static org.junit.Assert.assertEquals;
@@ -360,9 +362,9 @@ public class TestH5 {
         try {
             try (Arena arena = Arena.ofConfined()) {
                 // Allocate a MemorySegment to hold the array bytes
-                MemorySegment majnum_segment = arena.allocateFrom(libversion[0]);
-                MemorySegment minnum_segment = arena.allocateFrom(libversion[1]);
-                MemorySegment relnum_segment = arena.allocateFrom(libversion[2]);
+                MemorySegment majnum_segment = arena.allocateFrom(ValueLayout.JAVA_INT, libversion[0]);
+                MemorySegment minnum_segment = arena.allocateFrom(ValueLayout.JAVA_INT, libversion[1]);
+                MemorySegment relnum_segment = arena.allocateFrom(ValueLayout.JAVA_INT, libversion[2]);
                 H5get_libversion(majnum_segment, minnum_segment, relnum_segment);
             }
             catch (Throwable err) {
