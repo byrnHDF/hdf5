@@ -50,15 +50,6 @@ public class TestH5 {
     @Rule
     public TestName testname                       = new TestName();
     private static final String H5_FILE            = "testData.h5";
-    private static final String EXPORT_FILE        = "testExport.txt";
-    private static final String H5_REGION_FILE     = "trefer_reg.h5";
-    private static final String EXPORT_REGION_FILE = "testExportReg.txt";
-    private static final String H5_ATTR_FILE       = "trefer_attr.h5";
-    private static final String EXPORT_ATTR_FILE   = "testExportAttr.txt";
-    private static final String H5_DREG_FILE       = "tdatareg.h5";
-    private static final String EXPORT_DREG_FILE   = "testExportDReg.txt";
-    private static final String H5_AREG_FILE       = "tattrreg.h5";
-    private static final String EXPORT_AREG_FILE   = "testExportAReg.txt";
     private static final int DIM_X                 = 4;
     private static final int DIM_Y                 = 6;
     private static final int DIM_BLKS              = 36;
@@ -125,7 +116,7 @@ public class TestH5 {
                 fail("Arena: " + err);
             }
             try (Arena arena = Arena.ofConfined()) {
-                // Allocate a MemorySegment to hold the string bytes
+                // Allocate a MemorySegment to hold the dims bytes
                 MemorySegment H5dims_segment = MemorySegment.ofArray(H5dims);
                 H5dsid                       = H5Screate_simple(2, H5dims_segment, null);
             }
@@ -230,19 +221,16 @@ public class TestH5 {
     public void closeH5File() throws Exception
     {
         _closeH5File();
-        // assertTrue("H5 open ids is 0", getOpenIDCount() == 0);
         System.out.println();
     }
 
     @Before
     public void verifyCount() throws NullPointerException, Exception
     {
-        // assertTrue("H5 open ids is 0", getOpenIDCount() == 0);
         System.out.print(testname.getMethodName());
     }
 
     /**
-     * Test method for {@link hdf.hdf5lib.H5#J2C(int)}.
      * NOTE:
      * H5F_ACC_DEBUG no longer prints any special debug info. Even though the symbol is
      * being retained hdf java does not access the symbol.
@@ -280,21 +268,32 @@ public class TestH5 {
     }
 
     /**
-     * Test method for {@link hdf.hdf5lib.H5#H5error_off()}.
+     * Test method for H5Eget_auto2.
      */
     @Ignore
-    public void testH5error_off()
+    public void testH5Eget_auto2()
     {
-        //        try {
-        //            H5error_off();
-        //        }
-        //        catch (Throwable err) {
-        //            fail("H5error_off failed: " + err);
-        //        }
+        try (Arena arena = Arena.ofConfined()) {
+            // Allocate a MemorySegment to hold the array bytes
+//            MemorySegment efunc = arena.allocateFrom(ValueLayout.ADDRESS);
+//            MemorySegment edata = arena.allocateFrom(ValueLayout.ADDRESS);
+//            try {
+//                H5Eget_auto2(H5E_DEFAULT(), efunc, edata);
+//                H5Eset_auto2(H5E_DEFAULT(), null, null);
+//                H5Eset_auto2(H5E_DEFAULT(), efunc, edata);
+//            }
+//            catch (Throwable err) {
+//                fail("H5Eget_auto2 failed: " + err);
+//            }
+        }
+        catch (Throwable err) {
+            err.printStackTrace();
+            fail("Arena: " + err);
+        }
     }
 
     /**
-     * Test method for {@link hdf.hdf5lib.H5#H5open()}.
+     * Test method for H5open().
      */
     @Test
     public void testH5open()
@@ -308,7 +307,7 @@ public class TestH5 {
     }
 
     /**
-     * Test method for {@link hdf.hdf5lib.H5#H5garbage_collect()}.
+     * Test method for H5garbage_collect().
      */
     @Test
     public void testH5garbage_collect()
@@ -322,9 +321,7 @@ public class TestH5 {
     }
 
     /**
-     * Test method for
-     * {@link hdf.hdf5lib.H5#H5set_free_list_limits(int, int, int, int, int, int)}
-     * .
+     * Test method for H5set_free_list_limits(int, int, int, int, int, int).
      */
     @Test
     public void testH5set_free_list_limits()
@@ -346,7 +343,7 @@ public class TestH5 {
     }
 
     /**
-     * Test method for {@link hdf.hdf5lib.H5#H5get_libversion(int[])}.
+     * Test method for H5get_libversion(int*, int*, int*).
      */
     @Test
     public void testH5get_libversion()
@@ -376,7 +373,7 @@ public class TestH5 {
     }
 
     /**
-     * Test method for {@link hdf.hdf5lib.H5#H5get_libversion(int[])}
+     * Test method for H5get_libversion(int[])
      * to ensure a null libversion parameter causes the function to
      * fail.
      */
@@ -394,8 +391,7 @@ public class TestH5 {
     }
 
     /**
-     * Test method for
-     * {@link hdf.hdf5lib.H5#H5check_version(int, int, int)}.
+     * Test method for H5check_version(int, int, int).
      */
     @Test
     public void testH5check_version()
@@ -415,251 +411,5 @@ public class TestH5 {
         catch (Throwable err) {
             fail("H5check_version failed: " + err);
         }
-    }
-
-    @Ignore
-    public void testH5export_dataset()
-    {
-        int[][] dset_data   = new int[DIM_X][DIM_Y];
-        int[][] dset_indata = new int[DIM_X][DIM_Y];
-        int FILLVAL         = 99;
-
-        _createH5File();
-
-        // Initialize the dataset.
-        for (int indx = 0; indx < DIM_X; indx++)
-            for (int jndx = 0; jndx < DIM_Y; jndx++)
-                dset_data[indx][jndx] = FILLVAL;
-
-        //        try {
-        //            if (H5did >= 0)
-        //                try (Arena arena = Arena.ofConfined()) {
-        //                    // Allocate a MemorySegment to hold the array bytes
-        //                    MemorySegment dset_data_segment = MemorySegment.ofArray(dset_data);
-        //                    H5Dwrite(H5did, H5T_STD_I32LE_g(), H5S_ALL(), H5S_ALL(),
-        //                            H5P_DEFAULT(), dset_data_segment);
-        //                }
-        //                catch (Throwable err) {
-        //                    err.printStackTrace();
-        //                    fail("Arena: " + err);
-        //                }
-        //        }
-        //        catch (Exception e) {
-        //            e.printStackTrace();
-        //        }
-
-        _closeH5File();
-
-        _openH5File(H5_FILE, "/dset");
-
-        //        try {
-        //            H5export_dataset(EXPORT_FILE, H5fid, "/dset", 99);
-        //        }
-        //        catch (Exception err) {
-        //            err.printStackTrace();
-        //            fail("H5export_dataset failed: " + err);
-        //        }
-
-        File file = new File(EXPORT_FILE);
-
-        try {
-            Reader reader                   = new FileReader(EXPORT_FILE);
-            StreamTokenizer streamTokenizer = new StreamTokenizer(reader);
-            int indx                        = 0;
-            int jndx                        = 0;
-            while (streamTokenizer.nextToken() != StreamTokenizer.TT_EOF) {
-                if (streamTokenizer.ttype == StreamTokenizer.TT_NUMBER) {
-                    dset_indata[indx][jndx] = (int)streamTokenizer.nval;
-                    jndx++;
-                    if (jndx >= DIM_Y) {
-                        jndx = 0;
-                        indx++;
-                    }
-                }
-            }
-            reader.close();
-        }
-        catch (IOException err) {
-            err.printStackTrace();
-            fail("read file failed: " + err);
-        }
-        for (int row = 0; row < DIM_X; row++)
-            for (int col = 0; col < DIM_Y; col++) {
-                assertTrue("H5export_dataset: <" + row + "," + col + ">" + dset_indata[row][col] + "=99",
-                           dset_indata[row][col] == 99);
-            }
-        _deleteH5file();
-    }
-
-    @Ignore
-    public void testH5export_region()
-    {
-        int[] dset_data_expect = {66,  69,  72,  75,  78,  81,  96,  99,  102, 105, 108, 111,
-                                  126, 129, 132, 135, 138, 141, 156, 159, 162, 165, 168, 171,
-                                  186, 189, 192, 195, 198, 201, 216, 219, 222, 225, 228, 231,
-                                  207, 66,  252, 48,  84,  96,  12,  14,  213, 99};
-        int[] dset_indata      = new int[DIM_BLKS + DIM_PNTS];
-        String objName         = "/Dataset1";
-
-        _openH5File(H5_REGION_FILE, objName);
-
-        //        try {
-        //            H5export_dataset(EXPORT_REGION_FILE, H5fid, objName, 99);
-        //        }
-        //        catch (Exception err) {
-        //            err.printStackTrace();
-        //            fail("H5export_dataset failed: " + err);
-        //        }
-
-        File file = new File(EXPORT_REGION_FILE);
-
-        try {
-            Reader reader                   = new FileReader(EXPORT_REGION_FILE);
-            StreamTokenizer streamTokenizer = new StreamTokenizer(reader);
-            int indx                        = 0;
-            while (streamTokenizer.nextToken() != StreamTokenizer.TT_EOF) {
-                if (streamTokenizer.ttype == StreamTokenizer.TT_NUMBER) {
-                    dset_indata[indx] = (int)streamTokenizer.nval;
-                    indx++;
-                }
-            }
-            reader.close();
-        }
-        catch (IOException err) {
-            err.printStackTrace();
-            fail("read file failed: " + err);
-        }
-        for (int row = 0; row < DIM_X; row++)
-            assertTrue("testH5export_region: <" + row + ">" + dset_indata[row],
-                       dset_indata[row] == dset_data_expect[row]);
-    }
-
-    @Ignore
-    public void testH5export_attribute()
-    {
-        int[] dset_data_expect = {0, 3, 6, 9, 1, 4, 7, 10, 2, 5, 8, 11};
-        int[] dset_indata      = new int[DIM_ATTR];
-        String objName         = "/Dataset3";
-
-        _openH5File(H5_ATTR_FILE, objName);
-
-        //        try {
-        //            H5export_dataset(EXPORT_ATTR_FILE, H5did, objName, 99);
-        //        }
-        //        catch (Exception err) {
-        //            err.printStackTrace();
-        //            fail("H5export_dataset failed: " + err);
-        //        }
-
-        File file = new File(EXPORT_ATTR_FILE);
-
-        try {
-            Reader reader                   = new FileReader(EXPORT_ATTR_FILE);
-            StreamTokenizer streamTokenizer = new StreamTokenizer(reader);
-            int indx                        = 0;
-            int jndx                        = 0;
-            while (streamTokenizer.nextToken() != StreamTokenizer.TT_EOF) {
-                if (streamTokenizer.ttype == StreamTokenizer.TT_NUMBER) {
-                    dset_indata[indx] = (int)streamTokenizer.nval;
-                    indx++;
-                }
-            }
-            reader.close();
-        }
-        catch (IOException err) {
-            err.printStackTrace();
-            fail("read file failed: " + err);
-        }
-        for (int row = 0; row < DIM_X; row++)
-            assertTrue("testH5export_attribute: <" + row + ">" + dset_indata[row],
-                       dset_indata[row] == dset_data_expect[row]);
-    }
-
-    @Ignore
-    public void testH5export_regdataset()
-    {
-        int[] dset_data_expect = {66,  69,  72,  75,  78,  81,  96,  99,  102, 105, 108, 111,
-                                  126, 129, 132, 135, 138, 141, 156, 159, 162, 165, 168, 171,
-                                  186, 189, 192, 195, 198, 201, 216, 219, 222, 225, 228, 231,
-                                  207, 66,  252, 48,  84,  96,  12,  14,  213, 99};
-        int[] dset_indata      = new int[DIM_BLKS + DIM_PNTS];
-        String objName         = "/Dataset1";
-
-        _openH5File(H5_DREG_FILE, objName);
-
-        //        try {
-        //            H5export_dataset(EXPORT_DREG_FILE, H5fid, objName, 99);
-        //        }
-        //        catch (Exception err) {
-        //            err.printStackTrace();
-        //            fail("H5export_dataset failed: " + err);
-        //        }
-
-        File file = new File(EXPORT_DREG_FILE);
-
-        try {
-            Reader reader                   = new FileReader(EXPORT_DREG_FILE);
-            StreamTokenizer streamTokenizer = new StreamTokenizer(reader);
-            int indx                        = 0;
-            while (streamTokenizer.nextToken() != StreamTokenizer.TT_EOF) {
-                if (streamTokenizer.ttype == StreamTokenizer.TT_NUMBER) {
-                    dset_indata[indx] = (int)streamTokenizer.nval;
-                    indx++;
-                }
-            }
-            reader.close();
-        }
-        catch (IOException err) {
-            err.printStackTrace();
-            fail("read file failed: " + err);
-        }
-        for (int row = 0; row < DIM_X; row++)
-            assertTrue("testH5export_regdataset: <" + row + ">" + dset_indata[row],
-                       dset_indata[row] == dset_data_expect[row]);
-    }
-
-    @Ignore
-    public void testH5export_attrdataset()
-    {
-        int[] dset_data_expect = {66,  69,  72,  75,  78,  81,  96,  99,  102, 105, 108, 111,
-                                  126, 129, 132, 135, 138, 141, 156, 159, 162, 165, 168, 171,
-                                  186, 189, 192, 195, 198, 201, 216, 219, 222, 225, 228, 231,
-                                  207, 66,  252, 48,  84,  96,  12,  14,  213, 99};
-        int[] dset_indata      = new int[DIM_BLKS + DIM_PNTS];
-        String dsetName        = "/Dataset1";
-        String objName         = "Attribute1";
-
-        _openH5File(H5_AREG_FILE, dsetName);
-
-        //        try {
-        //            H5export_attribute(EXPORT_AREG_FILE, H5did, objName, 99);
-        //        }
-        //        catch (Exception err) {
-        //            err.printStackTrace();
-        //            fail("H5export_attribute failed: " + err);
-        //        }
-
-        File file = new File(EXPORT_AREG_FILE);
-
-        try {
-            Reader reader                   = new FileReader(EXPORT_AREG_FILE);
-            StreamTokenizer streamTokenizer = new StreamTokenizer(reader);
-            int indx                        = 0;
-            int jndx                        = 0;
-            while (streamTokenizer.nextToken() != StreamTokenizer.TT_EOF) {
-                if (streamTokenizer.ttype == StreamTokenizer.TT_NUMBER) {
-                    dset_indata[indx] = (int)streamTokenizer.nval;
-                    indx++;
-                }
-            }
-            reader.close();
-        }
-        catch (IOException err) {
-            err.printStackTrace();
-            fail("read file failed: " + err);
-        }
-        for (int row = 0; row < DIM_X; row++)
-            assertTrue("testH5export_attrdataset: <" + row + ">" + dset_indata[row],
-                       dset_indata[row] == dset_data_expect[row]);
     }
 }
