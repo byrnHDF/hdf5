@@ -55,16 +55,14 @@ public class TestH5PL {
     {
         try {
             int plugin_flags = H5PLget_loading_state();
-            assertTrue("H5PLget_loading_state: " + plugin_flags,
-                       plugin_flags == H5PL_ALL_PLUGIN());
+            assertTrue("H5PLget_loading_state: " + plugin_flags, plugin_flags == H5PL_ALL_PLUGIN());
             int new_setting = plugin_flags & ~H5PL_FILTER_PLUGIN();
             H5PLset_loading_state(new_setting);
             int changed_flags = H5PLget_loading_state();
             assertTrue("H5PLget_loading_state: " + changed_flags, changed_flags == new_setting);
             H5PLset_loading_state(plugin_flags);
             changed_flags = H5PLget_loading_state();
-            assertTrue("H5PLget_loading_state: " + changed_flags,
-                       changed_flags == H5PL_ALL_PLUGIN());
+            assertTrue("H5PLget_loading_state: " + changed_flags, changed_flags == H5PL_ALL_PLUGIN());
         }
         catch (Throwable err) {
             err.printStackTrace();
@@ -224,8 +222,7 @@ public class TestH5PL {
                 cd_values[2] = libversion[1];
                 cd_values[3] = libversion[2];
                 if (dcpl_id >= 0)
-                    H5.H5Pset_filter(dcpl_id, H5Z_FILTER_DYNLIB4, H5Z_FLAG_MANDATORY(), 4,
-                                     cd_values);
+                    H5.H5Pset_filter(dcpl_id, H5Z_FILTER_DYNLIB4, H5Z_FLAG_MANDATORY(), 4, cd_values);
             }
             catch (Exception e) {
                 e.printStackTrace();

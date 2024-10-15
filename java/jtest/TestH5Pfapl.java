@@ -1062,9 +1062,8 @@ public class TestH5Pfapl {
             assertTrue("H5Pget_fapl_muti: relax ", relax);
             assertTrue("H5Pget_fapl_muti: member_map=" + member_map[H5FD_MEM_DEFAULT()],
                        member_map[H5FD_MEM_DEFAULT()] == H5FD_MEM_DEFAULT());
-            assertTrue(
-                "H5Pget_fapl_muti: member_fapl ",
-                H5P_equal(member_fapl[H5FD_MEM_DEFAULT()], H5P_CLS_FILE_ACCESS_g(), H5P_DEFAULT()));
+            assertTrue("H5Pget_fapl_muti: member_fapl ",
+                       H5P_equal(member_fapl[H5FD_MEM_DEFAULT()], H5P_CLS_FILE_ACCESS_g(), H5P_DEFAULT()));
             assertTrue("H5Pget_fapl_muti: member_name=" + member_name[H5FD_MEM_DEFAULT()],
                        member_name[H5FD_MEM_DEFAULT()].compareTo("%s-X.h5") == 0);
             assertTrue("H5Pget_fapl_muti: member_name=" + member_name[H5FD_MEM_SUPER()],
@@ -1149,9 +1148,8 @@ public class TestH5Pfapl {
             assertTrue("H5Pget_fapl_muti: member_map=" + member_map[H5FD_MEM_GHEAP()],
                        member_map[H5FD_MEM_GHEAP()] == H5FD_MEM_GHEAP());
 
-            assertTrue(
-                "H5Pget_fapl_muti: member_fapl ",
-                H5P_equal(member_fapl[H5FD_MEM_DEFAULT()], H5P_CLS_FILE_ACCESS_g(), H5P_DEFAULT()));
+            assertTrue("H5Pget_fapl_muti: member_fapl ",
+                       H5P_equal(member_fapl[H5FD_MEM_DEFAULT()], H5P_CLS_FILE_ACCESS_g(), H5P_DEFAULT()));
             assertTrue("H5Pget_fapl_muti: member_addr=" + member_addr[H5FD_MEM_DEFAULT()],
                        member_addr[H5FD_MEM_DEFAULT()] == 0);
             assertTrue("H5Pget_fapl_muti: member_name=" + member_name[H5FD_MEM_SUPER()],
@@ -1392,9 +1390,8 @@ public class TestH5Pfapl {
             assertTrue("H5Pget_fapl_muti: member_map=" + member_map[H5FD_MEM_GHEAP()],
                        member_map[H5FD_MEM_GHEAP()] == H5FD_MEM_GHEAP());
 
-            assertTrue(
-                "H5Pget_fapl_muti: member_fapl ",
-                H5P_equal(member_fapl[H5FD_MEM_DEFAULT()], H5P_CLS_FILE_ACCESS_g(), H5P_DEFAULT()));
+            assertTrue("H5Pget_fapl_muti: member_fapl ",
+                       H5P_equal(member_fapl[H5FD_MEM_DEFAULT()], H5P_CLS_FILE_ACCESS_g(), H5P_DEFAULT()));
             assertTrue("H5Pget_fapl_muti: member_addr=" + member_addr[H5FD_MEM_DEFAULT()],
                        member_addr[H5FD_MEM_DEFAULT()] == 0);
             assertTrue("H5Pget_fapl_muti: member_name=" + member_name[H5FD_MEM_SUPER()],

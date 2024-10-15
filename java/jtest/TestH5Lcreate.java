@@ -150,7 +150,7 @@ public class TestH5Lcreate {
         try {
             H5fcpl = H5Pcreate(H5P_CLS_FILE_CREATE_ID_g());
             H5Pset_link_creation_order(H5fcpl, HDF5Constants.H5P_CRT_ORDER_TRACKED +
-                                                      HDF5Constants.H5P_CRT_ORDER_INDEXED);
+                                                   HDF5Constants.H5P_CRT_ORDER_INDEXED);
             H5fid = H5.H5Fcreate(H5_FILE, H5F_ACC_TRUNC(), H5fcpl, H5P_DEFAULT());
         }
         catch (Throwable err) {
@@ -369,7 +369,7 @@ public class TestH5Lcreate {
             fail("H5Lget_info: " + err);
         }
         assertFalse("H5Lget_info", link_info == null);
-        assertTrue("H5Lget_info link type", link_info.type == .H5L_TYPE_SOFT());
+        assertTrue("H5Lget_info link type", link_info.type ==.H5L_TYPE_SOFT());
         assertTrue("Link Value Size", link_info.val_size > 0);
     }
 
@@ -487,7 +487,7 @@ public class TestH5Lcreate {
             fail("H5Lget_info: " + err);
         }
         assertFalse("H5Lget_info", link_info == null);
-        assertTrue("H5Lget_info link type", link_info.type == .H5L_TYPE_EXTERNAL());
+        assertTrue("H5Lget_info link type", link_info.type ==.H5L_TYPE_EXTERNAL());
         assertTrue("Link Value Size", link_info.val_size > 0);
     }
 

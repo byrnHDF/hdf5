@@ -70,8 +70,8 @@ public class TestH5G {
         assertTrue("TestH5G._createGroup2: ", gcpl >= 0);
         try {
             H5Pset_link_creation_order(gcpl,
-                                          HDF5Constants.H5P_CRT_ORDER_TRACKED +
-                                              HDF5Constants.H5P_CRT_ORDER_INDEXED); // Set link creation order
+                                       HDF5Constants.H5P_CRT_ORDER_TRACKED +
+                                           HDF5Constants.H5P_CRT_ORDER_INDEXED); // Set link creation order
         }
         catch (final Exception ex) {
             try {

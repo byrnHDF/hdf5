@@ -176,8 +176,8 @@ public class TestH5OcopyOld {
         }
 
         try {
-            attribute_id = H5.H5Acreate(H5did2, "A1", H5T_STD_REF_OBJ(), H5dsid, H5P_DEFAULT(),
-                                        H5P_DEFAULT());
+            attribute_id =
+                H5.H5Acreate(H5did2, "A1", H5T_STD_REF_OBJ(), H5dsid, H5P_DEFAULT(), H5P_DEFAULT());
             assertTrue("testH5OcopyRefsAttr.H5Acreate: ", attribute_id >= 0);
             H5.H5Awrite(attribute_id, H5T_STD_REF_OBJ(), dset_data);
 
@@ -225,11 +225,10 @@ public class TestH5OcopyOld {
             rbuf1 = H5.H5Rcreate(H5fid, "DS2", H5R_OBJECT(), -1);
             System.arraycopy(rbuf1, 0, dset_data, 8, 8);
 
-            dataset_id = H5.H5Dcreate(H5fid, "DSREF", H5T_STD_REF_OBJ(), H5dsid, H5P_DEFAULT(),
-                                      H5P_DEFAULT(), H5P_DEFAULT());
+            dataset_id = H5.H5Dcreate(H5fid, "DSREF", H5T_STD_REF_OBJ(), H5dsid, H5P_DEFAULT(), H5P_DEFAULT(),
+                                      H5P_DEFAULT());
             assertTrue("testH5OcopyRefsDatasettodiffFile.H5Dcreate: ", dataset_id >= 0);
-            H5.H5Dwrite(dataset_id, H5T_STD_REF_OBJ(), H5S_ALL(), H5S_ALL(), H5P_DEFAULT(),
-                        dset_data);
+            H5.H5Dwrite(dataset_id, H5T_STD_REF_OBJ(), H5S_ALL(), H5S_ALL(), H5P_DEFAULT(), dset_data);
             H5Dclose(dataset_id);
         }
         catch (Exception ex) {
@@ -304,11 +303,10 @@ public class TestH5OcopyOld {
             System.arraycopy(rbuf1, 0, dset_data, 8, 8);
 
             // Create a dataset and write object references to it.
-            dataset_id = H5.H5Dcreate(H5fid, "DSREF", H5T_STD_REF_OBJ(), H5dsid, H5P_DEFAULT(),
-                                      H5P_DEFAULT(), H5P_DEFAULT());
+            dataset_id = H5.H5Dcreate(H5fid, "DSREF", H5T_STD_REF_OBJ(), H5dsid, H5P_DEFAULT(), H5P_DEFAULT(),
+                                      H5P_DEFAULT());
             assertTrue("testH5OcopyRefsDatasettosameFile.H5Dcreate: ", dataset_id >= 0);
-            H5.H5Dwrite(dataset_id, H5T_STD_REF_OBJ(), H5S_ALL(), H5S_ALL(), H5P_DEFAULT(),
-                        dset_data);
+            H5.H5Dwrite(dataset_id, H5T_STD_REF_OBJ(), H5S_ALL(), H5S_ALL(), H5P_DEFAULT(), dset_data);
             // Close the dataset.
             H5Dclose(dataset_id);
         }

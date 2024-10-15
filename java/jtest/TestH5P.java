@@ -1314,8 +1314,7 @@ public class TestH5P {
         int strategy      = 0;
         try {
             strategy = H5.H5Pget_file_space_strategy(fcpl_id, persist, threshold);
-            assertTrue("strategy(default): " + strategy,
-                       strategy == H5F_FSPACE_STRATEGY_FSM_AGGR());
+            assertTrue("strategy(default): " + strategy, strategy == H5F_FSPACE_STRATEGY_FSM_AGGR());
             assertTrue("persist(default): " + persist[0], persist[0] == false);
             assertTrue("threshold(default): " + threshold[0], threshold[0] == 1);
             H5.H5Pset_file_space_strategy(fcpl_id, H5F_FSPACE_STRATEGY_PAGE(), true, 1);
@@ -1393,8 +1392,7 @@ public class TestH5P {
             assertTrue("chunk_opts: " + chunk_opts, chunk_opts == 0);
             H5Pset_chunk_opts(ocpl_id, H5D_CHUNK_DONT_FILTER_PARTIAL_CHUNKS());
             chunk_opts = H5Pget_chunk_opts(ocpl_id);
-            assertTrue("chunk_opts: " + chunk_opts,
-                       chunk_opts == H5D_CHUNK_DONT_FILTER_PARTIAL_CHUNKS());
+            assertTrue("chunk_opts: " + chunk_opts, chunk_opts == H5D_CHUNK_DONT_FILTER_PARTIAL_CHUNKS());
         }
         catch (Throwable err) {
             err.printStackTrace();

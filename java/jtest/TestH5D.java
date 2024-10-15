@@ -736,8 +736,7 @@ public class TestH5D {
         // Verify memory buffer the hard way
         for (int indx = 0; indx < DIM_X; indx++)
             for (int jndx = 0; jndx < DIM_Y; jndx++)
-                assertTrue("H5Dfill: [" + indx + "," + jndx + "] ",
-                           buf_data[(indx * DIM_Y) + jndx] == 254);
+                assertTrue("H5Dfill: [" + indx + "," + jndx + "] ", buf_data[(indx * DIM_Y) + jndx] == 254);
     }
 
     @Test

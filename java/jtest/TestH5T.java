@@ -439,8 +439,7 @@ public class TestH5T {
             assertTrue("testH5Tis_variable_str:H5Tis_variable_str", H5Tis_variable_str(filetype_id));
 
             // Verify that the class detects as a string
-            assertTrue("testH5Tis_variable_str:H5Tdetect_class",
-                       H5Tdetect_class(filetype_id, H5T_STRING()));
+            assertTrue("testH5Tis_variable_str:H5Tdetect_class", H5Tdetect_class(filetype_id, H5T_STRING()));
         }
         catch (Throwable err) {
             err.printStackTrace();
@@ -485,8 +484,7 @@ public class TestH5T {
                        (order == HDF5Constants.H5T_ORDER_LE) || (order == H5T_ORDER_BE()));
 
             // Make certain that the correct classes can be detected
-            assertTrue("Can't get correct class",
-                       H5Tdetect_class(filetype_id, HDF5Constants.H5T_COMPOUND));
+            assertTrue("Can't get correct class", H5Tdetect_class(filetype_id, HDF5Constants.H5T_COMPOUND));
             assertTrue("Can't get correct class", H5Tdetect_class(filetype_id, H5T_FLOAT()));
             // Make certain that an incorrect class is not detected
             assertFalse("Can get incorrect class", H5Tdetect_class(filetype_id, H5T_TIME()));
