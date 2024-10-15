@@ -13,10 +13,15 @@
 package test;
 
 import static org.hdfgroup.javahdf5.hdf5_h.*;
+import java.lang.foreign.Arena;
+import java.lang.foreign.MemorySegment;
+import java.lang.foreign.ValueLayout;
+
 import static org.junit.Assert.assertTrue;
 import static org.junit.Assert.fail;
 
 import org.hdfgroup.javahdf5.*;
+
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Rule;
@@ -69,43 +74,54 @@ public class TestH5Z {
     public void testH5Zget_filter_info()
     {
         try {
-            int filter_flag;
+            int filter_flag; // Allocate on-heap memory
+            // Use try-with-resources to manage the lifetime of off-heap memory
+            try (Arena offHeap = Arena.ofConfined()) {
+                // Allocate memory to store the integers
+                MemorySegment filter_flag_ptr = offHeap.allocate(ValueLayout.JAVA_INT);
 
-            filter_flag = H5Zget_filter_info(H5Z_FILTER_FLETCHER32());
-            assertTrue("H5Zget_filter_info_FLETCHER32_DECODE_ENABLED",
-                       (filter_flag & H5Z_FILTER_CONFIG_DECODE_ENABLED()) > 0);
-            assertTrue("H5Zget_filter_info_FLETCHER32_ENCODE_ENABLED",
-                       (filter_flag & H5Z_FILTER_CONFIG_ENCODE_ENABLED()) > 0);
-            filter_flag = H5Zget_filter_info(H5Z_FILTER_NBIT());
-            assertTrue("H5Zget_filter_info_NBIT_DECODE_ENABLED",
-                       (filter_flag & H5Z_FILTER_CONFIG_DECODE_ENABLED()) > 0);
-            assertTrue("H5Zget_filter_info_NBIT_ENCODE_ENABLED",
-                       (filter_flag & H5Z_FILTER_CONFIG_ENCODE_ENABLED()) > 0);
-            filter_flag = H5Zget_filter_info(H5Z_FILTER_SCALEOFFSET());
-            assertTrue("H5Zget_filter_info_SCALEOFFSET_DECODE_ENABLED",
-                       (filter_flag & H5Z_FILTER_CONFIG_DECODE_ENABLED()) > 0);
-            assertTrue("H5Zget_filter_info_SCALEOFFSET_ENCODE_ENABLED",
-                       (filter_flag & H5Z_FILTER_CONFIG_ENCODE_ENABLED()) > 0);
-            filter_flag = H5Zget_filter_info(H5Z_FILTER_SHUFFLE());
-            assertTrue("H5Zget_filter_info_DECODE_SHUFFLE_ENABLED",
-                       (filter_flag & H5Z_FILTER_CONFIG_DECODE_ENABLED()) > 0);
-            assertTrue("H5Zget_filter_info_ENCODE_SHUFFLE_ENABLED",
-                       (filter_flag & H5Z_FILTER_CONFIG_ENCODE_ENABLED()) > 0);
-
-            if (1 == H5Zfilter_avail(H5Z_FILTER_DEFLATE())) {
-                filter_flag = H5Zget_filter_info(H5Z_FILTER_DEFLATE());
-                assertTrue("H5Zget_filter_info_DEFLATE_DECODE_ENABLED",
+                H5Zget_filter_info(H5Z_FILTER_FLETCHER32(), filter_flag_ptr);
+                filter_flag = filter_flag_ptr.get(ValueLayout.JAVA_INT, 0);
+                assertTrue("H5Zget_filter_info_FLETCHER32_DECODE_ENABLED",
                            (filter_flag & H5Z_FILTER_CONFIG_DECODE_ENABLED()) > 0);
-                assertTrue("H5Zget_filter_info_DEFLATE_ENCODE_ENABLED",
+                assertTrue("H5Zget_filter_info_FLETCHER32_ENCODE_ENABLED",
                            (filter_flag & H5Z_FILTER_CONFIG_ENCODE_ENABLED()) > 0);
-            }
-
-            if (1 == H5Zfilter_avail(H5Z_FILTER_SZIP())) {
-                filter_flag = H5Zget_filter_info(H5Z_FILTER_SZIP());
-                // Decode should always be available, but we have no way of determining
-                // if encode is so don't assert on that.
-                assertTrue("H5Zget_filter_info_DECODE_SZIP_ENABLED",
+                H5Zget_filter_info(H5Z_FILTER_NBIT(), filter_flag_ptr);
+                filter_flag = filter_flag_ptr.get(ValueLayout.JAVA_INT, 0);
+                assertTrue("H5Zget_filter_info_NBIT_DECODE_ENABLED",
                            (filter_flag & H5Z_FILTER_CONFIG_DECODE_ENABLED()) > 0);
+                assertTrue("H5Zget_filter_info_NBIT_ENCODE_ENABLED",
+                           (filter_flag & H5Z_FILTER_CONFIG_ENCODE_ENABLED()) > 0);
+                H5Zget_filter_info(H5Z_FILTER_SCALEOFFSET(), filter_flag_ptr);
+                filter_flag = filter_flag_ptr.get(ValueLayout.JAVA_INT, 0);
+                assertTrue("H5Zget_filter_info_SCALEOFFSET_DECODE_ENABLED",
+                           (filter_flag & H5Z_FILTER_CONFIG_DECODE_ENABLED()) > 0);
+                assertTrue("H5Zget_filter_info_SCALEOFFSET_ENCODE_ENABLED",
+                           (filter_flag & H5Z_FILTER_CONFIG_ENCODE_ENABLED()) > 0);
+                H5Zget_filter_info(H5Z_FILTER_SHUFFLE(), filter_flag_ptr);
+                filter_flag = filter_flag_ptr.get(ValueLayout.JAVA_INT, 0);
+                assertTrue("H5Zget_filter_info_DECODE_SHUFFLE_ENABLED",
+                           (filter_flag & H5Z_FILTER_CONFIG_DECODE_ENABLED()) > 0);
+                assertTrue("H5Zget_filter_info_ENCODE_SHUFFLE_ENABLED",
+                           (filter_flag & H5Z_FILTER_CONFIG_ENCODE_ENABLED()) > 0);
+
+                if (1 == H5Zfilter_avail(H5Z_FILTER_DEFLATE())) {
+                    H5Zget_filter_info(H5Z_FILTER_DEFLATE(), filter_flag_ptr);
+                    filter_flag = filter_flag_ptr.get(ValueLayout.JAVA_INT, 0);
+                    assertTrue("H5Zget_filter_info_DEFLATE_DECODE_ENABLED",
+                               (filter_flag & H5Z_FILTER_CONFIG_DECODE_ENABLED()) > 0);
+                    assertTrue("H5Zget_filter_info_DEFLATE_ENCODE_ENABLED",
+                               (filter_flag & H5Z_FILTER_CONFIG_ENCODE_ENABLED()) > 0);
+                }
+
+                if (1 == H5Zfilter_avail(H5Z_FILTER_SZIP())) {
+                    H5Zget_filter_info(H5Z_FILTER_SZIP(), filter_flag_ptr);
+                    filter_flag = filter_flag_ptr.get(ValueLayout.JAVA_INT, 0);
+                    // Decode should always be available, but we have no way of determining
+                    // if encode is so don't assert on that.
+                    assertTrue("H5Zget_filter_info_DECODE_SZIP_ENABLED",
+                               (filter_flag & H5Z_FILTER_CONFIG_DECODE_ENABLED()) > 0);
+                }
             }
         }
         catch (Throwable err) {
