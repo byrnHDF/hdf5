@@ -171,7 +171,7 @@ public class TestH5Pfapl {
         }
         catch (Throwable err) {
             err.printStackTrace();
-            fail("H5.H5Dcreate: " + err);
+            fail("H5Dcreate: " + err);
         }
         assertTrue("TestH5Pfapl._createDataset: ", did > 0);
 
@@ -187,12 +187,12 @@ public class TestH5Pfapl {
         }
         catch (Throwable err) {
             err.printStackTrace();
-            fail("H5.H5Dcreate: " + err);
+            fail("H5Dcreate: " + err);
         }
         assertTrue("TestH5Pfapl._createFloatDataset: ", H5Fdid > 0);
 
         try {
-            H5.H5Fflush(H5fid, H5F_SCOPE_LOCAL());
+            H5Fflush(H5fid, H5F_SCOPE_LOCAL());
         }
         catch (Throwable err) {
             err.printStackTrace();
@@ -211,7 +211,7 @@ public class TestH5Pfapl {
         assertTrue("TestH5Pfapl.createH5file: _createDataset: ", H5did > 0);
 
         try {
-            H5.H5Fflush(H5fid, H5F_SCOPE_LOCAL());
+            H5Fflush(H5fid, H5F_SCOPE_LOCAL());
         }
         catch (Throwable err) {
             err.printStackTrace();
@@ -234,7 +234,7 @@ public class TestH5Pfapl {
         assertTrue("TestH5Pfapl.createH5file: _createDataset: ", H5did > 0);
 
         try {
-            H5.H5Fflush(H5fid, H5F_SCOPE_LOCAL());
+            H5Fflush(H5fid, H5F_SCOPE_LOCAL());
         }
         catch (Throwable err) {
             err.printStackTrace();
@@ -252,12 +252,12 @@ public class TestH5Pfapl {
             err.printStackTrace();
             fail("TestH5Pfapl.createH5file: " + err);
         }
-        assertTrue("TestH5Pfapl.createH5file: H5.H5Fcreate: ", H5fid > 0);
-        assertTrue("TestH5Pfapl.createH5file: H5.H5Screate_simple: ", H5dsid > 0);
+        assertTrue("TestH5Pfapl.createH5file: H5Fcreate: ", H5fid > 0);
+        assertTrue("TestH5Pfapl.createH5file: H5Screate_simple: ", H5dsid > 0);
         assertTrue("TestH5Pfapl.createH5file: _createDataset: ", H5did > 0);
 
         try {
-            H5.H5Fflush(H5fid, H5F_SCOPE_LOCAL());
+            H5Fflush(H5fid, H5F_SCOPE_LOCAL());
         }
         catch (Throwable err) {
             err.printStackTrace();
@@ -274,11 +274,11 @@ public class TestH5Pfapl {
             err.printStackTrace();
             fail("TestH5Pfapl.createH5file: " + err);
         }
-        assertTrue("TestH5Pfapl.createH5file: H5.H5Fcreate: ", H5fid > 0);
-        assertTrue("TestH5Pfapl.createH5file: H5.H5Screate_simple: ", H5dsid > 0);
+        assertTrue("TestH5Pfapl.createH5file: H5Fcreate: ", H5fid > 0);
+        assertTrue("TestH5Pfapl.createH5file: H5Screate_simple: ", H5dsid > 0);
 
         try {
-            H5.H5Fflush(H5fid, H5F_SCOPE_LOCAL());
+            H5Fflush(H5fid, H5F_SCOPE_LOCAL());
         }
         catch (Throwable err) {
             err.printStackTrace();
@@ -294,11 +294,10 @@ public class TestH5Pfapl {
     @Before
     public void createFileAccess() throws NullPointerException, HDF5Exception
     {
-        assertTrue("H5 open ids is 0", H5.getOpenIDCount() == 0);
         System.out.print(testname.getMethodName());
 
         try {
-            fapl_id = H5.H5Pcreate(H5P_CLS_FILE_ACCESS_g());
+            fapl_id = H5Pcreate(H5P_CLS_FILE_ACCESS_g());
         }
         catch (Throwable err) {
             err.printStackTrace();
@@ -306,7 +305,7 @@ public class TestH5Pfapl {
         }
         assertTrue(fapl_id > 0);
         try {
-            plapl_id = H5.H5Pcreate(H5P_CLS_LINK_ACCESS_ID_g());
+            plapl_id = H5Pcreate(H5P_CLS_LINK_ACCESS_ID_g());
         }
         catch (Throwable err) {
             err.printStackTrace();
@@ -314,9 +313,9 @@ public class TestH5Pfapl {
         }
         assertTrue(plapl_id > 0);
         try {
-            plist_id   = H5.H5Pcreate(HDF5Constants.H5P_DATASET_XFER);
-            btplist_id = H5.H5Pcreate(HDF5Constants.H5P_DATASET_XFER);
-            dapl_id    = H5.H5Pcreate(H5P_CLS_DATASET_ACCESS_g());
+            plist_id   = H5Pcreate(H5P_DATASET_XFER());
+            btplist_id = H5Pcreate(H5P_DATASET_XFER());
+            dapl_id    = H5Pcreate(H5P_CLS_DATASET_ACCESS_g());
         }
         catch (Throwable err) {
             err.printStackTrace();
@@ -332,62 +331,62 @@ public class TestH5Pfapl {
     {
         if (fapl_id > 0)
             try {
-                H5.H5Pclose(fapl_id);
+                H5Pclose(fapl_id);
             }
             catch (Exception ex) {
             }
         if (plapl_id > 0)
             try {
-                H5.H5Pclose(plapl_id);
+                H5Pclose(plapl_id);
             }
             catch (Exception ex) {
             }
         if (dapl_id > 0)
             try {
-                H5.H5Pclose(dapl_id);
+                H5Pclose(dapl_id);
             }
             catch (Exception ex) {
             }
         if (plist_id > 0)
             try {
-                H5.H5Pclose(plist_id);
+                H5Pclose(plist_id);
             }
             catch (Exception ex) {
             }
         if (btplist_id > 0)
             try {
-                H5.H5Pclose(btplist_id);
+                H5Pclose(btplist_id);
             }
             catch (Exception ex) {
             }
 
         if (H5Fdsid > 0)
             try {
-                H5.H5Sclose(H5Fdsid);
+                H5Sclose(H5Fdsid);
             }
             catch (Exception ex) {
             }
         if (H5Fdid > 0)
             try {
-                H5.H5Dclose(H5Fdid);
+                H5Dclose(H5Fdid);
             }
             catch (Exception ex) {
             }
         if (H5dsid > 0)
             try {
-                H5.H5Sclose(H5dsid);
+                H5Sclose(H5dsid);
             }
             catch (Exception ex) {
             }
         if (H5did > 0)
             try {
-                H5.H5Dclose(H5did);
+                H5Dclose(H5did);
             }
             catch (Exception ex) {
             }
         if (H5fid > 0)
             try {
-                H5.H5Fclose(H5fid);
+                H5Fclose(H5fid);
             }
             catch (Exception ex) {
             }
@@ -441,7 +440,7 @@ public class TestH5Pfapl {
     @Test(expected = HDF5LibraryException.class)
     public void testH5Pset_elink_fapl_NegativeID() throws Throwable
     {
-        H5.H5Pset_elink_fapl(-1, fapl_id);
+        H5Pset_elink_fapl(-1, fapl_id);
     }
 
     @Test
@@ -449,7 +448,7 @@ public class TestH5Pfapl {
     {
         int ret_val = -1;
         try {
-            ret_val = H5.H5Pset_elink_fapl(plapl_id, fapl_id);
+            ret_val = H5Pset_elink_fapl(plapl_id, fapl_id);
         }
         catch (Throwable err) {
             err.printStackTrace();
@@ -463,7 +462,7 @@ public class TestH5Pfapl {
     {
         long ret_val_id = H5I_INVALID_HID();
         try {
-            ret_val_id = H5.H5Pget_elink_fapl(plapl_id);
+            ret_val_id = H5Pget_elink_fapl(plapl_id);
             assertTrue("H5Pget_elink_fapl", ret_val_id >= 0);
             assertEquals(H5P_DEFAULT(), ret_val_id);
         }
@@ -474,7 +473,7 @@ public class TestH5Pfapl {
         finally {
             if (ret_val_id > 0)
                 try {
-                    H5.H5Pclose(ret_val_id);
+                    H5Pclose(ret_val_id);
                 }
                 catch (Exception ex) {
                 }
@@ -486,8 +485,8 @@ public class TestH5Pfapl {
     {
         long ret_val_id = H5I_INVALID_HID();
         try {
-            H5.H5Pset_elink_fapl(plapl_id, fapl_id);
-            ret_val_id = H5.H5Pget_elink_fapl(plapl_id);
+            H5Pset_elink_fapl(plapl_id, fapl_id);
+            ret_val_id = H5Pget_elink_fapl(plapl_id);
             assertTrue("H5P_elink_fapl", ret_val_id >= 0);
         }
         catch (Throwable err) {
@@ -497,7 +496,7 @@ public class TestH5Pfapl {
         finally {
             if (ret_val_id > 0)
                 try {
-                    H5.H5Pclose(ret_val_id);
+                    H5Pclose(ret_val_id);
                 }
                 catch (Exception ex) {
                 }
@@ -510,11 +509,11 @@ public class TestH5Pfapl {
         long elink_fapl_id = H5I_INVALID_HID();
         int efc_size       = 0;
         try {
-            H5.H5Pset_elink_fapl(plapl_id, fapl_id);
-            elink_fapl_id = H5.H5Pget_elink_fapl(plapl_id);
+            H5Pset_elink_fapl(plapl_id, fapl_id);
+            elink_fapl_id = H5Pget_elink_fapl(plapl_id);
             assertTrue("H5P_elink_file_cache_size", elink_fapl_id >= 0);
             try {
-                efc_size = H5.H5Pget_elink_file_cache_size(elink_fapl_id);
+                efc_size = H5Pget_elink_file_cache_size(elink_fapl_id);
                 assertTrue("H5P_elink_file_cache_size default", efc_size == 0);
             }
             catch (UnsupportedOperationException err) {
@@ -522,8 +521,8 @@ public class TestH5Pfapl {
             }
             try {
                 efc_size = 8;
-                H5.H5Pset_elink_file_cache_size(elink_fapl_id, efc_size);
-                efc_size = H5.H5Pget_elink_file_cache_size(elink_fapl_id);
+                H5Pset_elink_file_cache_size(elink_fapl_id, efc_size);
+                efc_size = H5Pget_elink_file_cache_size(elink_fapl_id);
                 assertTrue("H5P_elink_file_cache_size 8", efc_size == 8);
             }
             catch (UnsupportedOperationException err) {
@@ -537,7 +536,7 @@ public class TestH5Pfapl {
         finally {
             if (elink_fapl_id > 0)
                 try {
-                    H5.H5Pclose(elink_fapl_id);
+                    H5Pclose(elink_fapl_id);
                 }
                 catch (Exception ex) {
                 }
@@ -566,11 +565,11 @@ public class TestH5Pfapl {
     {
         int ret_val_id = -1;
         try {
-            ret_val_id = H5.H5Pget_edc_check(plist_id);
-            assertTrue("H5P_edc_check", ret_val_id == HDF5Constants.H5Z_ENABLE_EDC);
-            H5.H5Pset_edc_check(plist_id, HDF5Constants.H5Z_DISABLE_EDC);
-            ret_val_id = H5.H5Pget_edc_check(plist_id);
-            assertTrue("H5P_edc_check", ret_val_id == HDF5Constants.H5Z_DISABLE_EDC);
+            ret_val_id = H5Pget_edc_check(plist_id);
+            assertTrue("H5P_edc_check", ret_val_id == H5Z_ENABLE_EDC());
+            H5Pset_edc_check(plist_id, H5Z_DISABLE_EDC());
+            ret_val_id = H5Pget_edc_check(plist_id);
+            assertTrue("H5P_edc_check", ret_val_id == H5Z_DISABLE_EDC());
         }
         catch (Throwable err) {
             err.printStackTrace();
@@ -583,26 +582,26 @@ public class TestH5Pfapl {
     {
         int ret_val_id = -1;
         try {
-            ret_val_id = H5.H5Pget_fclose_degree(fapl_id);
-            assertTrue("H5Pget_fclose_degree default", ret_val_id == HDF5Constants.H5F_CLOSE_DEFAULT);
+            ret_val_id = H5Pget_fclose_degree(fapl_id);
+            assertTrue("H5Pget_fclose_degree default", ret_val_id == H5F_CLOSE_DEFAULT());
         }
         catch (Throwable err) {
             err.printStackTrace();
             fail("H5P_fclose_degree: default " + err);
         }
         try {
-            H5.H5Pset_fclose_degree(fapl_id, HDF5Constants.H5F_CLOSE_STRONG);
-            ret_val_id = H5.H5Pget_fclose_degree(fapl_id);
-            assertTrue("H5Pget_fclose_degree", ret_val_id == HDF5Constants.H5F_CLOSE_STRONG);
+            H5Pset_fclose_degree(fapl_id, H5F_CLOSE_STRONG());
+            ret_val_id = H5Pget_fclose_degree(fapl_id);
+            assertTrue("H5Pget_fclose_degree", ret_val_id == H5F_CLOSE_STRONG());
         }
         catch (Throwable err) {
             err.printStackTrace();
             fail("H5P_fclose_degree: H5F_CLOSE_STRONG " + err);
         }
         try {
-            H5.H5Pset_fclose_degree(fapl_id, HDF5Constants.H5F_CLOSE_SEMI);
-            ret_val_id = H5.H5Pget_fclose_degree(fapl_id);
-            assertTrue("H5Pget_fclose_degree", ret_val_id == HDF5Constants.H5F_CLOSE_SEMI);
+            H5Pset_fclose_degree(fapl_id, H5F_CLOSE_SEMI());
+            ret_val_id = H5Pget_fclose_degree(fapl_id);
+            assertTrue("H5Pget_fclose_degree", ret_val_id == H5F_CLOSE_SEMI());
         }
         catch (Throwable err) {
             err.printStackTrace();
@@ -642,7 +641,7 @@ public class TestH5Pfapl {
     {
         long meta_size = 0;
         try {
-            meta_size = H5.H5Pget_meta_block_size(fapl_id);
+            meta_size = H5Pget_meta_block_size(fapl_id);
             assertTrue("H5P_meta_block_size default", meta_size == 2048);
         }
         catch (Throwable err) {
@@ -651,8 +650,8 @@ public class TestH5Pfapl {
         }
         try {
             meta_size = 4096;
-            H5.H5Pset_meta_block_size(fapl_id, meta_size);
-            meta_size = H5.H5Pget_meta_block_size(fapl_id);
+            H5Pset_meta_block_size(fapl_id, meta_size);
+            meta_size = H5Pget_meta_block_size(fapl_id);
             assertTrue("H5P_meta_block_size 4096", meta_size == 4096);
         }
         catch (Throwable err) {
@@ -666,7 +665,7 @@ public class TestH5Pfapl {
     {
         long align = 0;
         try {
-            align = H5.H5Pget_small_data_block_size(fapl_id);
+            align = H5Pget_small_data_block_size(fapl_id);
             assertTrue("H5P_small_data_block_size default", align == 2048);
         }
         catch (Throwable err) {
@@ -675,8 +674,8 @@ public class TestH5Pfapl {
         }
         try {
             align = 4096;
-            H5.H5Pset_small_data_block_size(fapl_id, align);
-            align = H5.H5Pget_small_data_block_size(fapl_id);
+            H5Pset_small_data_block_size(fapl_id, align);
+            align = H5Pget_small_data_block_size(fapl_id);
             assertTrue("H5P_small_data_block_size 4096", align == 4096);
         }
         catch (Throwable err) {
@@ -770,7 +769,7 @@ public class TestH5Pfapl {
     {
         long buf_size = 0;
         try {
-            buf_size = H5.H5Pget_sieve_buf_size(fapl_id);
+            buf_size = H5Pget_sieve_buf_size(fapl_id);
             assertTrue("H5P_sieve_buf_size default", buf_size == (64 * 1024));
         }
         catch (Throwable err) {
@@ -779,8 +778,8 @@ public class TestH5Pfapl {
         }
         try {
             buf_size = 4096;
-            H5.H5Pset_sieve_buf_size(fapl_id, buf_size);
-            buf_size = H5.H5Pget_sieve_buf_size(fapl_id);
+            H5Pset_sieve_buf_size(fapl_id, buf_size);
+            buf_size = H5Pget_sieve_buf_size(fapl_id);
             assertTrue("H5P_sieve_buf_size 4096", buf_size == 4096);
         }
         catch (Throwable err) {
@@ -794,8 +793,8 @@ public class TestH5Pfapl {
     {
         boolean ret_val_id = false;
         try {
-            H5.H5Pset_gc_references(fapl_id, true);
-            ret_val_id = H5.H5Pget_gc_references(fapl_id);
+            H5Pset_gc_references(fapl_id, true);
+            ret_val_id = H5Pget_gc_references(fapl_id);
             assertTrue("H5P_gc_references", ret_val_id);
         }
         catch (Throwable err) {
@@ -852,9 +851,9 @@ public class TestH5Pfapl {
         if (HDF5Constants.H5FD_CORE < 0)
             return;
         try {
-            H5.H5Pset_fapl_core(fapl_id, 4096, false);
-            long driver_type = H5.H5Pget_driver(fapl_id);
-            assertTrue("H5Pget_driver: core = " + driver_type, HDF5Constants.H5FD_CORE == driver_type);
+            H5Pset_fapl_core(fapl_id, 4096, false);
+            long driver_type = H5Pget_driver(fapl_id);
+            assertTrue("H5Pget_driver: core = " + driver_type, H5FD_CORE() == driver_type);
         }
         catch (Throwable err) {
             err.printStackTrace();
@@ -876,12 +875,12 @@ public class TestH5Pfapl {
     @Test
     public void testH5P_fapl_family()
     {
-        if (HDF5Constants.H5FD_FAMILY < 0)
+        if (H5FD_FAMILY() < 0)
             return;
         try {
-            H5.H5Pset_fapl_family(fapl_id, 1024, H5P_DEFAULT());
-            long driver_type = H5.H5Pget_driver(fapl_id);
-            assertTrue("H5Pget_driver: family = " + driver_type, HDF5Constants.H5FD_FAMILY == driver_type);
+            H5Pset_fapl_family(fapl_id, 1024, H5P_DEFAULT());
+            long driver_type = H5Pget_driver(fapl_id);
+            assertTrue("H5Pget_driver: family = " + driver_type, H5FD_FAMILY() == driver_type);
         }
         catch (Throwable err) {
             err.printStackTrace();
@@ -906,12 +905,12 @@ public class TestH5Pfapl {
     @Test
     public void testH5P_family_offset()
     {
-        if (HDF5Constants.H5FD_FAMILY < 0)
+        if (H5FD_FAMILY() < 0)
             return;
         try {
-            H5.H5Pset_fapl_family(fapl_id, 1024, H5P_DEFAULT());
-            long driver_type = H5.H5Pget_driver(fapl_id);
-            assertTrue("H5Pget_driver: family = " + driver_type, HDF5Constants.H5FD_FAMILY == driver_type);
+            H5Pset_fapl_family(fapl_id, 1024, H5P_DEFAULT());
+            long driver_type = H5Pget_driver(fapl_id);
+            assertTrue("H5Pget_driver: family = " + driver_type, H5FD_FAMILY() == driver_type);
         }
         catch (Throwable err) {
             err.printStackTrace();
@@ -920,14 +919,14 @@ public class TestH5Pfapl {
         _createH5familyFile(fapl_id);
         long family_offset = 512;
         try {
-            H5.H5Pset_family_offset(fapl_id, family_offset);
+            H5Pset_family_offset(fapl_id, family_offset);
         }
         catch (Throwable err) {
             err.printStackTrace();
             fail("H5Pget_fapl_family: " + err);
         }
         try {
-            long offset = H5.H5Pget_family_offset(fapl_id);
+            long offset = H5Pget_family_offset(fapl_id);
             assertTrue("H5Pget_fapl_family: offset=" + offset, offset == family_offset);
         }
         catch (Throwable err) {
@@ -940,12 +939,12 @@ public class TestH5Pfapl {
     @Test
     public void testH5Pset_fapl_sec2()
     {
-        if (HDF5Constants.H5FD_SEC2 < 0)
+        if (H5FD_SEC2() < 0)
             return;
         try {
-            H5.H5Pset_fapl_sec2(fapl_id);
-            long driver_type = H5.H5Pget_driver(fapl_id);
-            assertTrue("H5Pget_driver: sec2 = " + driver_type, HDF5Constants.H5FD_SEC2 == driver_type);
+            H5Pset_fapl_sec2(fapl_id);
+            long driver_type = H5Pget_driver(fapl_id);
+            assertTrue("H5Pget_driver: sec2 = " + driver_type, H5FD_SEC2() == driver_type);
         }
         catch (Throwable err) {
             err.printStackTrace();
@@ -958,12 +957,12 @@ public class TestH5Pfapl {
     @Test
     public void testH5Pset_fapl_stdio()
     {
-        if (HDF5Constants.H5FD_STDIO < 0)
+        if (H5FD_STDIO() < 0)
             return;
         try {
-            H5.H5Pset_fapl_stdio(fapl_id);
-            long driver_type = H5.H5Pget_driver(fapl_id);
-            assertTrue("H5Pget_driver: stdio = " + driver_type, HDF5Constants.H5FD_STDIO == driver_type);
+            H5Pset_fapl_stdio(fapl_id);
+            long driver_type = H5Pget_driver(fapl_id);
+            assertTrue("H5Pget_driver: stdio = " + driver_type, H5FD_STDIO() == driver_type);
         }
         catch (Throwable err) {
             err.printStackTrace();
@@ -976,13 +975,13 @@ public class TestH5Pfapl {
     @Test
     public void testH5Pset_fapl_log()
     {
-        if (HDF5Constants.H5FD_LOG < 0)
+        if (H5FD_LOG() < 0)
             return;
         try {
-            long log_flags = HDF5Constants.H5FD_LOG_LOC_IO;
-            H5.H5Pset_fapl_log(fapl_id, H5_LOG_FILE, log_flags, 1024);
-            long driver_type = H5.H5Pget_driver(fapl_id);
-            assertTrue("H5Pget_driver: log = " + driver_type, HDF5Constants.H5FD_LOG == driver_type);
+            long log_flags = H5FD_LOG_LOC_IO();
+            H5Pset_fapl_log(fapl_id, H5_LOG_FILE, log_flags, 1024);
+            long driver_type = H5Pget_driver(fapl_id);
+            assertTrue("H5Pget_driver: log = " + driver_type, H5FD_LOG() == driver_type);
         }
         catch (Throwable err) {
             err.printStackTrace();
@@ -996,7 +995,7 @@ public class TestH5Pfapl {
     @Test
     public void testH5P_fapl_muti_nulls()
     {
-        if (HDF5Constants.H5FD_MULTI < 0)
+        if (H5FD_MULTI() < 0)
             return;
 
         int[] member_map     = null;
@@ -1007,7 +1006,7 @@ public class TestH5Pfapl {
         try {
             H5.H5Pset_fapl_multi(fapl_id, member_map, member_fapl, member_name, member_addr, true);
             long driver_type = H5.H5Pget_driver(fapl_id);
-            assertTrue("H5Pget_driver: multi = " + driver_type, HDF5Constants.H5FD_MULTI == driver_type);
+            assertTrue("H5Pget_driver: multi = " + driver_type, H5FD_MULTI() == driver_type);
         }
         catch (Throwable err) {
             err.printStackTrace();
@@ -1028,18 +1027,18 @@ public class TestH5Pfapl {
     @Test
     public void testH5P_fapl_muti_defaults()
     {
-        if (HDF5Constants.H5FD_MULTI < 0)
+        if (H5FD_MULTI() < 0)
             return;
-        int H5FD_MEM_NTYPES = HDF5Constants.H5FD_MEM_NTYPES; // 7
+        int H5FD_MEM_NTYPES = H5FD_MEM_NTYPES(); // 7
 
-        long sH5FD_MEM_DEFAULT_HADDR = HDF5Constants.H5FD_DEFAULT_HADDR_SIZE;
-        long sH5FD_MEM_HADDR         = HDF5Constants.H5FD_MEM_DEFAULT_SIZE;
-        long sH5FD_MEM_SUPER_HADDR   = HDF5Constants.H5FD_MEM_DEFAULT_SUPER_SIZE;
-        long sH5FD_MEM_BTREE_HADDR   = HDF5Constants.H5FD_MEM_DEFAULT_BTREE_SIZE;
-        long sH5FD_MEM_DRAW_HADDR    = HDF5Constants.H5FD_MEM_DEFAULT_DRAW_SIZE;
-        long sH5FD_MEM_GHEAP_HADDR   = HDF5Constants.H5FD_MEM_DEFAULT_GHEAP_SIZE;
-        long sH5FD_MEM_LHEAP_HADDR   = HDF5Constants.H5FD_MEM_DEFAULT_LHEAP_SIZE;
-        long sH5FD_MEM_OHDR_HADDR    = HDF5Constants.H5FD_MEM_DEFAULT_OHDR_SIZE;
+        long sH5FD_MEM_DEFAULT_HADDR = H5FD_DEFAULT_HADDR_SIZE();
+        long sH5FD_MEM_HADDR         = H5FD_MEM_DEFAULT_SIZE();
+        long sH5FD_MEM_SUPER_HADDR   = H5FD_MEM_DEFAULT_SUPER_SIZE();
+        long sH5FD_MEM_BTREE_HADDR   = H5FD_MEM_DEFAULT_BTREE_SIZE();
+        long sH5FD_MEM_DRAW_HADDR    = H5FD_MEM_DEFAULT_DRAW_SIZE();
+        long sH5FD_MEM_GHEAP_HADDR   = H5FD_MEM_DEFAULT_GHEAP_SIZE();
+        long sH5FD_MEM_LHEAP_HADDR   = H5FD_MEM_DEFAULT_LHEAP_SIZE();
+        long sH5FD_MEM_OHDR_HADDR    = H5FD_MEM_DEFAULT_OHDR_SIZE();
         int[] member_map             = null;
         long[] member_fapl           = null;
         String[] member_name         = null;
@@ -1047,47 +1046,47 @@ public class TestH5Pfapl {
 
         try {
             H5.H5Pset_fapl_multi(fapl_id, member_map, member_fapl, member_name, member_addr, true);
-            long driver_type = H5.H5Pget_driver(fapl_id);
-            assertTrue("H5Pget_driver: multi = " + driver_type, HDF5Constants.H5FD_MULTI == driver_type);
+            long driver_type = H5Pget_driver(fapl_id);
+            assertTrue("H5Pget_driver: multi = " + driver_type, H5FD_MULTI() == driver_type);
         }
         catch (Throwable err) {
             err.printStackTrace();
             fail("H5Pset_fapl_muti: " + err);
         }
         try {
-            member_map    = new int[HDF5Constants.H5FD_MEM_NTYPES];
-            member_fapl   = new long[HDF5Constants.H5FD_MEM_NTYPES];
-            member_name   = new String[HDF5Constants.H5FD_MEM_NTYPES];
-            member_addr   = new long[HDF5Constants.H5FD_MEM_NTYPES];
+            member_map    = new int[H5FD_MEM_NTYPES()];
+            member_fapl   = new long[H5FD_MEM_NTYPES()];
+            member_name   = new String[H5FD_MEM_NTYPES()];
+            member_addr   = new long[H5FD_MEM_NTYPES()];
             boolean relax = H5.H5Pget_fapl_multi(fapl_id, member_map, member_fapl, member_name, member_addr);
             assertTrue("H5Pget_fapl_muti: relax ", relax);
-            assertTrue("H5Pget_fapl_muti: member_map=" + member_map[HDF5Constants.H5FD_MEM_DEFAULT],
-                       member_map[HDF5Constants.H5FD_MEM_DEFAULT] == HDF5Constants.H5FD_MEM_DEFAULT);
+            assertTrue("H5Pget_fapl_muti: member_map=" + member_map[H5FD_MEM_DEFAULT()],
+                       member_map[H5FD_MEM_DEFAULT()] == H5FD_MEM_DEFAULT());
             assertTrue(
                 "H5Pget_fapl_muti: member_fapl ",
-                H5.H5P_equal(member_fapl[HDF5Constants.H5FD_MEM_DEFAULT], H5P_CLS_FILE_ACCESS_g() _DEFAULT));
-            assertTrue("H5Pget_fapl_muti: member_name=" + member_name[HDF5Constants.H5FD_MEM_DEFAULT],
-                       member_name[HDF5Constants.H5FD_MEM_DEFAULT].compareTo("%s-X.h5") == 0);
-            assertTrue("H5Pget_fapl_muti: member_name=" + member_name[HDF5Constants.H5FD_MEM_SUPER],
-                       member_name[HDF5Constants.H5FD_MEM_SUPER].compareTo("%s-s.h5") == 0);
-            assertTrue("H5Pget_fapl_muti: member_name=" + member_name[HDF5Constants.H5FD_MEM_BTREE],
-                       member_name[HDF5Constants.H5FD_MEM_BTREE].compareTo("%s-b.h5") == 0);
-            assertTrue("H5Pget_fapl_muti: member_name=" + member_name[HDF5Constants.H5FD_MEM_DRAW],
-                       member_name[HDF5Constants.H5FD_MEM_DRAW].compareTo("%s-r.h5") == 0);
-            assertTrue("H5Pget_fapl_muti: member_addr=" + member_addr[HDF5Constants.H5FD_MEM_DEFAULT],
-                       member_addr[HDF5Constants.H5FD_MEM_DEFAULT] == sH5FD_MEM_HADDR);
-            assertTrue("H5Pget_fapl_muti: member_addr=" + member_addr[HDF5Constants.H5FD_MEM_SUPER],
-                       member_addr[HDF5Constants.H5FD_MEM_SUPER] == sH5FD_MEM_SUPER_HADDR);
-            assertTrue("H5Pget_fapl_muti: member_addr=" + member_addr[HDF5Constants.H5FD_MEM_BTREE],
-                       member_addr[HDF5Constants.H5FD_MEM_BTREE] == sH5FD_MEM_BTREE_HADDR);
-            assertTrue("H5Pget_fapl_muti: member_addr=" + member_addr[HDF5Constants.H5FD_MEM_DRAW],
-                       member_addr[HDF5Constants.H5FD_MEM_DRAW] == sH5FD_MEM_DRAW_HADDR);
-            assertTrue("H5Pget_fapl_muti: member_addr=" + member_addr[HDF5Constants.H5FD_MEM_GHEAP],
-                       member_addr[HDF5Constants.H5FD_MEM_GHEAP] == sH5FD_MEM_GHEAP_HADDR);
-            assertTrue("H5Pget_fapl_muti: member_addr=" + member_addr[HDF5Constants.H5FD_MEM_LHEAP],
-                       member_addr[HDF5Constants.H5FD_MEM_LHEAP] == sH5FD_MEM_LHEAP_HADDR);
-            assertTrue("H5Pget_fapl_muti: member_addr=" + member_addr[HDF5Constants.H5FD_MEM_OHDR],
-                       member_addr[HDF5Constants.H5FD_MEM_OHDR] == sH5FD_MEM_OHDR_HADDR);
+                H5P_equal(member_fapl[H5FD_MEM_DEFAULT()], H5P_CLS_FILE_ACCESS_g(), H5P_DEFAULT()));
+            assertTrue("H5Pget_fapl_muti: member_name=" + member_name[H5FD_MEM_DEFAULT()],
+                       member_name[H5FD_MEM_DEFAULT()].compareTo("%s-X.h5") == 0);
+            assertTrue("H5Pget_fapl_muti: member_name=" + member_name[H5FD_MEM_SUPER()],
+                       member_name[H5FD_MEM_SUPER()].compareTo("%s-s.h5") == 0);
+            assertTrue("H5Pget_fapl_muti: member_name=" + member_name[H5FD_MEM_BTREE()],
+                       member_name[H5FD_MEM_BTREE()].compareTo("%s-b.h5") == 0);
+            assertTrue("H5Pget_fapl_muti: member_name=" + member_name[H5FD_MEM_DRAW()],
+                       member_name[H5FD_MEM_DRAW()].compareTo("%s-r.h5") == 0);
+            assertTrue("H5Pget_fapl_muti: member_addr=" + member_addr[H5FD_MEM_DEFAULT()],
+                       member_addr[H5FD_MEM_DEFAULT()] == sH5FD_MEM_HADDR);
+            assertTrue("H5Pget_fapl_muti: member_addr=" + member_addr[H5FD_MEM_SUPER()],
+                       member_addr[H5FD_MEM_SUPER()] == sH5FD_MEM_SUPER_HADDR);
+            assertTrue("H5Pget_fapl_muti: member_addr=" + member_addr[H5FD_MEM_BTREE()],
+                       member_addr[H5FD_MEM_BTREE()] == sH5FD_MEM_BTREE_HADDR);
+            assertTrue("H5Pget_fapl_muti: member_addr=" + member_addr[H5FD_MEM_DRAW()],
+                       member_addr[H5FD_MEM_DRAW()] == sH5FD_MEM_DRAW_HADDR);
+            assertTrue("H5Pget_fapl_muti: member_addr=" + member_addr[H5FD_MEM_GHEAP()],
+                       member_addr[H5FD_MEM_GHEAP()] == sH5FD_MEM_GHEAP_HADDR);
+            assertTrue("H5Pget_fapl_muti: member_addr=" + member_addr[H5FD_MEM_LHEAP()],
+                       member_addr[H5FD_MEM_LHEAP()] == sH5FD_MEM_LHEAP_HADDR);
+            assertTrue("H5Pget_fapl_muti: member_addr=" + member_addr[H5FD_MEM_OHDR()],
+                       member_addr[H5FD_MEM_OHDR()] == sH5FD_MEM_OHDR_HADDR);
         }
         catch (Throwable err) {
             err.printStackTrace();
@@ -1101,38 +1100,38 @@ public class TestH5Pfapl {
     @Test
     public void testH5P_fapl_muti()
     {
-        if (HDF5Constants.H5FD_MULTI < 0)
+        if (H5FD_MULTI() < 0)
             return;
-        long HADDR_DEFAULT_SIZE = HDF5Constants.H5FD_DEFAULT_HADDR_SIZE;
-        int[] member_map        = new int[HDF5Constants.H5FD_MEM_NTYPES];
-        long[] member_fapl      = new long[HDF5Constants.H5FD_MEM_NTYPES];
-        String[] member_name    = new String[HDF5Constants.H5FD_MEM_NTYPES];
-        long[] member_addr      = new long[HDF5Constants.H5FD_MEM_NTYPES];
+        long HADDR_DEFAULT_SIZE = H5FD_DEFAULT_HADDR_SIZE();
+        int[] member_map        = new int[H5FD_MEM_NTYPES()];
+        long[] member_fapl      = new long[H5FD_MEM_NTYPES()];
+        String[] member_name    = new String[H5FD_MEM_NTYPES()];
+        long[] member_addr      = new long[H5FD_MEM_NTYPES()];
 
-        for (int mt = HDF5Constants.H5FD_MEM_DEFAULT; mt < HDF5Constants.H5FD_MEM_NTYPES; mt++) {
+        for (int mt = H5FD_MEM_DEFAULT(); mt < H5FD_MEM_NTYPES(); mt++) {
             member_fapl[mt] = H5P_DEFAULT();
-            member_map[mt]  = HDF5Constants.H5FD_MEM_SUPER;
+            member_map[mt]  = H5FD_MEM_SUPER();
         }
-        member_map[HDF5Constants.H5FD_MEM_DRAW]  = HDF5Constants.H5FD_MEM_DRAW;
-        member_map[HDF5Constants.H5FD_MEM_BTREE] = HDF5Constants.H5FD_MEM_BTREE;
-        member_map[HDF5Constants.H5FD_MEM_GHEAP] = HDF5Constants.H5FD_MEM_GHEAP;
+        member_map[H5FD_MEM_DRAW()]  = H5FD_MEM_DRAW();
+        member_map[H5FD_MEM_BTREE()] = H5FD_MEM_BTREE();
+        member_map[H5FD_MEM_GHEAP()] = H5FD_MEM_GHEAP();
 
-        member_name[HDF5Constants.H5FD_MEM_SUPER] = new String("%s-super.h5");
-        member_addr[HDF5Constants.H5FD_MEM_SUPER] = 0;
+        member_name[H5FD_MEM_SUPER()] = new String("%s-super.h5");
+        member_addr[H5FD_MEM_SUPER()] = 0;
 
-        member_name[HDF5Constants.H5FD_MEM_BTREE] = new String("%s-btree.h5");
-        member_addr[HDF5Constants.H5FD_MEM_BTREE] = HADDR_DEFAULT_SIZE / 4;
+        member_name[H5FD_MEM_BTREE()] = new String("%s-btree.h5");
+        member_addr[H5FD_MEM_BTREE()] = HADDR_DEFAULT_SIZE / 4;
 
-        member_name[HDF5Constants.H5FD_MEM_DRAW] = new String("%s-draw.h5");
-        member_addr[HDF5Constants.H5FD_MEM_DRAW] = HADDR_DEFAULT_SIZE / 2;
+        member_name[H5FD_MEM_DRAW()] = new String("%s-draw.h5");
+        member_addr[H5FD_MEM_DRAW()] = HADDR_DEFAULT_SIZE / 2;
 
-        member_name[HDF5Constants.H5FD_MEM_GHEAP] = new String("%s-gheap.h5");
-        member_addr[HDF5Constants.H5FD_MEM_GHEAP] = (HADDR_DEFAULT_SIZE / 4) * 3;
+        member_name[H5FD_MEM_GHEAP()] = new String("%s-gheap.h5");
+        member_addr[H5FD_MEM_GHEAP()] = (HADDR_DEFAULT_SIZE / 4) * 3;
 
         try {
             H5.H5Pset_fapl_multi(fapl_id, member_map, member_fapl, member_name, member_addr, true);
-            long driver_type = H5.H5Pget_driver(fapl_id);
-            assertTrue("H5Pget_driver: multi = " + driver_type, HDF5Constants.H5FD_MULTI == driver_type);
+            long driver_type = H5Pget_driver(fapl_id);
+            assertTrue("H5Pget_driver: multi = " + driver_type, H5FD_MULTI() == driver_type);
         }
         catch (Throwable err) {
             err.printStackTrace();
@@ -1141,37 +1140,37 @@ public class TestH5Pfapl {
         try {
             boolean relax = H5.H5Pget_fapl_multi(fapl_id, member_map, member_fapl, member_name, member_addr);
             assertTrue("H5Pget_fapl_muti: relax ", relax);
-            assertTrue("H5Pget_fapl_muti: member_map=" + member_map[HDF5Constants.H5FD_MEM_DEFAULT],
-                       member_map[HDF5Constants.H5FD_MEM_DEFAULT] == HDF5Constants.H5FD_MEM_SUPER);
-            assertTrue("H5Pget_fapl_muti: member_map=" + member_map[HDF5Constants.H5FD_MEM_DRAW],
-                       member_map[HDF5Constants.H5FD_MEM_DRAW] == HDF5Constants.H5FD_MEM_DRAW);
-            assertTrue("H5Pget_fapl_muti: member_map=" + member_map[HDF5Constants.H5FD_MEM_BTREE],
-                       member_map[HDF5Constants.H5FD_MEM_BTREE] == HDF5Constants.H5FD_MEM_BTREE);
-            assertTrue("H5Pget_fapl_muti: member_map=" + member_map[HDF5Constants.H5FD_MEM_GHEAP],
-                       member_map[HDF5Constants.H5FD_MEM_GHEAP] == HDF5Constants.H5FD_MEM_GHEAP);
+            assertTrue("H5Pget_fapl_muti: member_map=" + member_map[H5FD_MEM_DEFAULT()],
+                       member_map[H5FD_MEM_DEFAULT()] == H5FD_MEM_SUPER());
+            assertTrue("H5Pget_fapl_muti: member_map=" + member_map[H5FD_MEM_DRAW()],
+                       member_map[H5FD_MEM_DRAW()] == H5FD_MEM_DRAW());
+            assertTrue("H5Pget_fapl_muti: member_map=" + member_map[H5FD_MEM_BTREE()],
+                       member_map[H5FD_MEM_BTREE()] == H5FD_MEM_BTREE());
+            assertTrue("H5Pget_fapl_muti: member_map=" + member_map[H5FD_MEM_GHEAP()],
+                       member_map[H5FD_MEM_GHEAP()] == H5FD_MEM_GHEAP());
 
             assertTrue(
                 "H5Pget_fapl_muti: member_fapl ",
-                H5.H5P_equal(member_fapl[HDF5Constants.H5FD_MEM_DEFAULT], H5P_CLS_FILE_ACCESS_g() _DEFAULT));
-            assertTrue("H5Pget_fapl_muti: member_addr=" + member_addr[HDF5Constants.H5FD_MEM_DEFAULT],
-                       member_addr[HDF5Constants.H5FD_MEM_DEFAULT] == 0);
-            assertTrue("H5Pget_fapl_muti: member_name=" + member_name[HDF5Constants.H5FD_MEM_SUPER],
-                       member_name[HDF5Constants.H5FD_MEM_SUPER].compareTo("%s-super.h5") == 0);
+                H5P_equal(member_fapl[H5FD_MEM_DEFAULT()], H5P_CLS_FILE_ACCESS_g(), H5P_DEFAULT()));
+            assertTrue("H5Pget_fapl_muti: member_addr=" + member_addr[H5FD_MEM_DEFAULT()],
+                       member_addr[H5FD_MEM_DEFAULT()] == 0);
+            assertTrue("H5Pget_fapl_muti: member_name=" + member_name[H5FD_MEM_SUPER()],
+                       member_name[H5FD_MEM_SUPER()].compareTo("%s-super.h5") == 0);
 
-            assertTrue("H5Pget_fapl_muti: member_name=" + member_name[HDF5Constants.H5FD_MEM_BTREE],
-                       member_name[HDF5Constants.H5FD_MEM_BTREE].compareTo("%s-btree.h5") == 0);
-            assertTrue("H5Pget_fapl_muti: member_addr=" + member_addr[HDF5Constants.H5FD_MEM_BTREE],
-                       member_addr[HDF5Constants.H5FD_MEM_BTREE] == HADDR_DEFAULT_SIZE / 4);
+            assertTrue("H5Pget_fapl_muti: member_name=" + member_name[H5FD_MEM_BTREE()],
+                       member_name[H5FD_MEM_BTREE()].compareTo("%s-btree.h5") == 0);
+            assertTrue("H5Pget_fapl_muti: member_addr=" + member_addr[H5FD_MEM_BTREE()],
+                       member_addr[H5FD_MEM_BTREE()] == HADDR_DEFAULT_SIZE / 4);
 
-            assertTrue("H5Pget_fapl_muti: member_name=" + member_name[HDF5Constants.H5FD_MEM_DRAW],
-                       member_name[HDF5Constants.H5FD_MEM_DRAW].compareTo("%s-draw.h5") == 0);
-            assertTrue("H5Pget_fapl_muti: member_addr=" + member_addr[HDF5Constants.H5FD_MEM_DRAW],
-                       member_addr[HDF5Constants.H5FD_MEM_DRAW] == HADDR_DEFAULT_SIZE / 2);
+            assertTrue("H5Pget_fapl_muti: member_name=" + member_name[H5FD_MEM_DRAW()],
+                       member_name[H5FD_MEM_DRAW()].compareTo("%s-draw.h5") == 0);
+            assertTrue("H5Pget_fapl_muti: member_addr=" + member_addr[H5FD_MEM_DRAW()],
+                       member_addr[H5FD_MEM_DRAW()] == HADDR_DEFAULT_SIZE / 2);
 
-            assertTrue("H5Pget_fapl_muti: member_name=" + member_name[HDF5Constants.H5FD_MEM_GHEAP],
-                       member_name[HDF5Constants.H5FD_MEM_GHEAP].compareTo("%s-gheap.h5") == 0);
-            assertTrue("H5Pget_fapl_muti: member_addr=" + member_addr[HDF5Constants.H5FD_MEM_GHEAP],
-                       member_addr[HDF5Constants.H5FD_MEM_GHEAP] == (HADDR_DEFAULT_SIZE / 4) * 3);
+            assertTrue("H5Pget_fapl_muti: member_name=" + member_name[H5FD_MEM_GHEAP()],
+                       member_name[H5FD_MEM_GHEAP()].compareTo("%s-gheap.h5") == 0);
+            assertTrue("H5Pget_fapl_muti: member_addr=" + member_addr[H5FD_MEM_GHEAP()],
+                       member_addr[H5FD_MEM_GHEAP()] == (HADDR_DEFAULT_SIZE / 4) * 3);
         }
         catch (Throwable err) {
             err.printStackTrace();
@@ -1179,7 +1178,7 @@ public class TestH5Pfapl {
         }
         _createH5multiFile(fapl_id);
         try {
-            long file_size = H5.H5Fget_filesize(H5fid);
+            long file_size = H5Fget_filesize(H5fid);
             assertTrue("H5Pget_fapl_muti: file_size ",
                        file_size >= HADDR_DEFAULT_SIZE / 4 || file_size <= HADDR_DEFAULT_SIZE / 2);
         }
@@ -1230,29 +1229,29 @@ public class TestH5Pfapl {
     @Test
     public void testH5P_fapl_split()
     {
-        if (HDF5Constants.H5FD_MULTI < 0)
+        if (H5FD_MULTI() < 0)
             return;
 
         try {
             H5.H5Pset_fapl_split(fapl_id, "-meta.h5", H5P_DEFAULT(), "-raw.h5", H5P_DEFAULT());
-            long driver_type = H5.H5Pget_driver(fapl_id);
-            assertTrue("H5Pget_driver: split = " + driver_type, HDF5Constants.H5FD_MULTI == driver_type);
+            long driver_type = H5Pget_driver(fapl_id);
+            assertTrue("H5Pget_driver: split = " + driver_type, H5FD_MULTI() == driver_type);
         }
         catch (Throwable err) {
             err.printStackTrace();
             fail("H5Pset_fapl_split: " + err);
         }
         try {
-            int[] member_map     = new int[HDF5Constants.H5FD_MEM_NTYPES];
-            long[] member_fapl   = new long[HDF5Constants.H5FD_MEM_NTYPES];
-            String[] member_name = new String[HDF5Constants.H5FD_MEM_NTYPES];
-            long[] member_addr   = new long[HDF5Constants.H5FD_MEM_NTYPES];
+            int[] member_map     = new int[H5FD_MEM_NTYPES()];
+            long[] member_fapl   = new long[H5FD_MEM_NTYPES()];
+            String[] member_name = new String[H5FD_MEM_NTYPES()];
+            long[] member_addr   = new long[H5FD_MEM_NTYPES()];
             boolean relax = H5.H5Pget_fapl_multi(fapl_id, member_map, member_fapl, member_name, member_addr);
             assertTrue("H5Pget_fapl_multi: relax ", relax);
-            assertTrue("H5Pget_fapl_multi: member_name=" + member_name[HDF5Constants.H5FD_MEM_SUPER],
-                       member_name[HDF5Constants.H5FD_MEM_SUPER].compareTo("%s-meta.h5") == 0);
-            assertTrue("H5Pget_fapl_multi: member_name=" + member_name[HDF5Constants.H5FD_MEM_DRAW],
-                       member_name[HDF5Constants.H5FD_MEM_DRAW].compareTo("%s-raw.h5") == 0);
+            assertTrue("H5Pget_fapl_multi: member_name=" + member_name[H5FD_MEM_SUPER()],
+                       member_name[H5FD_MEM_SUPER()].compareTo("%s-meta.h5") == 0);
+            assertTrue("H5Pget_fapl_multi: member_name=" + member_name[H5FD_MEM_DRAW()],
+                       member_name[H5FD_MEM_DRAW()].compareTo("%s-raw.h5") == 0);
         }
         catch (Throwable err) {
             err.printStackTrace();
@@ -1283,12 +1282,12 @@ public class TestH5Pfapl {
     @Test
     public void testH5P_fapl_direct()
     {
-        if (HDF5Constants.H5FD_DIRECT < 0)
+        if (H5FD_DIRECT() < 0)
             return;
         try {
-            H5.H5Pset_fapl_direct(fapl_id, 1024, 4096, 8 * 4096);
-            long driver_type = H5.H5Pget_driver(fapl_id);
-            assertTrue("H5Pget_driver: direct = " + driver_type, HDF5Constants.H5FD_DIRECT == driver_type);
+            H5Pset_fapl_direct(fapl_id, 1024, 4096, 8 * 4096);
+            long driver_type = H5Pget_driver(fapl_id);
+            assertTrue("H5Pget_driver: direct = " + driver_type, H5FD_DIRECT() == driver_type);
         }
         catch (Throwable err) {
             err.printStackTrace();
@@ -1296,7 +1295,7 @@ public class TestH5Pfapl {
         }
         try {
             long[] params = {-1, -1, -1};
-            H5.H5Pget_fapl_direct(fapl_id, params);
+            H5Pget_fapl_direct(fapl_id, params);
             assertTrue("H5Pget_fapl_direct: alignment=" + params[0], params[0] == 1024);
             assertTrue("H5Pget_fapl_direct: block_size=" + params[1], params[1] == 4096);
             assertTrue("H5Pget_fapl_direct: cbuf_size=" + params[2], params[2] == 8 * 4096);
@@ -1312,12 +1311,12 @@ public class TestH5Pfapl {
     @Test
     public void testH5Pset_fapl_windows()
     {
-        if (HDF5Constants.H5FD_WINDOWS < 0)
+        if (H5FD_WINDOWS() < 0)
             return;
         try {
-            H5.H5Pset_fapl_windows(fapl_id);
-            long driver_type = H5.H5Pget_driver(fapl_id);
-            assertTrue("H5Pget_driver: windows = " + driver_type, HDF5Constants.H5FD_WINDOWS == driver_type);
+            H5Pset_fapl_windows(fapl_id);
+            long driver_type = H5Pget_driver(fapl_id);
+            assertTrue("H5Pget_driver: windows = " + driver_type, H5FD_WINDOWS() == driver_type);
         }
         catch (Throwable err) {
             err.printStackTrace();
@@ -1330,52 +1329,52 @@ public class TestH5Pfapl {
     @Test
     public void testH5Pmulti_transform()
     {
-        if (HDF5Constants.H5FD_MULTI < 0)
+        if (H5FD_MULTI() < 0)
             return;
         String f_to_c             = "(5/9.0)*(x-32)";
         double windchillFread[][] = new double[DIMF_X][DIMF_Y];
         double windchillC;
         NumberFormat formatter = new DecimalFormat("#0.000");
-        long HADDRMAX          = HDF5Constants.H5FD_DEFAULT_HADDR_SIZE;
+        long HADDRMAX          = H5FD_DEFAULT_HADDR_SIZE();
 
-        int[] member_map     = new int[HDF5Constants.H5FD_MEM_NTYPES];
-        long[] member_fapl   = new long[HDF5Constants.H5FD_MEM_NTYPES];
-        String[] member_name = new String[HDF5Constants.H5FD_MEM_NTYPES];
-        long[] member_addr   = new long[HDF5Constants.H5FD_MEM_NTYPES];
+        int[] member_map     = new int[H5FD_MEM_NTYPES()];
+        long[] member_fapl   = new long[H5FD_MEM_NTYPES()];
+        String[] member_name = new String[H5FD_MEM_NTYPES()];
+        long[] member_addr   = new long[H5FD_MEM_NTYPES()];
 
         try {
             H5.H5Pset_data_transform(plist_id, f_to_c);
-            H5.H5Pset_btree_ratios(btplist_id, 0.1, 0.5, 0.7);
+            H5Pset_btree_ratios(btplist_id, 0.1, 0.5, 0.7);
         }
         catch (Throwable err) {
             err.printStackTrace();
             fail("H5Pdata_transform: " + err);
         }
 
-        for (int mt = HDF5Constants.H5FD_MEM_DEFAULT; mt < HDF5Constants.H5FD_MEM_NTYPES; mt++) {
+        for (int mt = H5FD_MEM_DEFAULT(); mt < H5FD_MEM_NTYPES(); mt++) {
             member_fapl[mt] = H5P_DEFAULT();
-            member_map[mt]  = HDF5Constants.H5FD_MEM_SUPER;
+            member_map[mt]  = H5FD_MEM_SUPER();
         }
-        member_map[HDF5Constants.H5FD_MEM_DRAW]  = HDF5Constants.H5FD_MEM_DRAW;
-        member_map[HDF5Constants.H5FD_MEM_BTREE] = HDF5Constants.H5FD_MEM_BTREE;
-        member_map[HDF5Constants.H5FD_MEM_GHEAP] = HDF5Constants.H5FD_MEM_GHEAP;
+        member_map[H5FD_MEM_DRAW()]  = H5FD_MEM_DRAW();
+        member_map[H5FD_MEM_BTREE()] = H5FD_MEM_BTREE();
+        member_map[H5FD_MEM_GHEAP()] = H5FD_MEM_GHEAP();
 
-        member_name[HDF5Constants.H5FD_MEM_SUPER] = new String("%s-super.h5");
-        member_addr[HDF5Constants.H5FD_MEM_SUPER] = 0;
+        member_name[H5FD_MEM_SUPER()] = new String("%s-super.h5");
+        member_addr[H5FD_MEM_SUPER()] = 0;
 
-        member_name[HDF5Constants.H5FD_MEM_BTREE] = new String("%s-btree.h5");
-        member_addr[HDF5Constants.H5FD_MEM_BTREE] = HADDRMAX / 4;
+        member_name[H5FD_MEM_BTREE()] = new String("%s-btree.h5");
+        member_addr[H5FD_MEM_BTREE()] = HADDRMAX / 4;
 
-        member_name[HDF5Constants.H5FD_MEM_DRAW] = new String("%s-draw.h5");
-        member_addr[HDF5Constants.H5FD_MEM_DRAW] = HADDRMAX / 2;
+        member_name[H5FD_MEM_DRAW()] = new String("%s-draw.h5");
+        member_addr[H5FD_MEM_DRAW()] = HADDRMAX / 2;
 
-        member_name[HDF5Constants.H5FD_MEM_GHEAP] = new String("%s-gheap.h5");
-        member_addr[HDF5Constants.H5FD_MEM_GHEAP] = (HADDRMAX / 4) * 3;
+        member_name[H5FD_MEM_GHEAP()] = new String("%s-gheap.h5");
+        member_addr[H5FD_MEM_GHEAP()] = (HADDRMAX / 4) * 3;
 
         try {
             H5.H5Pset_fapl_multi(fapl_id, member_map, member_fapl, member_name, member_addr, true);
-            long driver_type = H5.H5Pget_driver(fapl_id);
-            assertTrue("H5Pget_driver: multi = " + driver_type, HDF5Constants.H5FD_MULTI == driver_type);
+            long driver_type = H5Pget_driver(fapl_id);
+            assertTrue("H5Pget_driver: multi = " + driver_type, H5FD_MULTI() == driver_type);
         }
         catch (Throwable err) {
             err.printStackTrace();
@@ -1384,37 +1383,37 @@ public class TestH5Pfapl {
         try {
             boolean relax = H5.H5Pget_fapl_multi(fapl_id, member_map, member_fapl, member_name, member_addr);
             assertTrue("H5Pget_fapl_muti: relax ", relax);
-            assertTrue("H5Pget_fapl_muti: member_map=" + member_map[HDF5Constants.H5FD_MEM_DEFAULT],
-                       member_map[HDF5Constants.H5FD_MEM_DEFAULT] == HDF5Constants.H5FD_MEM_SUPER);
-            assertTrue("H5Pget_fapl_muti: member_map=" + member_map[HDF5Constants.H5FD_MEM_DRAW],
-                       member_map[HDF5Constants.H5FD_MEM_DRAW] == HDF5Constants.H5FD_MEM_DRAW);
-            assertTrue("H5Pget_fapl_muti: member_map=" + member_map[HDF5Constants.H5FD_MEM_BTREE],
-                       member_map[HDF5Constants.H5FD_MEM_BTREE] == HDF5Constants.H5FD_MEM_BTREE);
-            assertTrue("H5Pget_fapl_muti: member_map=" + member_map[HDF5Constants.H5FD_MEM_GHEAP],
-                       member_map[HDF5Constants.H5FD_MEM_GHEAP] == HDF5Constants.H5FD_MEM_GHEAP);
+            assertTrue("H5Pget_fapl_muti: member_map=" + member_map[H5FD_MEM_DEFAULT()],
+                       member_map[H5FD_MEM_DEFAULT()] == H5FD_MEM_SUPER());
+            assertTrue("H5Pget_fapl_muti: member_map=" + member_map[H5FD_MEM_DRAW()],
+                       member_map[H5FD_MEM_DRAW()] == H5FD_MEM_DRAW());
+            assertTrue("H5Pget_fapl_muti: member_map=" + member_map[H5FD_MEM_BTREE()],
+                       member_map[H5FD_MEM_BTREE()] == H5FD_MEM_BTREE());
+            assertTrue("H5Pget_fapl_muti: member_map=" + member_map[H5FD_MEM_GHEAP()],
+                       member_map[H5FD_MEM_GHEAP()] == H5FD_MEM_GHEAP());
 
             assertTrue(
                 "H5Pget_fapl_muti: member_fapl ",
-                H5.H5P_equal(member_fapl[HDF5Constants.H5FD_MEM_DEFAULT], H5P_CLS_FILE_ACCESS_g() _DEFAULT));
-            assertTrue("H5Pget_fapl_muti: member_addr=" + member_addr[HDF5Constants.H5FD_MEM_DEFAULT],
-                       member_addr[HDF5Constants.H5FD_MEM_DEFAULT] == 0);
-            assertTrue("H5Pget_fapl_muti: member_name=" + member_name[HDF5Constants.H5FD_MEM_SUPER],
-                       member_name[HDF5Constants.H5FD_MEM_SUPER].compareTo("%s-super.h5") == 0);
+                H5P_equal(member_fapl[H5FD_MEM_DEFAULT()], H5P_CLS_FILE_ACCESS_g(), H5P_DEFAULT()));
+            assertTrue("H5Pget_fapl_muti: member_addr=" + member_addr[H5FD_MEM_DEFAULT()],
+                       member_addr[H5FD_MEM_DEFAULT()] == 0);
+            assertTrue("H5Pget_fapl_muti: member_name=" + member_name[H5FD_MEM_SUPER()],
+                       member_name[H5FD_MEM_SUPER()].compareTo("%s-super.h5") == 0);
 
-            assertTrue("H5Pget_fapl_muti: member_name=" + member_name[HDF5Constants.H5FD_MEM_BTREE],
-                       member_name[HDF5Constants.H5FD_MEM_BTREE].compareTo("%s-btree.h5") == 0);
-            assertTrue("H5Pget_fapl_muti: member_addr=" + member_addr[HDF5Constants.H5FD_MEM_BTREE],
-                       member_addr[HDF5Constants.H5FD_MEM_BTREE] == HADDRMAX / 4);
+            assertTrue("H5Pget_fapl_muti: member_name=" + member_name[H5FD_MEM_BTREE()],
+                       member_name[H5FD_MEM_BTREE()].compareTo("%s-btree.h5") == 0);
+            assertTrue("H5Pget_fapl_muti: member_addr=" + member_addr[H5FD_MEM_BTREE()],
+                       member_addr[H5FD_MEM_BTREE()] == HADDRMAX / 4);
 
-            assertTrue("H5Pget_fapl_muti: member_name=" + member_name[HDF5Constants.H5FD_MEM_DRAW],
-                       member_name[HDF5Constants.H5FD_MEM_DRAW].compareTo("%s-draw.h5") == 0);
-            assertTrue("H5Pget_fapl_muti: member_addr=" + member_addr[HDF5Constants.H5FD_MEM_DRAW],
-                       member_addr[HDF5Constants.H5FD_MEM_DRAW] == HADDRMAX / 2);
+            assertTrue("H5Pget_fapl_muti: member_name=" + member_name[H5FD_MEM_DRAW()],
+                       member_name[H5FD_MEM_DRAW()].compareTo("%s-draw.h5") == 0);
+            assertTrue("H5Pget_fapl_muti: member_addr=" + member_addr[H5FD_MEM_DRAW()],
+                       member_addr[H5FD_MEM_DRAW()] == HADDRMAX / 2);
 
-            assertTrue("H5Pget_fapl_muti: member_name=" + member_name[HDF5Constants.H5FD_MEM_GHEAP],
-                       member_name[HDF5Constants.H5FD_MEM_GHEAP].compareTo("%s-gheap.h5") == 0);
-            assertTrue("H5Pget_fapl_muti: member_addr=" + member_addr[HDF5Constants.H5FD_MEM_GHEAP],
-                       member_addr[HDF5Constants.H5FD_MEM_GHEAP] == (HADDRMAX / 4) * 3);
+            assertTrue("H5Pget_fapl_muti: member_name=" + member_name[H5FD_MEM_GHEAP()],
+                       member_name[H5FD_MEM_GHEAP()].compareTo("%s-gheap.h5") == 0);
+            assertTrue("H5Pget_fapl_muti: member_addr=" + member_addr[H5FD_MEM_GHEAP()],
+                       member_addr[H5FD_MEM_GHEAP()] == (HADDRMAX / 4) * 3);
         }
         catch (Throwable err) {
             err.printStackTrace();
@@ -1422,7 +1421,7 @@ public class TestH5Pfapl {
         }
         try {
             _createH5multiFile(fapl_id);
-            long file_size = H5.H5Fget_filesize(H5fid);
+            long file_size = H5Fget_filesize(H5fid);
             assertTrue("H5Pget_fapl_muti: file_size ",
                        file_size >= HADDRMAX / 4 || file_size <= HADDRMAX / 2);
             _createH5multiFileDS();
@@ -1500,10 +1499,10 @@ public class TestH5Pfapl {
             H5.H5Pset_mdc_log_options(fapl_id, is_enabled, H5_LOG_FILE, start_on_access);
 
             String location = H5.H5Pget_mdc_log_options(fapl_id, mdc_log_options);
-            assertTrue("H5.H5Pget_mdc_log_options: is_enabled", mdc_log_options[0]);
-            assertFalse("H5.H5Pget_mdc_log_options: start_on_access_out", mdc_log_options[1]);
+            assertTrue("H5Pget_mdc_log_options: is_enabled", mdc_log_options[0]);
+            assertFalse("H5Pget_mdc_log_options: start_on_access_out", mdc_log_options[1]);
 
-            H5.H5Pset_libver_bounds(fapl_id, H5F_LIBVER_LATEST(), H5F_LIBVER_LATEST());
+            H5Pset_libver_bounds(fapl_id, H5F_LIBVER_LATEST(), H5F_LIBVER_LATEST());
         }
         catch (Throwable err) {
             err.printStackTrace();
@@ -1515,27 +1514,27 @@ public class TestH5Pfapl {
             H5.H5Fget_mdc_logging_status(H5fid, mdc_logging_status);
         }
         catch (Throwable err) {
-            fail("H5.H5Fget_mdc_logging_status: " + err);
+            fail("H5Fget_mdc_logging_status: " + err);
         }
         assertTrue("initial: is_enabled", mdc_logging_status[0]);
         assertFalse("initial: is_currently_logging", mdc_logging_status[1]);
 
         try {
-            H5.H5Fstart_mdc_logging(H5fid);
+            H5Fstart_mdc_logging(H5fid);
             H5.H5Fget_mdc_logging_status(H5fid, mdc_logging_status);
         }
         catch (Throwable err) {
-            fail("start H5.H5Fget_mdc_logging_status: " + err);
+            fail("start H5Fget_mdc_logging_status: " + err);
         }
         assertTrue("start: is_enabled", mdc_logging_status[0]);
         assertTrue("start: is_currently_logging", mdc_logging_status[1]);
 
         try {
-            H5.H5Fstop_mdc_logging(H5fid);
+            H5Fstop_mdc_logging(H5fid);
             H5.H5Fget_mdc_logging_status(H5fid, mdc_logging_status);
         }
         catch (Throwable err) {
-            fail("stop H5.H5Fget_mdc_logging_status: " + err);
+            fail("stop H5Fget_mdc_logging_status: " + err);
         }
         //        assertFalse("stop: is_enabled", mdc_logging_status[0]);
         assertFalse("stop: is_currently_logging", mdc_logging_status[1]);
@@ -1549,13 +1548,13 @@ public class TestH5Pfapl {
     {
         boolean ret_val_id = false;
         try {
-            H5.H5Pset_evict_on_close(fapl_id, true);
-            ret_val_id = H5.H5Pget_evict_on_close(fapl_id);
+            H5Pset_evict_on_close(fapl_id, true);
+            ret_val_id = H5Pget_evict_on_close(fapl_id);
             assertTrue("H5P_evict_on_close", ret_val_id);
         }
         catch (HDF5PropertyListInterfaceException err) {
             // parallel is not supported
-            if (err.getMinorErrorNumber() != HDF5Constants.H5E_UNSUPPORTED) {
+            if (err.getMinorErrorNumber() != H5E_UNSUPPORTED()) {
                 err.printStackTrace();
                 fail("H5P_evict_on_close: " + err);
             }
@@ -1573,22 +1572,22 @@ public class TestH5Pfapl {
         boolean ignore_disabled_file_locking = false;
         try {
             // false values (usually not the default)
-            H5.H5Pset_file_locking(fapl_id, false, false);
-            use_file_locking             = H5.H5Pget_use_file_locking(fapl_id);
-            ignore_disabled_file_locking = H5.H5Pget_ignore_disabled_file_locking(fapl_id);
+            H5Pset_file_locking(fapl_id, false, false);
+            use_file_locking             = H5Pget_use_file_locking(fapl_id);
+            ignore_disabled_file_locking = H5Pget_ignore_disabled_file_locking(fapl_id);
             assertFalse("H5P_file_locking", use_file_locking);
             assertFalse("H5P_file_locking", ignore_disabled_file_locking);
 
             // true values (typically the default)
-            H5.H5Pset_file_locking(fapl_id, true, true);
-            use_file_locking             = H5.H5Pget_use_file_locking(fapl_id);
-            ignore_disabled_file_locking = H5.H5Pget_ignore_disabled_file_locking(fapl_id);
+            H5Pset_file_locking(fapl_id, true, true);
+            use_file_locking             = H5Pget_use_file_locking(fapl_id);
+            ignore_disabled_file_locking = H5Pget_ignore_disabled_file_locking(fapl_id);
             assertTrue("H5P_file_locking", use_file_locking);
             assertTrue("H5P_file_locking", ignore_disabled_file_locking);
         }
         catch (HDF5PropertyListInterfaceException err) {
             // parallel is not supported
-            if (err.getMinorErrorNumber() != HDF5Constants.H5E_UNSUPPORTED) {
+            if (err.getMinorErrorNumber() != H5E_UNSUPPORTED()) {
                 err.printStackTrace();
                 fail("H5P_test_file_locking: " + err);
             }

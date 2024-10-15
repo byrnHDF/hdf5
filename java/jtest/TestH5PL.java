@@ -42,7 +42,6 @@ public class TestH5PL {
     @Before
     public void checkOpenIDs()
     {
-        assertTrue("H5 open ids is 0", H5.getOpenIDCount() == 0);
         System.out.print(testname.getMethodName());
     }
     @After
@@ -55,17 +54,17 @@ public class TestH5PL {
     public void TestH5PLplugins()
     {
         try {
-            int plugin_flags = H5.H5PLget_loading_state();
-            assertTrue("H5.H5PLget_loading_state: " + plugin_flags,
-                       plugin_flags == HDF5Constants.H5PL_ALL_PLUGIN);
-            int new_setting = plugin_flags & ~HDF5Constants.H5PL_FILTER_PLUGIN;
-            H5.H5PLset_loading_state(new_setting);
-            int changed_flags = H5.H5PLget_loading_state();
-            assertTrue("H5.H5PLget_loading_state: " + changed_flags, changed_flags == new_setting);
-            H5.H5PLset_loading_state(plugin_flags);
-            changed_flags = H5.H5PLget_loading_state();
-            assertTrue("H5.H5PLget_loading_state: " + changed_flags,
-                       changed_flags == HDF5Constants.H5PL_ALL_PLUGIN);
+            int plugin_flags = H5PLget_loading_state();
+            assertTrue("H5PLget_loading_state: " + plugin_flags,
+                       plugin_flags == H5PL_ALL_PLUGIN());
+            int new_setting = plugin_flags & ~H5PL_FILTER_PLUGIN();
+            H5PLset_loading_state(new_setting);
+            int changed_flags = H5PLget_loading_state();
+            assertTrue("H5PLget_loading_state: " + changed_flags, changed_flags == new_setting);
+            H5PLset_loading_state(plugin_flags);
+            changed_flags = H5PLget_loading_state();
+            assertTrue("H5PLget_loading_state: " + changed_flags,
+                       changed_flags == H5PL_ALL_PLUGIN());
         }
         catch (Throwable err) {
             err.printStackTrace();
@@ -78,7 +77,7 @@ public class TestH5PL {
     {
         try {
             // Get the original number of paths
-            int nStartPaths = H5.H5PLsize();
+            int nStartPaths = H5PLsize();
 
             int nPaths;                   /* # paths from H5PLSize()      */
             int nTruePaths = nStartPaths; /* What the # paths should be   */
@@ -89,7 +88,7 @@ public class TestH5PL {
             String pathAppend = "path_append";
             H5.H5PLappend(pathAppend);
 
-            nPaths = H5.H5PLsize();
+            nPaths = H5PLsize();
             nTruePaths++;
             assertTrue("# paths should be " + nTruePaths + " but was " + nPaths, nTruePaths == nPaths);
 
@@ -102,7 +101,7 @@ public class TestH5PL {
             String pathPrepend = "path_prepend";
             H5.H5PLprepend(pathPrepend);
 
-            nPaths = H5.H5PLsize();
+            nPaths = H5PLsize();
             nTruePaths++;
             assertTrue("# paths should be " + nTruePaths + " but was " + nPaths, nTruePaths == nPaths);
 
@@ -117,7 +116,7 @@ public class TestH5PL {
             index             = nStartPaths;
             H5.H5PLinsert(pathInsert, index);
 
-            nPaths = H5.H5PLsize();
+            nPaths = H5PLsize();
             nTruePaths++;
             assertTrue("# paths should be " + nTruePaths + " but was " + nPaths, nTruePaths == nPaths);
 
@@ -141,9 +140,9 @@ public class TestH5PL {
             // The (index+1) path should move down to fill the space when the path is removed.
             index             = nStartPaths;
             String pathRemove = H5.H5PLget(index + 1);
-            H5.H5PLremove(index);
+            H5PLremove(index);
 
-            nPaths = H5.H5PLsize();
+            nPaths = H5PLsize();
             nTruePaths--;
             assertTrue("# paths should be " + nTruePaths + " but was " + nPaths, nTruePaths == nPaths);
 
@@ -202,7 +201,7 @@ public class TestH5PL {
 
             // Create the dataset creation property list.
             try {
-                dcpl_id = H5.H5Pcreate(H5P_CLS_DATASET_CREATE_ID_g());
+                dcpl_id = H5Pcreate(H5P_CLS_DATASET_CREATE_ID_g());
             }
             catch (Exception e) {
                 e.printStackTrace();
@@ -225,7 +224,7 @@ public class TestH5PL {
                 cd_values[2] = libversion[1];
                 cd_values[3] = libversion[2];
                 if (dcpl_id >= 0)
-                    H5.H5Pset_filter(dcpl_id, H5Z_FILTER_DYNLIB4, HDF5Constants.H5Z_FLAG_MANDATORY, 4,
+                    H5.H5Pset_filter(dcpl_id, H5Z_FILTER_DYNLIB4, H5Z_FLAG_MANDATORY(), 4,
                                      cd_values);
             }
             catch (Exception e) {
@@ -261,25 +260,25 @@ public class TestH5PL {
             // End access to the dataset and release resources used by it.
             if (dcpl_id >= 0)
                 try {
-                    H5.H5Pclose_class(dcpl_id);
+                    H5Pclose_class(dcpl_id);
                 }
                 catch (Throwable err) {
                 }
             if (dataset_id >= 0)
                 try {
-                    H5.H5Dclose(dataset_id);
+                    H5Dclose(dataset_id);
                 }
                 catch (Throwable err) {
                 }
             if (filespace_id >= 0)
                 try {
-                    H5.H5Sclose(filespace_id);
+                    H5Sclose(filespace_id);
                 }
                 catch (Throwable err) {
                 }
             if (file_id >= 0)
                 try {
-                    H5.H5Fclose(file_id);
+                    H5Fclose(file_id);
                 }
                 catch (Throwable err) {
                 }

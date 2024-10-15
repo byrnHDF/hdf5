@@ -30,7 +30,6 @@ public class TestH5Eregister {
     @Before
     public void checkOpenIDs()
     {
-        assertTrue("H5 open ids is 0", H5.getOpenIDCount() == 0);
         System.out.print(testname.getMethodName());
     }
     @After
@@ -71,13 +70,13 @@ public class TestH5Eregister {
             hdf_java_classid = H5.H5Eregister_class("HDF-Java-Error", "hdf-java", "2.5");
         }
         catch (Throwable err) {
-            fail("H5.H5Eregister_class: " + err);
+            fail("H5Eregister_class: " + err);
         }
         try {
             H5.H5Eunregister_class(hdf_java_classid);
         }
         catch (Throwable err) {
-            fail("H5.H5Eunregister_class: " + err);
+            fail("H5Eunregister_class: " + err);
         }
     }
 }

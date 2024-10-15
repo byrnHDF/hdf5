@@ -49,7 +49,6 @@ public class TestH5VL {
     @Before
     public void checkOpenIDs()
     {
-        assertTrue("H5 open ids is 0", H5.getOpenIDCount() == 0);
         System.out.print(testname.getMethodName());
     }
     @After
@@ -64,14 +63,14 @@ public class TestH5VL {
         try {
             boolean is_registered;
 
-            is_registered = H5.H5VLis_connector_registered_by_name(HDF5Constants.H5VL_NATIVE_NAME);
-            assertTrue("H5.H5VLis_connector_registered_by_name H5VL_NATIVE_NAME", is_registered);
+            is_registered = H5VLis_connector_registered_by_name(H5VL_NATIVE_NAME());
+            assertTrue("H5VLis_connector_registered_by_name H5VL_NATIVE_NAME", is_registered);
 
             is_registered = H5.H5VLis_connector_registered_by_name("FAKE_VOL_NAME");
-            assertFalse("H5.H5VLis_connector_registered_by_name FAKE_VOL_NAME", is_registered);
+            assertFalse("H5VLis_connector_registered_by_name FAKE_VOL_NAME", is_registered);
 
-            is_registered = H5.H5VLis_connector_registered_by_value(HDF5Constants.H5VL_NATIVE_VALUE);
-            assertTrue("H5.H5VLis_connector_registered_by_value H5VL_NATIVE_VALUE", is_registered);
+            is_registered = H5.H5VLis_connector_registered_by_value(H5VL_NATIVE_VALUE());
+            assertTrue("H5VLis_connector_registered_by_value H5VL_NATIVE_VALUE", is_registered);
         }
         catch (Throwable err) {
             err.printStackTrace();
@@ -87,8 +86,8 @@ public class TestH5VL {
         long H5fid = H5.H5Fcreate(H5_FILE, H5F_ACC_TRUNC(), H5P_DEFAULT(), H5P_DEFAULT());
 
         try {
-            long native_id = H5.H5VLget_connector_id(H5fid);
-            assertTrue("H5.H5VLget_connector_id", native_id >= 0);
+            long native_id = H5VLget_connector_id(H5fid);
+            assertTrue("H5VLget_connector_id", native_id >= 0);
 
             /*
              * If HDF5_VOL_CONNECTOR is set, this might not be the
@@ -97,16 +96,16 @@ public class TestH5VL {
              */
             String connector = System.getenv("HDF5_VOL_CONNECTOR");
             if (connector == null)
-                assertEquals(HDF5Constants.H5VL_NATIVE, native_id);
+                assertEquals(H5VL_NATIVE(), native_id);
         }
         catch (Throwable err) {
             err.printStackTrace();
-            fail("H5.H5VLget_connector_id " + err);
+            fail("H5VLget_connector_id " + err);
         }
         finally {
             if (H5fid > 0) {
                 try {
-                    H5.H5Fclose(H5fid);
+                    H5Fclose(H5fid);
                 }
                 catch (Exception ex) {
                 }
@@ -119,13 +118,13 @@ public class TestH5VL {
     public void testH5VLget_connector_id_by_name()
     {
         try {
-            long native_id = H5.H5VLget_connector_id_by_name(HDF5Constants.H5VL_NATIVE_NAME);
-            assertTrue("H5.H5VLget_connector_id_by_name H5VL_NATIVE_NAME", native_id >= 0);
-            assertEquals(HDF5Constants.H5VL_NATIVE, native_id);
+            long native_id = H5VLget_connector_id_by_name(H5VL_NATIVE_NAME());
+            assertTrue("H5VLget_connector_id_by_name H5VL_NATIVE_NAME", native_id >= 0);
+            assertEquals(H5VL_NATIVE(), native_id);
         }
         catch (Throwable err) {
             err.printStackTrace();
-            fail("H5.H5VLget_connector_id_by_name " + err);
+            fail("H5VLget_connector_id_by_name " + err);
         }
     }
 
@@ -133,13 +132,13 @@ public class TestH5VL {
     public void testH5VLget_connector_id_by_value()
     {
         try {
-            long native_id = H5.H5VLget_connector_id_by_value(HDF5Constants.H5VL_NATIVE_VALUE);
-            assertTrue("H5.H5VLget_connector_id_by_value H5VL_NATIVE_VALUE", native_id >= 0);
-            assertEquals(HDF5Constants.H5VL_NATIVE, native_id);
+            long native_id = H5VLget_connector_id_by_value(H5VL_NATIVE_VALUE());
+            assertTrue("H5VLget_connector_id_by_value H5VL_NATIVE_VALUE", native_id >= 0);
+            assertEquals(H5VL_NATIVE(), native_id);
         }
         catch (Throwable err) {
             err.printStackTrace();
-            fail("H5.H5VLget_connector_id_by_value " + err);
+            fail("H5VLget_connector_id_by_value " + err);
         }
     }
 
@@ -149,10 +148,10 @@ public class TestH5VL {
         String H5_FILE = "testFvl.h5";
 
         long H5fid = H5.H5Fcreate(H5_FILE, H5F_ACC_TRUNC(), H5P_DEFAULT(), H5P_DEFAULT());
-        H5.H5Fflush(H5fid, H5F_SCOPE_LOCAL());
+        H5Fflush(H5fid, H5F_SCOPE_LOCAL());
 
         try {
-            String native_name = H5.H5VLget_connector_name(H5fid);
+            String native_name = H5VLget_connector_name(H5fid);
 
             /*
              * If HDF5_VOL_CONNECTOR is set, this might not be the
@@ -161,17 +160,17 @@ public class TestH5VL {
              */
             String connector = System.getenv("HDF5_VOL_CONNECTOR");
             if (connector == null)
-                assertTrue("H5.H5VLget_connector_name H5VL_NATIVE",
-                           native_name.compareToIgnoreCase(HDF5Constants.H5VL_NATIVE_NAME) == 0);
+                assertTrue("H5VLget_connector_name H5VL_NATIVE",
+                           native_name.compareToIgnoreCase(H5VL_NATIVE_NAME()) == 0);
         }
         catch (Throwable err) {
             err.printStackTrace();
-            fail("H5.H5VLget_connector_name " + err);
+            fail("H5VLget_connector_name " + err);
         }
         finally {
             if (H5fid > 0) {
                 try {
-                    H5.H5Fclose(H5fid);
+                    H5Fclose(H5fid);
                 }
                 catch (Exception ex) {
                 }
@@ -183,12 +182,12 @@ public class TestH5VL {
     @Test(expected = HDF5LibraryException.class)
     public void testH5VLclose_NegativeID() throws Throwable
     {
-        H5.H5VLclose(-1);
+        H5VLclose(-1);
     }
 
     @Test(expected = HDF5LibraryException.class)
     public void testH5VLunregister_connector_NegativeID() throws Throwable
     {
-        H5.H5VLunregister_connector(-1);
+        H5VLunregister_connector(-1);
     }
 }

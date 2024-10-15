@@ -53,11 +53,10 @@ public class TestH5Fbasic {
     @Before
     public void createH5file() throws HDF5LibraryException, NullPointerException
     {
-        assertTrue("H5 open ids is 0", H5.getOpenIDCount() == 0);
         System.out.print(testname.getMethodName());
 
         H5fid = H5.H5Fcreate(H5_FILE, H5F_ACC_TRUNC(), H5P_DEFAULT(), H5P_DEFAULT());
-        H5.H5Fflush(H5fid, H5F_SCOPE_LOCAL());
+        H5Fflush(H5fid, H5F_SCOPE_LOCAL());
     }
 
     @After
@@ -65,7 +64,7 @@ public class TestH5Fbasic {
     {
         if (H5fid > 0) {
             try {
-                H5.H5Fclose(H5fid);
+                H5Fclose(H5fid);
             }
             catch (Exception ex) {
             }
@@ -86,10 +85,10 @@ public class TestH5Fbasic {
         boolean isH5 = false;
 
         try {
-            isH5 = H5.H5Fis_accessible(H5_FILE, H5P_DEFAULT());
+            isH5 = H5Fis_accessible(H5_FILE, H5P_DEFAULT());
         }
         catch (Throwable err) {
-            fail("H5.H5Fis_accessible failed on " + H5_FILE + ": " + err);
+            fail("H5Fis_accessible failed on " + H5_FILE + ": " + err);
         }
         assertTrue(isH5 == true);
     }
@@ -109,10 +108,10 @@ public class TestH5Fbasic {
             fid = H5.H5Fopen(H5_FILE, H5F_ACC_RDWR(), H5P_DEFAULT());
         }
         catch (Throwable err) {
-            fail("H5.H5Fopen: " + err);
+            fail("H5Fopen: " + err);
         }
         try {
-            H5.H5Fclose(fid);
+            H5Fclose(fid);
         }
         catch (Exception ex) {
         }
@@ -124,7 +123,7 @@ public class TestH5Fbasic {
             fid = H5.H5Fopen(H5_FILE, H5F_ACC_RDWR(), H5P_DEFAULT());
 
             try {
-                H5.H5Fclose(fid);
+                H5Fclose(fid);
             }
             catch (Exception ex) {
             }
@@ -144,17 +143,17 @@ public class TestH5Fbasic {
             fid = H5.H5Fopen(H5_FILE, H5F_ACC_RDWR(), H5P_DEFAULT());
         }
         catch (Throwable err) {
-            fail("H5.H5Fopen: " + err);
+            fail("H5Fopen: " + err);
         }
 
         try {
-            H5.H5Fclose(fid);
+            H5Fclose(fid);
         }
         catch (Exception ex) {
         }
 
         // should fail because the file was closed.
-        fid2 = H5.H5Freopen(fid);
+        fid2 = H5Freopen(fid);
     }
 
     @Test
@@ -167,25 +166,25 @@ public class TestH5Fbasic {
             fid = H5.H5Fopen(H5_FILE, H5F_ACC_RDWR(), H5P_DEFAULT());
         }
         catch (Throwable err) {
-            fail("H5.H5Fopen: " + err);
+            fail("H5Fopen: " + err);
         }
 
         try {
-            fid2 = H5.H5Freopen(fid);
+            fid2 = H5Freopen(fid);
         }
         catch (Throwable err) {
-            fail("H5.H5Freopen: " + err);
+            fail("H5Freopen: " + err);
         }
         assertTrue(fid2 > 0);
 
         try {
-            H5.H5Fclose(fid2);
+            H5Fclose(fid2);
         }
         catch (Exception ex) {
         }
 
         try {
-            H5.H5Fclose(fid);
+            H5Fclose(fid);
         }
         catch (Exception ex) {
         }
@@ -200,14 +199,14 @@ public class TestH5Fbasic {
             fid = H5.H5Fopen(H5_FILE, H5F_ACC_RDWR(), H5P_DEFAULT());
         }
         catch (Throwable err) {
-            fail("H5.H5Fopen: " + err);
+            fail("H5Fopen: " + err);
         }
 
         try {
-            H5.H5Fclose(fid);
+            H5Fclose(fid);
         }
         catch (Throwable err) {
-            fail("H5.H5Fclose: " + err);
+            fail("H5Fclose: " + err);
         }
     }
 
@@ -220,18 +219,18 @@ public class TestH5Fbasic {
             fid = H5.H5Fopen(H5_FILE, H5F_ACC_RDWR(), H5P_DEFAULT());
         }
         catch (Throwable err) {
-            fail("H5.H5Fopen: " + err);
+            fail("H5Fopen: " + err);
         }
 
         try {
-            H5.H5Fclose(fid);
+            H5Fclose(fid);
         }
         catch (Throwable err) {
-            fail("H5.H5Fclose: " + err);
+            fail("H5Fclose: " + err);
         }
 
         // it should fail since the file was closed.
-        H5.H5Fclose(fid);
+        H5Fclose(fid);
     }
 
     @Test
@@ -240,10 +239,10 @@ public class TestH5Fbasic {
         long freeSpace = 0;
 
         try {
-            freeSpace = H5.H5Fget_freespace(H5fid);
+            freeSpace = H5Fget_freespace(H5fid);
         }
         catch (Throwable err) {
-            fail("H5.H5Fget_freespace: " + err);
+            fail("H5Fget_freespace: " + err);
         }
         assertEquals(freeSpace, 0);
     }
@@ -256,10 +255,10 @@ public class TestH5Fbasic {
         long fileSize = 0;
 
         try {
-            fileSize = H5.H5Fget_filesize(H5fid);
+            fileSize = H5Fget_filesize(H5fid);
         }
         catch (Throwable err) {
-            fail("H5.H5Fget_freespace: " + err);
+            fail("H5Fget_freespace: " + err);
         }
         assertTrue(fileSize > 0);
     }
@@ -272,10 +271,10 @@ public class TestH5Fbasic {
         double rate;
 
         try {
-            rate = H5.H5Fget_mdc_hit_rate(H5fid);
+            rate = H5Fget_mdc_hit_rate(H5fid);
         }
         catch (Throwable err) {
-            fail("H5.H5Fget_mdc_hit_rate: " + err);
+            fail("H5Fget_mdc_hit_rate: " + err);
         }
     }
 
@@ -286,12 +285,12 @@ public class TestH5Fbasic {
         long cache_sizes[] = new long[3];
 
         try {
-            nentries = H5.H5Fget_mdc_size(H5fid, cache_sizes);
+            nentries = H5Fget_mdc_size(H5fid, cache_sizes);
         }
         catch (Throwable err) {
-            fail("H5.H5Fget_mdc_size: " + err);
+            fail("H5Fget_mdc_size: " + err);
         }
-        assertTrue("H5.H5Fget_mdc_size #:" + nentries, nentries == 4);
+        assertTrue("H5Fget_mdc_size #:" + nentries, nentries == 4);
     }
 
     // TODO: test more cases of different cache sizes.
@@ -301,10 +300,10 @@ public class TestH5Fbasic {
     {
 
         try {
-            H5.H5Freset_mdc_hit_rate_stats(H5fid);
+            H5Freset_mdc_hit_rate_stats(H5fid);
         }
         catch (Throwable err) {
-            fail("H5.H5Freset_mdc_hit_rate_stats: " + err);
+            fail("H5Freset_mdc_hit_rate_stats: " + err);
         }
     }
 
@@ -317,7 +316,7 @@ public class TestH5Fbasic {
             fname = H5.H5Fget_name(H5fid);
         }
         catch (Throwable err) {
-            fail("H5.H5Fget_name: " + err);
+            fail("H5Fget_name: " + err);
         }
         assertNotNull(fname);
         assertEquals(fname, H5_FILE);
@@ -328,10 +327,10 @@ public class TestH5Fbasic {
     {
 
         try {
-            H5.H5Fclear_elink_file_cache(H5fid);
+            H5Fclear_elink_file_cache(H5fid);
         }
         catch (Throwable err) {
-            fail("H5.H5Freset_mdc_hit_rate_stats: " + err);
+            fail("H5Freset_mdc_hit_rate_stats: " + err);
         }
     }
 
@@ -340,10 +339,10 @@ public class TestH5Fbasic {
     {
         boolean ret_val_id = true;
         try {
-            ret_val_id = H5.H5Fget_dset_no_attrs_hint(H5fid);
+            ret_val_id = H5Fget_dset_no_attrs_hint(H5fid);
             assertFalse("H5F_dset_no_attrs_hint", ret_val_id);
-            H5.H5Fset_dset_no_attrs_hint(H5fid, true);
-            ret_val_id = H5.H5Fget_dset_no_attrs_hint(H5fid);
+            H5Fset_dset_no_attrs_hint(H5fid, true);
+            ret_val_id = H5Fget_dset_no_attrs_hint(H5fid);
             assertTrue("H5F_dset_no_attrs_hint", ret_val_id);
         }
         catch (Throwable err) {

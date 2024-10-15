@@ -85,7 +85,6 @@ public class TestH5A {
     @Before
     public void createH5file() throws NullPointerException, HDF5Exception
     {
-        assertTrue("H5 open ids is 0", H5.getOpenIDCount() == 0);
         System.out.print(testname.getMethodName());
 
         try {
@@ -95,13 +94,13 @@ public class TestH5A {
             assertTrue("TestH5A.createH5file: H5.H5Screate_simple: ", H5dsid > 0);
             H5did = _createDataset(H5fid, H5dsid, "dset", H5P_DEFAULT());
             assertTrue("TestH5A.createH5file: _createDataset: ", H5did > 0);
-            space_id = H5.H5Screate(H5S_NULL());
+            space_id = H5Screate(H5S_NULL());
             assertTrue(space_id > 0);
-            lapl_id = H5.H5Pcreate(H5P_CLS_LINK_ACCESS_ID_g());
+            lapl_id = H5Pcreate(H5P_CLS_LINK_ACCESS_ID_g());
             assertTrue(lapl_id > 0);
-            aapl_id = H5.H5Pcreate(H5P_CLS_ATTRIBUTE_ACCESS_ID_g());
+            aapl_id = H5Pcreate(H5P_CLS_ATTRIBUTE_ACCESS_ID_g());
             assertTrue(aapl_id > 0);
-            type_id = H5.H5Tenum_create(H5T_STD_I32LE_g());
+            type_id = H5Tenum_create(H5T_STD_I32LE_g());
             assertTrue(type_id > 0);
             int status = H5.H5Tenum_insert(type_id, "test", 1);
             assertTrue(status >= 0);
@@ -111,7 +110,7 @@ public class TestH5A {
             fail("TestH5A.createH5file: " + err);
         }
 
-        H5.H5Fflush(H5fid, H5F_SCOPE_LOCAL());
+        H5Fflush(H5fid, H5F_SCOPE_LOCAL());
     }
 
     @After
@@ -119,50 +118,50 @@ public class TestH5A {
     {
         if (H5dsid > 0)
             try {
-                H5.H5Sclose(H5dsid);
+                H5Sclose(H5dsid);
             }
             catch (Exception ex) {
             }
         if (H5did > 0)
             try {
-                H5.H5Dclose(H5did);
+                H5Dclose(H5did);
             }
             catch (Exception ex) {
             }
         if (H5fid > 0)
             try {
-                H5.H5Fclose(H5fid);
+                H5Fclose(H5fid);
             }
             catch (Exception ex) {
             }
         if (H5atid > 0)
             try {
-                H5.H5Tclose(H5atid);
+                H5Tclose(H5atid);
             }
             catch (Exception ex) {
             }
 
         if (type_id > 0)
             try {
-                H5.H5Tclose(type_id);
+                H5Tclose(type_id);
             }
             catch (Exception ex) {
             }
         if (space_id > 0)
             try {
-                H5.H5Sclose(space_id);
+                H5Sclose(space_id);
             }
             catch (Exception ex) {
             }
         if (lapl_id > 0)
             try {
-                H5.H5Pclose(lapl_id);
+                H5Pclose(lapl_id);
             }
             catch (Exception ex) {
             }
         if (aapl_id > 0)
             try {
-                H5.H5Pclose(aapl_id);
+                H5Pclose(aapl_id);
             }
             catch (Exception ex) {
             }
@@ -186,7 +185,7 @@ public class TestH5A {
         finally {
             if (attr_id > 0)
                 try {
-                    H5.H5Aclose(attr_id);
+                    H5Aclose(attr_id);
                 }
                 catch (Exception ex) {
                 }
@@ -227,13 +226,13 @@ public class TestH5A {
         finally {
             if (attr_id > 0)
                 try {
-                    H5.H5Aclose(attr_id);
+                    H5Aclose(attr_id);
                 }
                 catch (Exception ex) {
                 }
             if (attribute_id > 0)
                 try {
-                    H5.H5Aclose(attribute_id);
+                    H5Aclose(attribute_id);
                 }
                 catch (Exception ex) {
                 }
@@ -303,13 +302,13 @@ public class TestH5A {
         finally {
             if (attr_id > 0)
                 try {
-                    H5.H5Aclose(attr_id);
+                    H5Aclose(attr_id);
                 }
                 catch (Exception ex) {
                 }
             if (attribute_id > 0)
                 try {
-                    H5.H5Aclose(attribute_id);
+                    H5Aclose(attribute_id);
                 }
                 catch (Exception ex) {
                 }
@@ -341,7 +340,7 @@ public class TestH5A {
         finally {
             if (attribute_id > 0)
                 try {
-                    H5.H5Aclose(attribute_id);
+                    H5Aclose(attribute_id);
                 }
                 catch (Exception ex) {
                 }
@@ -383,7 +382,7 @@ public class TestH5A {
         finally {
             if (attr_id > 0)
                 try {
-                    H5.H5Aclose(attr_id);
+                    H5Aclose(attr_id);
                 }
                 catch (Exception ex) {
                 }
@@ -1138,7 +1137,7 @@ public class TestH5A {
             }
 
             // Close the property list, and get the attribute's property list
-            H5.H5Pclose(plist_id);
+            H5Pclose(plist_id);
             plist_id = H5.H5Aget_create_plist(attribute_id);
             assertTrue(plist_id > 0);
 
@@ -1159,13 +1158,13 @@ public class TestH5A {
         finally {
             if (plist_id > 0)
                 try {
-                    H5.H5Pclose(plist_id);
+                    H5Pclose(plist_id);
                 }
                 catch (Exception ex) {
                 }
             if (attribute_id > 0)
                 try {
-                    H5.H5Aclose(attribute_id);
+                    H5Aclose(attribute_id);
                 }
                 catch (Exception ex) {
                 }

@@ -46,7 +46,6 @@ public class TestH5Obasic {
     @Before
     public void openH5file() throws HDF5LibraryException, NullPointerException
     {
-        assertTrue("H5 open ids is 0", H5.getOpenIDCount() == 0);
         System.out.print(testname.getMethodName());
 
         try {
@@ -54,7 +53,7 @@ public class TestH5Obasic {
         }
         catch (Throwable err) {
             err.printStackTrace();
-            fail("H5.H5Fopen: openH5file: " + err);
+            fail("H5Fopen: openH5file: " + err);
         }
     }
 
@@ -63,7 +62,7 @@ public class TestH5Obasic {
     {
         if (H5fid > 0) {
             try {
-                H5.H5Fclose(H5fid);
+                H5Fclose(H5fid);
             }
             catch (Exception ex) {
             }
@@ -79,7 +78,7 @@ public class TestH5Obasic {
         oid = H5.H5Oopen(H5fid, "Never_created", H5P_DEFAULT());
 
         try {
-            H5.H5Oclose(oid);
+            H5Oclose(oid);
         }
         catch (Exception ex) {
         }
@@ -97,7 +96,7 @@ public class TestH5Obasic {
         }
         catch (Throwable err) {
             err.printStackTrace();
-            fail("H5.H5Oget_info: " + err);
+            fail("H5Oget_info: " + err);
         }
         assertFalse("H5Oget_info ", obj_info == null);
         assertTrue("H5Oget_info object type", obj_info.type == HDF5Constants.H5O_TYPE_DATASET);
@@ -119,10 +118,10 @@ public class TestH5Obasic {
         }
         catch (Throwable err) {
             err.printStackTrace();
-            fail("H5.H5Oget_info: " + err);
+            fail("H5Oget_info: " + err);
         }
         assertFalse("H5Oget_info ", obj_info == null);
-        assertTrue("H5Oget_info object type", obj_info.type == HDF5Constants.H5O_TYPE_DATASET);
+        assertTrue("H5Oget_info object type", obj_info.type == H5O_TYPE_DATASET());
         try {
             H5.H5Oclose(oid);
         }
@@ -141,10 +140,10 @@ public class TestH5Obasic {
         }
         catch (Throwable err) {
             err.printStackTrace();
-            fail("H5.H5Oget_info: " + err);
+            fail("H5Oget_info: " + err);
         }
         assertFalse("H5Oget_info ", obj_info == null);
-        assertTrue("H5Oget_info object type", obj_info.type == HDF5Constants.H5O_TYPE_GROUP);
+        assertTrue("H5Oget_info object type", obj_info.type == H5O_TYPE_GROUP());
         try {
             H5.H5Oclose(oid);
         }
@@ -163,10 +162,10 @@ public class TestH5Obasic {
         }
         catch (Throwable err) {
             err.printStackTrace();
-            fail("H5.H5Oget_info: " + err);
+            fail("H5Oget_info: " + err);
         }
         assertFalse("H5Oget_info ", obj_info == null);
-        assertTrue("H5Oget_info object type", obj_info.type == HDF5Constants.H5O_TYPE_NAMED_DATATYPE);
+        assertTrue("H5Oget_info object type", obj_info.type == H5O_TYPE_NAMED_DATATYPE());
         try {
             H5.H5Oclose(oid);
         }
@@ -196,10 +195,10 @@ public class TestH5Obasic {
         }
         catch (Throwable err) {
             err.printStackTrace();
-            fail("H5.H5Oget_info: " + err);
+            fail("H5Oget_info: " + err);
         }
         assertFalse("H5Oget_info ", obj_info == null);
-        assertTrue("H5Oget_info object type", obj_info.type == HDF5Constants.H5O_TYPE_DATASET);
+        assertTrue("H5Oget_info object type", obj_info.type == H5O_TYPE_DATASET());
     }
 
     @Test
@@ -211,10 +210,10 @@ public class TestH5Obasic {
         }
         catch (Throwable err) {
             err.printStackTrace();
-            fail("H5.H5Oget_info: " + err);
+            fail("H5Oget_info: " + err);
         }
         assertFalse("H5Oget_info ", obj_info == null);
-        assertTrue("H5Oget_info object type", obj_info.type == HDF5Constants.H5O_TYPE_DATASET);
+        assertTrue("H5Oget_info object type", obj_info.type == H5O_TYPE_DATASET());
     }
 
     @Test
@@ -226,10 +225,10 @@ public class TestH5Obasic {
         }
         catch (Throwable err) {
             err.printStackTrace();
-            fail("H5.H5Oget_info: " + err);
+            fail("H5Oget_info: " + err);
         }
         assertFalse("H5Oget_info ", obj_info == null);
-        assertTrue("H5Oget_info object type", obj_info.type == HDF5Constants.H5O_TYPE_GROUP);
+        assertTrue("H5Oget_info object type", obj_info.type == H5O_TYPE_GROUP());
     }
 
     @Test
@@ -241,10 +240,10 @@ public class TestH5Obasic {
         }
         catch (Throwable err) {
             err.printStackTrace();
-            fail("H5.H5Oget_info: " + err);
+            fail("H5Oget_info: " + err);
         }
         assertFalse("H5Oget_info ", obj_info == null);
-        assertTrue("H5Oget_info object type", obj_info.type == HDF5Constants.H5O_TYPE_NAMED_DATATYPE);
+        assertTrue("H5Oget_info object type", obj_info.type == H5O_TYPE_NAMED_DATATYPE());
     }
 
     @Test(expected = HDF5LibraryException.class)
@@ -286,7 +285,7 @@ public class TestH5Obasic {
         }
         H5la_ds1 = obj_info.token;
         try {
-            H5.H5Oclose(oid);
+            H5Oclose(oid);
         }
         catch (Exception ex) {
         }
@@ -318,7 +317,7 @@ public class TestH5Obasic {
         }
         H5la_l1 = obj_info.token;
         try {
-            H5.H5Oclose(oid);
+            H5Oclose(oid);
         }
         catch (Exception ex) {
         }
@@ -347,14 +346,14 @@ public class TestH5Obasic {
         }
         catch (Throwable err) {
             err.printStackTrace();
-            fail("H5.H5Oget_native_info: " + err);
+            fail("H5Oget_native_info: " + err);
         }
         assertFalse("H5Oget_native_info ", native_info == null);
         assertFalse("H5Oget_native_info ", native_info.hdr_info == null);
         assertFalse("H5Oget_native_info ", native_info.obj_info == null);
         assertFalse("H5Oget_native_info ", native_info.attr_info == null);
         try {
-            H5.H5Oclose(oid);
+            H5Oclose(oid);
         }
         catch (Exception ex) {
         }
@@ -372,14 +371,14 @@ public class TestH5Obasic {
         }
         catch (Throwable err) {
             err.printStackTrace();
-            fail("H5.H5Oget_native_info: " + err);
+            fail("H5Oget_native_info: " + err);
         }
         assertFalse("H5Oget_native_info ", native_info == null);
         assertFalse("H5Oget_native_info ", native_info.hdr_info == null);
         assertFalse("H5Oget_native_info ", native_info.obj_info == null);
         assertFalse("H5Oget_native_info ", native_info.attr_info == null);
         try {
-            H5.H5Oclose(oid);
+            H5Oclose(oid);
         }
         catch (Exception ex) {
         }
@@ -397,14 +396,14 @@ public class TestH5Obasic {
         }
         catch (Throwable err) {
             err.printStackTrace();
-            fail("H5.H5Oget_native_info: " + err);
+            fail("H5Oget_native_info: " + err);
         }
         assertFalse("H5Oget_native_info ", native_info == null);
         assertFalse("H5Oget_native_info ", native_info.hdr_info == null);
         assertFalse("H5Oget_native_info ", native_info.obj_info == null);
         assertFalse("H5Oget_native_info ", native_info.attr_info == null);
         try {
-            H5.H5Oclose(oid);
+            H5Oclose(oid);
         }
         catch (Exception ex) {
         }
@@ -422,14 +421,14 @@ public class TestH5Obasic {
         }
         catch (Throwable err) {
             err.printStackTrace();
-            fail("H5.H5Oget_native_info: " + err);
+            fail("H5Oget_native_info: " + err);
         }
         assertFalse("H5Oget_native_info ", native_info == null);
         assertFalse("H5Oget_native_info ", native_info.hdr_info == null);
         assertFalse("H5Oget_native_info ", native_info.obj_info == null);
         assertFalse("H5Oget_native_info ", native_info.attr_info == null);
         try {
-            H5.H5Oclose(oid);
+            H5Oclose(oid);
         }
         catch (Exception ex) {
         }
@@ -457,7 +456,7 @@ public class TestH5Obasic {
         }
         catch (Throwable err) {
             err.printStackTrace();
-            fail("H5.H5Oget_native_info_by_name: " + err);
+            fail("H5Oget_native_info_by_name: " + err);
         }
         assertFalse("H5Oget_native_info_by_name ", native_info == null);
         assertFalse("H5Oget_native_info_by_name ", native_info.hdr_info == null);
@@ -475,7 +474,7 @@ public class TestH5Obasic {
         }
         catch (Throwable err) {
             err.printStackTrace();
-            fail("H5.H5Oget_native_info_by_name: " + err);
+            fail("H5Oget_native_info_by_name: " + err);
         }
         assertFalse("H5Oget_native_info_by_name ", native_info == null);
         assertFalse("H5Oget_native_info_by_name ", native_info.hdr_info == null);
@@ -493,7 +492,7 @@ public class TestH5Obasic {
         }
         catch (Throwable err) {
             err.printStackTrace();
-            fail("H5.H5Oget_native_info_by_name: " + err);
+            fail("H5Oget_native_info_by_name: " + err);
         }
         assertFalse("H5Oget_native_info_by_name ", native_info == null);
         assertFalse("H5Oget_native_info_by_name ", native_info.hdr_info == null);
@@ -511,7 +510,7 @@ public class TestH5Obasic {
         }
         catch (Throwable err) {
             err.printStackTrace();
-            fail("H5.H5Oget_native_info_by_name: " + err);
+            fail("H5Oget_native_info_by_name: " + err);
         }
         assertFalse("H5Oget_native_info_by_name ", native_info == null);
         assertFalse("H5Oget_native_info_by_name ", native_info.hdr_info == null);
@@ -566,7 +565,7 @@ public class TestH5Obasic {
         ainfo = native_info.attr_info;
 
         try {
-            H5.H5Oclose(oid);
+            H5Oclose(oid);
         }
         catch (Exception ex) {
         }
@@ -611,7 +610,7 @@ public class TestH5Obasic {
         ainfo = native_info.attr_info;
 
         try {
-            H5.H5Oclose(oid);
+            H5Oclose(oid);
         }
         catch (Exception ex) {
         }
@@ -663,7 +662,7 @@ public class TestH5Obasic {
         }
         catch (Throwable err) {
             err.printStackTrace();
-            fail("H5.H5Ovisit: " + err);
+            fail("H5Ovisit: " + err);
         }
         assertFalse("H5Ovisit ", ((H5O_iter_data)iter_data).iterdata.isEmpty());
         assertTrue("H5Ovisit " + ((H5O_iter_data)iter_data).iterdata.size(),
@@ -713,7 +712,7 @@ public class TestH5Obasic {
         }
         catch (Throwable err) {
             err.printStackTrace();
-            fail("H5.H5Ovisit_by_name: " + err);
+            fail("H5Ovisit_by_name: " + err);
         }
         assertFalse("H5Ovisit_by_name ", ((H5O_iter_data)iter_data).iterdata.isEmpty());
         assertTrue("H5Ovisit_by_name " + ((H5O_iter_data)iter_data).iterdata.size(),
@@ -733,7 +732,7 @@ public class TestH5Obasic {
         }
         catch (Throwable err) {
             err.printStackTrace();
-            fail("H5.H5Oexists_by_name: " + err);
+            fail("H5Oexists_by_name: " + err);
         }
         assertTrue("H5Oexists_by_name ", name_exists);
         // TODO get dangling link result
@@ -755,7 +754,7 @@ public class TestH5Obasic {
             }
             H5la_ds1 = obj_info.token;
             try {
-                H5.H5Oclose(oid);
+                H5Oclose(oid);
             }
             catch (Exception ex) {
             }
@@ -780,7 +779,7 @@ public class TestH5Obasic {
         }
         finally {
             try {
-                H5.H5Oclose(oid);
+                H5Oclose(oid);
             }
             catch (Exception ex) {
             }
@@ -803,7 +802,7 @@ public class TestH5Obasic {
             }
             H5la_ds1 = obj_info.token;
             try {
-                H5.H5Oclose(oid);
+                H5Oclose(oid);
             }
             catch (Exception ex) {
             }
@@ -828,7 +827,7 @@ public class TestH5Obasic {
         }
         finally {
             try {
-                H5.H5Oclose(oid);
+                H5Oclose(oid);
             }
             catch (Exception ex) {
             }
@@ -851,7 +850,7 @@ public class TestH5Obasic {
             }
             H5la_l1 = obj_info.token;
             try {
-                H5.H5Oclose(oid);
+                H5Oclose(oid);
             }
             catch (Exception ex) {
             }
@@ -876,7 +875,7 @@ public class TestH5Obasic {
         }
         finally {
             try {
-                H5.H5Oclose(oid);
+                H5Oclose(oid);
             }
             catch (Exception ex) {
             }

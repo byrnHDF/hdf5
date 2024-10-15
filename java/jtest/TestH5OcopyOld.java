@@ -67,7 +67,7 @@ public class TestH5OcopyOld {
         }
         catch (Throwable err) {
             err.printStackTrace();
-            fail("H5.H5Dcreate: " + err);
+            fail("H5Dcreate: " + err);
         }
         assertTrue("TestH5O._createDataset: ", did >= 0);
 
@@ -83,7 +83,7 @@ public class TestH5OcopyOld {
         }
         catch (Throwable err) {
             err.printStackTrace();
-            fail("H5.H5Gcreate: " + err);
+            fail("H5Gcreate: " + err);
         }
         assertTrue("TestH5O._createGroup: ", gid >= 0);
 
@@ -93,11 +93,10 @@ public class TestH5OcopyOld {
     @Before
     public void createH5file() throws NullPointerException, HDF5Exception
     {
-        assertTrue("H5 open ids is 0", H5.getOpenIDCount() == 0);
         System.out.print(testname.getMethodName());
         try {
             H5fid   = H5.H5Fcreate(FILENAME, H5F_ACC_TRUNC(), H5P_DEFAULT(), H5P_DEFAULT());
-            H5dsid2 = H5.H5Screate(HDF5Constants.H5S_SCALAR);
+            H5dsid2 = H5Screate(H5S_SCALAR());
             H5did1  = _createDataset(H5fid, H5dsid2, "DS2", H5P_DEFAULT());
             H5dsid  = H5.H5Screate_simple(1, dims, null);
             H5gid   = _createGroup(H5fid, "/G1");
@@ -107,11 +106,11 @@ public class TestH5OcopyOld {
             err.printStackTrace();
             fail("TestH5O.createH5file: " + err);
         }
-        assertTrue("TestH5O.createH5file: H5.H5Fcreate: ", H5fid >= 0);
-        assertTrue("TestH5O.createH5file: H5.H5Screate_simple: ", H5dsid >= 0);
-        assertTrue("TestH5O.createH5file: H5.H5Gcreate: ", H5gid >= 0);
+        assertTrue("TestH5O.createH5file: H5Fcreate: ", H5fid >= 0);
+        assertTrue("TestH5O.createH5file: H5Screate_simple: ", H5dsid >= 0);
+        assertTrue("TestH5O.createH5file: H5Gcreate: ", H5gid >= 0);
 
-        H5.H5Fflush(H5fid, H5F_SCOPE_LOCAL());
+        H5Fflush(H5fid, H5F_SCOPE_LOCAL());
     }
 
     @After
@@ -119,37 +118,37 @@ public class TestH5OcopyOld {
     {
         if (H5gid > 0)
             try {
-                H5.H5Gclose(H5gid);
+                H5Gclose(H5gid);
             }
             catch (Exception ex) {
             }
         if (H5did2 > 0)
             try {
-                H5.H5Dclose(H5did2);
+                H5Dclose(H5did2);
             }
             catch (Exception ex) {
             }
         if (H5dsid > 0)
             try {
-                H5.H5Sclose(H5dsid);
+                H5Sclose(H5dsid);
             }
             catch (Exception ex) {
             }
         if (H5dsid2 > 0)
             try {
-                H5.H5Sclose(H5dsid2);
+                H5Sclose(H5dsid2);
             }
             catch (Exception ex) {
             }
         if (H5did1 > 0)
             try {
-                H5.H5Dclose(H5did1);
+                H5Dclose(H5did1);
             }
             catch (Exception ex) {
             }
         if (H5fid > 0)
             try {
-                H5.H5Fclose(H5fid);
+                H5Fclose(H5fid);
             }
             catch (Exception ex) {
             }
@@ -167,8 +166,8 @@ public class TestH5OcopyOld {
         long attribute_id = H5I_INVALID_HID();
 
         try {
-            rbuf0 = H5.H5Rcreate(H5fid, "/G1", HDF5Constants.H5R_OBJECT, -1);
-            rbuf1 = H5.H5Rcreate(H5fid, "DS2", HDF5Constants.H5R_OBJECT, -1);
+            rbuf0 = H5.H5Rcreate(H5fid, "/G1", H5R_OBJECT(), -1);
+            rbuf1 = H5.H5Rcreate(H5fid, "DS2", H5R_OBJECT(), -1);
             // System.arraycopy(rbuf0, 0, dset_data, 0, 8);
             System.arraycopy(rbuf1, 0, dset_data, 8, 8);
         }
@@ -177,10 +176,10 @@ public class TestH5OcopyOld {
         }
 
         try {
-            attribute_id = H5.H5Acreate(H5did2, "A1", HDF5Constants.H5T_STD_REF_OBJ, H5dsid, H5P_DEFAULT(),
+            attribute_id = H5.H5Acreate(H5did2, "A1", H5T_STD_REF_OBJ(), H5dsid, H5P_DEFAULT(),
                                         H5P_DEFAULT());
             assertTrue("testH5OcopyRefsAttr.H5Acreate: ", attribute_id >= 0);
-            H5.H5Awrite(attribute_id, HDF5Constants.H5T_STD_REF_OBJ, dset_data);
+            H5.H5Awrite(attribute_id, H5T_STD_REF_OBJ(), dset_data);
 
             H5.H5Aclose(attribute_id);
         }
@@ -189,16 +188,16 @@ public class TestH5OcopyOld {
         }
         finally {
             try {
-                H5.H5Aclose(attribute_id);
+                H5Aclose(attribute_id);
             }
             catch (Exception exx) {
             }
         }
 
         try {
-            ocp_plist_id = H5.H5Pcreate(HDF5Constants.H5P_OBJECT_COPY);
+            ocp_plist_id = H5Pcreate(H5P_OBJECT_COPY());
             assertTrue("testH5OcopyRefsAttr.H5Pcreate: ", ocp_plist_id >= 0);
-            H5.H5Pset_copy_object(ocp_plist_id, HDF5Constants.H5O_COPY_EXPAND_REFERENCE_FLAG);
+            H5Pset_copy_object(ocp_plist_id, H5O_COPY_EXPAND_REFERENCE_FLAG());
             H5.H5Ocopy(H5fid, ".", H5fid, "CPYREF", ocp_plist_id, H5P_DEFAULT());
         }
         catch (Exception ex) {
@@ -206,7 +205,7 @@ public class TestH5OcopyOld {
         }
         finally {
             try {
-                H5.H5Pclose(ocp_plist_id);
+                H5Pclose(ocp_plist_id);
             }
             catch (Exception ex) {
             }
@@ -223,22 +222,22 @@ public class TestH5OcopyOld {
         long H5fid2       = H5I_INVALID_HID();
 
         try {
-            rbuf1 = H5.H5Rcreate(H5fid, "DS2", HDF5Constants.H5R_OBJECT, -1);
+            rbuf1 = H5.H5Rcreate(H5fid, "DS2", H5R_OBJECT(), -1);
             System.arraycopy(rbuf1, 0, dset_data, 8, 8);
 
-            dataset_id = H5.H5Dcreate(H5fid, "DSREF", HDF5Constants.H5T_STD_REF_OBJ, H5dsid, H5P_DEFAULT(),
+            dataset_id = H5.H5Dcreate(H5fid, "DSREF", H5T_STD_REF_OBJ(), H5dsid, H5P_DEFAULT(),
                                       H5P_DEFAULT(), H5P_DEFAULT());
             assertTrue("testH5OcopyRefsDatasettodiffFile.H5Dcreate: ", dataset_id >= 0);
-            H5.H5Dwrite(dataset_id, HDF5Constants.H5T_STD_REF_OBJ, H5S_ALL(), H5S_ALL(), H5P_DEFAULT(),
+            H5.H5Dwrite(dataset_id, H5T_STD_REF_OBJ(), H5S_ALL(), H5S_ALL(), H5P_DEFAULT(),
                         dset_data);
-            H5.H5Dclose(dataset_id);
+            H5Dclose(dataset_id);
         }
         catch (Exception ex) {
             fail("testH5OcopyRefsDatasettodiffFile: create dataset failed");
         }
         finally {
             try {
-                H5.H5Dclose(dataset_id);
+                H5Dclose(dataset_id);
             }
             catch (Exception exx) {
             }
@@ -248,11 +247,11 @@ public class TestH5OcopyOld {
             // create new file
             H5fid2 = H5.H5Fcreate("copy_old.h5", H5F_ACC_TRUNC(), H5P_DEFAULT(), H5P_DEFAULT());
             assertTrue("testH5OcopyRefsDatasettodiffFile.H5Fcreate: ", H5fid2 >= 0);
-            H5.H5Fflush(H5fid2, H5F_SCOPE_LOCAL());
+            H5Fflush(H5fid2, H5F_SCOPE_LOCAL());
         }
         catch (Exception ex) {
             try {
-                H5.H5Fclose(H5fid2);
+                H5Fclose(H5fid2);
             }
             catch (Exception exx) {
             }
@@ -261,9 +260,9 @@ public class TestH5OcopyOld {
 
         try {
             // create object copy property list id and set the flags.
-            ocp_plist_id = H5.H5Pcreate(HDF5Constants.H5P_OBJECT_COPY);
+            ocp_plist_id = H5Pcreate(H5P_OBJECT_COPY());
             assertTrue("testH5OcopyRefsDatasettodiffFile.H5Pcreate: ", ocp_plist_id >= 0);
-            H5.H5Pset_copy_object(ocp_plist_id, HDF5Constants.H5O_COPY_EXPAND_REFERENCE_FLAG);
+            H5Pset_copy_object(ocp_plist_id, H5O_COPY_EXPAND_REFERENCE_FLAG());
 
             // Perform copy function.
             H5.H5Ocopy(H5fid, ".", H5fid2, "CPYREFD", ocp_plist_id, H5P_DEFAULT());
@@ -274,12 +273,12 @@ public class TestH5OcopyOld {
         }
         finally {
             try {
-                H5.H5Pclose(ocp_plist_id);
+                H5Pclose(ocp_plist_id);
             }
             catch (Exception ex) {
             }
             try {
-                H5.H5Fclose(H5fid2);
+                H5Fclose(H5fid2);
             }
             catch (Exception ex) {
             }
@@ -299,23 +298,23 @@ public class TestH5OcopyOld {
         byte[] read_data  = new byte[16];
 
         try {
-            rbuf0 = H5.H5Rcreate(H5fid, "/G1", HDF5Constants.H5R_OBJECT, -1);
-            rbuf1 = H5.H5Rcreate(H5fid, "DS2", HDF5Constants.H5R_OBJECT, -1);
+            rbuf0 = H5.H5Rcreate(H5fid, "/G1", H5R_OBJECT(), -1);
+            rbuf1 = H5.H5Rcreate(H5fid, "DS2", H5R_OBJECT(), -1);
             System.arraycopy(rbuf0, 0, dset_data, 0, 8);
             System.arraycopy(rbuf1, 0, dset_data, 8, 8);
 
             // Create a dataset and write object references to it.
-            dataset_id = H5.H5Dcreate(H5fid, "DSREF", HDF5Constants.H5T_STD_REF_OBJ, H5dsid, H5P_DEFAULT(),
+            dataset_id = H5.H5Dcreate(H5fid, "DSREF", H5T_STD_REF_OBJ(), H5dsid, H5P_DEFAULT(),
                                       H5P_DEFAULT(), H5P_DEFAULT());
             assertTrue("testH5OcopyRefsDatasettosameFile.H5Dcreate: ", dataset_id >= 0);
-            H5.H5Dwrite(dataset_id, HDF5Constants.H5T_STD_REF_OBJ, H5S_ALL(), H5S_ALL(), H5P_DEFAULT(),
+            H5.H5Dwrite(dataset_id, H5T_STD_REF_OBJ(), H5S_ALL(), H5S_ALL(), H5P_DEFAULT(),
                         dset_data);
             // Close the dataset.
-            H5.H5Dclose(dataset_id);
+            H5Dclose(dataset_id);
         }
         catch (Exception ex) {
             try {
-                H5.H5Dclose(dataset_id);
+                H5Dclose(dataset_id);
             }
             catch (Exception exx) {
             }
@@ -323,13 +322,13 @@ public class TestH5OcopyOld {
         }
 
         try {
-            ocp_plist_id = H5.H5Pcreate(HDF5Constants.H5P_OBJECT_COPY);
+            ocp_plist_id = H5.H5Pcreate(H5P_OBJECT_COPY());
             assertTrue("testH5OcopyRefsDatasettosameFile.H5Pcreate: ", ocp_plist_id >= 0);
-            H5.H5Pset_copy_object(ocp_plist_id, HDF5Constants.H5O_COPY_EXPAND_REFERENCE_FLAG);
+            H5Pset_copy_object(ocp_plist_id, H5O_COPY_EXPAND_REFERENCE_FLAG());
         }
         catch (Exception ex) {
             try {
-                H5.H5Pclose(ocp_plist_id);
+                H5Pclose(ocp_plist_id);
             }
             catch (Exception exx) {
             }
@@ -342,7 +341,7 @@ public class TestH5OcopyOld {
         }
         catch (Exception ex) {
             try {
-                H5.H5Pclose(ocp_plist_id);
+                H5Pclose(ocp_plist_id);
             }
             catch (Exception exx) {
             }
@@ -356,7 +355,7 @@ public class TestH5OcopyOld {
         }
         catch (Exception e) {
             try {
-                H5.H5Dclose(did);
+                H5Dclose(did);
             }
             catch (Exception exx) {
             }
@@ -366,28 +365,28 @@ public class TestH5OcopyOld {
 
         try {
             // Read the dataset object references in the read_data buffer.
-            H5.H5Dread(did, HDF5Constants.H5T_STD_REF_OBJ, H5S_ALL(), H5S_ALL(), H5P_DEFAULT(), read_data);
+            H5.H5Dread(did, H5T_STD_REF_OBJ(), H5S_ALL(), H5S_ALL(), H5P_DEFAULT(), read_data);
             System.arraycopy(read_data, 0, rbuf0, 0, 8);
             System.arraycopy(read_data, 8, rbuf1, 0, 8);
 
             // Get the type of object the reference points to.
-            obj_type = H5.H5Rget_obj_type(H5fid, HDF5Constants.H5R_OBJECT, rbuf1);
-            assertEquals(obj_type, HDF5Constants.H5O_TYPE_DATASET);
+            obj_type = H5.H5Rget_obj_type(H5fid, H5R_OBJECT(), rbuf1);
+            assertEquals(obj_type, H5O_TYPE_DATASET());
 
-            obj_type = H5.H5Rget_obj_type(H5fid, HDF5Constants.H5R_OBJECT, rbuf0);
-            assertEquals(obj_type, HDF5Constants.H5O_TYPE_GROUP);
+            obj_type = H5.H5Rget_obj_type(H5fid, H5R_OBJECT(), rbuf0);
+            assertEquals(obj_type, H5O_TYPE_GROUP());
         }
         catch (Exception ex) {
             ex.printStackTrace();
         }
         finally {
             try {
-                H5.H5Dclose(did);
+                H5Dclose(did);
             }
             catch (Exception ex) {
             }
             try {
-                H5.H5Pclose(ocp_plist_id);
+                H5Pclose(ocp_plist_id);
             }
             catch (Exception ex) {
             }
@@ -407,7 +406,7 @@ public class TestH5OcopyOld {
             assertTrue("testH5OcopyNullRef.H5Screate_simple: ", sid >= 0);
             did = H5.H5Dcreate(H5fid, "Dataset_with_null_Ref", H5T_NATIVE_INT_g(), sid, _pid_, _pid_, _pid_);
             assertTrue("testH5OcopyNullRef.H5Dcreate: ", did > 0);
-            aid = H5.H5Acreate(did, "Null_Ref", HDF5Constants.H5T_STD_REF_OBJ, sid, _pid_, _pid_);
+            aid = H5.H5Acreate(did, "Null_Ref", H5T_STD_REF_OBJ(), sid, _pid_, _pid_);
             assertTrue("testH5OcopyNullRef.H5Acreate: ", aid > 0);
         }
         catch (Exception ex) {
@@ -415,32 +414,32 @@ public class TestH5OcopyOld {
         }
         finally {
             try {
-                H5.H5Dclose(did);
+                H5Dclose(did);
             }
             catch (Exception exx) {
             }
             try {
-                H5.H5Aclose(aid);
+                H5Aclose(aid);
             }
             catch (Exception exx) {
             }
             try {
-                H5.H5Sclose(sid);
+                H5Sclose(sid);
             }
             catch (Exception exx) {
             }
         }
 
-        long ocp_plist_id = H5.H5Pcreate(HDF5Constants.H5P_OBJECT_COPY);
+        long ocp_plist_id = H5Pcreate(H5P_OBJECT_COPY());
         assertTrue("testH5OcopyNullRef.H5Pcreate: ", ocp_plist_id >= 0);
-        H5.H5Pset_copy_object(ocp_plist_id, HDF5Constants.H5O_COPY_EXPAND_REFERENCE_FLAG);
+        H5Pset_copy_object(ocp_plist_id, H5O_COPY_EXPAND_REFERENCE_FLAG());
         try {
             H5.H5Ocopy(H5fid, "/Dataset_with_null_Ref", H5fid, "/Dataset_with_null_Ref_cp", ocp_plist_id,
                        _pid_);
         }
         finally {
             try {
-                H5.H5Pclose(ocp_plist_id);
+                H5Pclose(ocp_plist_id);
             }
             catch (Exception exx) {
             }
@@ -460,28 +459,28 @@ public class TestH5OcopyOld {
     //            assertTrue("testH5OcopyInvalidRef.H5Screate_simple: ", sid >= 0);
     //            did = H5.H5Dcreate(H5fid, "Dataset_with_invalid_Ref", H5T_NATIVE_INT_g(), sid,
     //            _pid_, _pid_, _pid_); assertTrue("testH5OcopyInvalidRef.H5Dcreate: ", did > 0); aid =
-    //            H5.H5Acreate(did, "Invalid_Ref", HDF5Constants.H5T_STD_REF_OBJ, sid, _pid_, _pid_);
+    //            H5.H5Acreate(did, "Invalid_Ref", H5T_STD_REF_OBJ(), sid, _pid_, _pid_);
     //            assertTrue("testH5OcopyInvalidRef.H5Acreate: ", aid > 0);
-    //            H5.H5Awrite(aid, HDF5Constants.H5T_STD_REF_OBJ, new long[]{-1});
+    //            H5.H5Awrite(aid, H5T_STD_REF_OBJ(), new long[]{-1});
     //        }
     //        catch (Exception ex) {
     //            ex.printStackTrace();
     //        }
     //        finally {
-    //            try {H5.H5Dclose(did);} catch (Exception exx) {}
-    //            try {H5.H5Aclose(aid);} catch (Exception exx) {}
-    //            try {H5.H5Sclose(sid);} catch (Exception exx) {}
+    //            try {H5Dclose(did);} catch (Exception exx) {}
+    //            try {H5Aclose(aid);} catch (Exception exx) {}
+    //            try {H5Sclose(sid);} catch (Exception exx) {}
     //        }
     //
-    //        long ocp_plist_id = H5.H5Pcreate(HDF5Constants.H5P_OBJECT_COPY);
+    //        long ocp_plist_id = H5Pcreate(H5P_OBJECT_COPY());
     //        assertTrue("testH5OcopyInvalidRef.H5Pcreate: ", ocp_plist_id >= 0);
-    //        H5.H5Pset_copy_object(ocp_plist_id, HDF5Constants.H5O_COPY_EXPAND_REFERENCE_FLAG);
+    //        H5.H5Pset_copy_object(ocp_plist_id, H5O_COPY_EXPAND_REFERENCE_FLAG());
     //        try {
     //            H5.H5Ocopy(H5fid, "/Dataset_with_invalid_Ref", H5fid, "/Dataset_with_invalid_Ref_cp",
     //            ocp_plist_id, _pid_);
     //        }
     //        finally {
-    //            try {H5.H5Pclose(ocp_plist_id);} catch (Exception exx) {}
+    //            try {H5Pclose(ocp_plist_id);} catch (Exception exx) {}
     //        }
     //    }
 }

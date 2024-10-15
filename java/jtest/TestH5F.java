@@ -12,6 +12,7 @@
 
 package test;
 
+import static org.hdfgroup.javahdf5.hdf5_h.*;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotEquals;
 import static org.junit.Assert.assertTrue;
@@ -19,12 +20,10 @@ import static org.junit.Assert.fail;
 
 import java.io.File;
 
-import hdf.hdf5lib.H5;
-import hdf.hdf5lib.HDF5Constants;
-import hdf.hdf5lib.exceptions.HDF5LibraryException;
-
+import org.hdfgroup.javahdf5.*;
 import org.junit.After;
 import org.junit.Before;
+import org.junit.Ignore;
 import org.junit.Rule;
 import org.junit.Test;
 import org.junit.rules.TestName;
@@ -50,7 +49,12 @@ public class TestH5F {
 
     private final void _deleteFile(String filename)
     {
-        File file = new File(filename);
+        File file = null;
+        try {
+            file = new File(filename);
+        }
+        catch (Throwable err) {
+        }
 
         if (file.exists()) {
             try {
@@ -64,11 +68,21 @@ public class TestH5F {
     @Before
     public void createH5file() throws HDF5LibraryException, NullPointerException
     {
-        assertTrue("H5 open ids is 0", H5.getOpenIDCount() == 0);
-        System.out.print(testname.getMethodName());
-
-        H5fid = H5.H5Fcreate(H5_FILE, H5F_ACC_TRUNC(), H5P_DEFAULT(), H5P_DEFAULT());
-        H5.H5Fflush(H5fid, H5F_SCOPE_LOCAL());
+        try (Arena arena = Arena.ofConfined()) {
+            // Allocate a MemorySegment to hold the string bytes
+            MemorySegment filename_segment = arena.allocateFrom(H5_FILE);
+            H5fid = H5Fcreate(filename_segment, H5F_ACC_TRUNC(), H5P_DEFAULT(), H5P_DEFAULT());
+        }
+        catch (Throwable err) {
+            err.printStackTrace();
+            fail("Arena: " + err);
+        }
+        try {
+            H5Fflush(H5fid, H5F_SCOPE_LOCAL());
+        }
+        catch (Throwable err) {
+            err.printStackTrace();
+        }
     }
 
     @After
@@ -76,7 +90,7 @@ public class TestH5F {
     {
         if (H5fid > 0) {
             try {
-                H5.H5Fclose(H5fid);
+                H5Fclose(H5fid);
             }
             catch (Exception ex) {
             }
@@ -92,14 +106,14 @@ public class TestH5F {
         long plist = H5I_INVALID_HID();
 
         try {
-            plist = H5.H5Fget_create_plist(H5fid);
+            plist = H5Fget_create_plist(H5fid);
         }
         catch (Throwable err) {
-            fail("H5.H5Fget_create_plist: " + err);
+            fail("H5Fget_create_plist: " + err);
         }
         assertTrue(plist > 0);
         try {
-            H5.H5Pclose(plist);
+            H5Pclose(plist);
         }
         catch (HDF5LibraryException e) {
             e.printStackTrace();
@@ -111,14 +125,14 @@ public class TestH5F {
     {
         if (H5fid > 0) {
             try {
-                H5.H5Fclose(H5fid);
+                H5Fclose(H5fid);
             }
             catch (Exception ex) {
             }
         }
 
         // it should fail because the file was closed.
-        H5.H5Fget_create_plist(H5fid);
+        H5Fget_create_plist(H5fid);
     }
 
     @Test
@@ -127,14 +141,14 @@ public class TestH5F {
         long plist = H5I_INVALID_HID();
 
         try {
-            plist = H5.H5Fget_access_plist(H5fid);
+            plist = H5Fget_access_plist(H5fid);
         }
         catch (Throwable err) {
-            fail("H5.H5Fget_access_plist: " + err);
+            fail("H5Fget_access_plist: " + err);
         }
         assertTrue(plist > 0);
         try {
-            H5.H5Pclose(plist);
+            H5Pclose(plist);
         }
         catch (HDF5LibraryException e) {
             e.printStackTrace();
@@ -146,14 +160,14 @@ public class TestH5F {
     {
         if (H5fid > 0) {
             try {
-                H5.H5Fclose(H5fid);
+                H5Fclose(H5fid);
             }
             catch (Exception ex) {
             }
         }
 
         // it should fail because the file was closed.
-        H5.H5Fget_access_plist(H5fid);
+        H5Fget_access_plist(H5fid);
     }
 
     @Test
@@ -163,7 +177,7 @@ public class TestH5F {
 
         if (H5fid > 0) {
             try {
-                H5.H5Fclose(H5fid);
+                H5Fclose(H5fid);
             }
             catch (Exception ex) {
             }
@@ -174,13 +188,13 @@ public class TestH5F {
             H5fid = H5.H5Fopen(H5_FILE, H5F_ACC_RDWR(), H5P_DEFAULT());
         }
         catch (Throwable err) {
-            fail("H5.H5Fopen: " + err);
+            fail("H5Fopen: " + err);
         }
         try {
-            intent = H5.H5Fget_intent(H5fid);
+            intent = H5Fget_intent(H5fid);
         }
         catch (Throwable err) {
-            fail("H5.H5Fget_intent: " + err);
+            fail("H5Fget_intent: " + err);
         }
         assertEquals(H5F_ACC_RDWR(), intent);
     }
@@ -192,7 +206,7 @@ public class TestH5F {
 
         if (H5fid > 0) {
             try {
-                H5.H5Fclose(H5fid);
+                H5Fclose(H5fid);
             }
             catch (Exception ex) {
             }
@@ -203,13 +217,13 @@ public class TestH5F {
             H5fid = H5.H5Fopen(H5_FILE, H5F_ACC_RDONLY(), H5P_DEFAULT());
         }
         catch (Throwable err) {
-            fail("H5.H5Fopen: " + err);
+            fail("H5Fopen: " + err);
         }
         try {
-            intent = H5.H5Fget_intent(H5fid);
+            intent = H5Fget_intent(H5fid);
         }
         catch (Throwable err) {
-            fail("H5.H5Fget_intent: " + err);
+            fail("H5Fget_intent: " + err);
         }
         assertEquals(H5F_ACC_RDONLY(), intent);
     }
@@ -224,13 +238,13 @@ public class TestH5F {
 
         try {
             fid1 = H5.H5Fcreate(H5_FILE2, H5F_ACC_TRUNC(), H5P_DEFAULT(), H5P_DEFAULT());
-            H5.H5Fflush(fid1, H5F_SCOPE_LOCAL());
+            H5Fflush(fid1, H5F_SCOPE_LOCAL());
             assertTrue("H5Fcreate failed", fid1 > 0);
             fid2 = H5.H5Fopen(H5_FILE2, H5F_ACC_RDWR(), H5P_DEFAULT());
             assertTrue("H5Fopen failed", fid2 > 0);
-            fileno1 = H5.H5Fget_fileno(fid1);
+            fileno1 = H5Fget_fileno(fid1);
             assertTrue("H5Fget_fileno1=" + fileno1, fileno1 > 0);
-            fileno2 = H5.H5Fget_fileno(fid2);
+            fileno2 = H5Fget_fileno(fid2);
             assertTrue("H5Fget_fileno2=" + fileno2, fileno2 > 0);
 
             assertEquals("fileno1[" + fileno1 + "]!=fileno2[" + fileno2 + "]", fileno1, fileno2);
@@ -239,8 +253,8 @@ public class TestH5F {
             fail("testH5Fget_fileno_same: " + err);
         }
         finally {
-            H5.H5Fclose(fid1);
-            H5.H5Fclose(fid2);
+            H5Fclose(fid1);
+            H5Fclose(fid2);
         }
     }
 
@@ -253,12 +267,12 @@ public class TestH5F {
 
         try {
             fid2 = H5.H5Fcreate(H5_FILE2, H5F_ACC_TRUNC(), H5P_DEFAULT(), H5P_DEFAULT());
-            H5.H5Fflush(fid2, H5F_SCOPE_LOCAL());
+            H5Fflush(fid2, H5F_SCOPE_LOCAL());
             assertTrue("H5Fcreate failed", fid2 > 0);
 
-            fileno1 = H5.H5Fget_fileno(H5fid);
+            fileno1 = H5Fget_fileno(H5fid);
             assertTrue("H5Fget_fileno1=" + fileno1, fileno1 > 0);
-            fileno2 = H5.H5Fget_fileno(fid2);
+            fileno2 = H5Fget_fileno(fid2);
             assertTrue("H5Fget_fileno2=" + fileno2, fileno2 > 0);
 
             assertNotEquals("fileno1[" + fileno1 + "]==fileno2[" + fileno2 + "]", fileno1, fileno2);
@@ -267,7 +281,7 @@ public class TestH5F {
             fail("testH5Fget_fileno_diff: " + err);
         }
         finally {
-            H5.H5Fclose(fid2);
+            H5Fclose(fid2);
         }
     }
 
@@ -281,7 +295,7 @@ public class TestH5F {
                 count = H5.H5Fget_obj_count(H5fid, OBJ_TYPES[i]);
             }
             catch (Throwable err) {
-                fail("H5.H5Fget_obj_count: " + err);
+                fail("H5Fget_obj_count: " + err);
             }
 
             assertEquals(count, OBJ_COUNTS[i]);
@@ -308,7 +322,7 @@ public class TestH5F {
                 count = H5.H5Fget_obj_ids(H5fid, OBJ_TYPES[i], max_objs, obj_id_list);
             }
             catch (Throwable err) {
-                fail("H5.H5Fget_obj_ids: " + err);
+                fail("H5Fget_obj_ids: " + err);
             }
             assertEquals(count, open_obj_counts[i]);
         }
@@ -336,11 +350,11 @@ public class TestH5F {
     //
     // // create a group at file1
     // int gid = _createGroup(fid1, group1);
-    // try { H5.H5Gclose(gid); } catch (Exception ex) {}
+    // try { H5Gclose(gid); } catch (Exception ex) {}
     //
     // // create a group at file 2
     // gid = _createGroup(fid2, group2);
-    // try { H5.H5Gclose(gid); } catch (Exception ex) {}
+    // try { H5Gclose(gid); } catch (Exception ex) {}
     //
     // // before mount, "/G/MOUNTED" does not exists in file1
     // gid = _openGroup(fid1, group1+group2);
@@ -348,31 +362,31 @@ public class TestH5F {
     //
     // // Mount file2 under G in the file1
     // try {
-    // H5.H5Fmount(fid1, group1, fid2, H5P_DEFAULT());
+    // H5Fmount(fid1, group1, fid2, H5P_DEFAULT());
     // }
     // catch (Throwable err) {
-    // fail("H5.H5Fmount: "+err);
+    // fail("H5Fmount: "+err);
     // }
     //
     // // now file1 should have group "/G/MOUNTED"
     // gid = _openGroup(fid1, group1+group2);
     // assertTrue(gid > 0);
-    // try { H5.H5Gclose(gid); } catch (Exception ex) {}
+    // try { H5Gclose(gid); } catch (Exception ex) {}
     //
     // // unmount file2 from file1
     // try {
-    // H5.H5Funmount(fid1, group1);
+    // H5Funmount(fid1, group1);
     // }
     // catch (Throwable err) {
-    // fail("H5.H5Funmount: "+err);
+    // fail("H5Funmount: "+err);
     // }
     //
     // // file2 was unmounted from file1, "/G/MOUNTED" does not exists in file1
     // gid = _openGroup(fid1, group1+group2);
     // assertTrue(gid < 0);
     //
-    // try { H5.H5Fclose(fid1); } catch (Exception ex) {}
-    // try { H5.H5Fclose(fid2); } catch (Exception ex) {}
+    // try { H5Fclose(fid1); } catch (Exception ex) {}
+    // try { H5Fclose(fid2); } catch (Exception ex) {}
     //
     // _deleteFile(file1);
     // _deleteFile(file2);

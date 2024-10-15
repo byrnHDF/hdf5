@@ -32,7 +32,6 @@ public class TestH5Sbasic {
     @Before
     public void checkOpenIDs()
     {
-        assertTrue("H5 open ids is 0", H5.getOpenIDCount() == 0);
         System.out.print(testname.getMethodName());
     }
     @After
@@ -44,20 +43,20 @@ public class TestH5Sbasic {
     @Test //(expected = HDF5LibraryException.class)
     public void testH5Sclose_invalid() throws Throwable
     {
-        long sid = H5.H5Sclose(-1);
+        long sid = H5Sclose(-1);
         assertTrue(sid == 0);
     }
 
     @Test(expected = HDF5LibraryException.class)
     public void testH5Screate_invalid() throws Throwable
     {
-        H5.H5Screate(-1);
+        H5Screate(-1);
     }
 
     @Test(expected = IllegalArgumentException.class)
     public void testH5Sget_simple_extent_type_invalid() throws Throwable
     {
-        H5.H5Sget_simple_extent_type(-1);
+        H5Sget_simple_extent_type(-1);
     }
 
     @Test
@@ -66,18 +65,18 @@ public class TestH5Sbasic {
         long sid       = H5I_INVALID_HID();
         int class_type = -1;
         try {
-            sid = H5.H5Screate(HDF5Constants.H5S_SCALAR);
-            assertTrue("H5.H5Screate_scalar", sid > 0);
-            class_type = H5.H5Sget_simple_extent_type(sid);
-            assertTrue("H5.H5Screate_scalar: type", class_type == HDF5Constants.H5S_SCALAR);
+            sid = H5Screate(H5S_SCALAR());
+            assertTrue("H5Screate_scalar", sid > 0);
+            class_type = H5Sget_simple_extent_type(sid);
+            assertTrue("H5Screate_scalar: type", class_type == H5S_SCALAR());
         }
         catch (Throwable err) {
             err.printStackTrace();
-            fail("H5.H5Screate: " + err);
+            fail("H5Screate: " + err);
         }
         finally {
             try {
-                H5.H5Sclose(sid);
+                H5Sclose(sid);
             }
             catch (Exception ex) {
             }
@@ -90,18 +89,18 @@ public class TestH5Sbasic {
         long sid       = H5I_INVALID_HID();
         int class_type = -1;
         try {
-            sid = H5.H5Screate(H5S_NULL());
-            assertTrue("H5.H5Screate_null", sid > 0);
-            class_type = H5.H5Sget_simple_extent_type(sid);
-            assertTrue("H5.H5Screate_null: type", class_type == H5S_NULL());
+            sid = H5Screate(H5S_NULL());
+            assertTrue("H5Screate_null", sid > 0);
+            class_type = H5Sget_simple_extent_type(sid);
+            assertTrue("H5Screate_null: type", class_type == H5S_NULL());
         }
         catch (Throwable err) {
             err.printStackTrace();
-            fail("H5.H5Screate: " + err);
+            fail("H5Screate: " + err);
         }
         finally {
             try {
-                H5.H5Sclose(sid);
+                H5Sclose(sid);
             }
             catch (Exception ex) {
             }
@@ -154,17 +153,17 @@ public class TestH5Sbasic {
 
         try {
             sid = H5.H5Screate_simple(rank, dims, maxdims);
-            assertTrue("H5.H5Screate_simple", sid > 0);
+            assertTrue("H5Screate_simple", sid > 0);
             class_type = H5.H5Sget_simple_extent_type(sid);
-            assertTrue("H5.H5Screate_simple: type", class_type == HDF5Constants.H5S_SIMPLE);
+            assertTrue("H5Screate_simple: type", class_type == H5S_SIMPLE());
         }
         catch (Throwable err) {
             err.printStackTrace();
-            fail("H5.H5Screate_simple: " + err);
+            fail("H5Screate_simple: " + err);
         }
         finally {
             try {
-                H5.H5Sclose(sid);
+                H5Sclose(sid);
             }
             catch (Exception ex) {
             }
@@ -182,17 +181,17 @@ public class TestH5Sbasic {
 
         try {
             sid = H5.H5Screate_simple(rank, dims, maxdims);
-            assertTrue("H5.H5Screate_simple", sid > 0);
+            assertTrue("H5Screate_simple", sid > 0);
             class_type = H5.H5Sget_simple_extent_type(sid);
-            assertTrue("H5.H5Screate_simple: type", class_type == HDF5Constants.H5S_SIMPLE);
+            assertTrue("H5Screate_simple: type", class_type == H5S_SIMPLE());
         }
         catch (Throwable err) {
             err.printStackTrace();
-            fail("H5.H5Screate_simple: " + err);
+            fail("H5Screate_simple: " + err);
         }
         finally {
             try {
-                H5.H5Sclose(sid);
+                H5Sclose(sid);
             }
             catch (Exception ex) {
             }
@@ -210,17 +209,17 @@ public class TestH5Sbasic {
 
         try {
             sid = H5.H5Screate_simple(rank, dims, maxdims);
-            assertTrue("H5.H5Screate_simple", sid > 0);
+            assertTrue("H5Screate_simple", sid > 0);
             class_type = H5.H5Sget_simple_extent_type(sid);
-            assertTrue("H5.H5Screate_simple: type", class_type == HDF5Constants.H5S_SIMPLE);
+            assertTrue("H5Screate_simple: type", class_type == H5S_SIMPLE());
         }
         catch (Throwable err) {
             err.printStackTrace();
-            fail("H5.H5Screate_simple: " + err);
+            fail("H5Screate_simple: " + err);
         }
         finally {
             try {
-                H5.H5Sclose(sid);
+                H5Sclose(sid);
             }
             catch (Exception ex) {
             }
@@ -236,15 +235,15 @@ public class TestH5Sbasic {
 
         try {
             sid = H5.H5Screate_simple(rank, dims, null);
-            assertTrue("H5.H5Screate_simple_max_default", sid > 0);
+            assertTrue("H5Screate_simple_max_default", sid > 0);
         }
         catch (Throwable err) {
             err.printStackTrace();
-            fail("H5.H5Screate_simple: " + err);
+            fail("H5Screate_simple: " + err);
         }
         finally {
             try {
-                H5.H5Sclose(sid);
+                H5Sclose(sid);
             }
             catch (Exception ex) {
             }
@@ -261,16 +260,16 @@ public class TestH5Sbasic {
 
         try {
             sid = H5.H5Screate(HDF5Constants.H5S_SIMPLE);
-            assertTrue("H5.H5Screate_simple_extent", sid > 0);
+            assertTrue("H5Screate_simple_extent", sid > 0);
             H5.H5Sset_extent_simple(sid, rank, dims, maxdims);
         }
         catch (Throwable err) {
             err.printStackTrace();
-            fail("H5.H5Screate: " + err);
+            fail("H5Screate: " + err);
         }
         finally {
             try {
-                H5.H5Sclose(sid);
+                H5Sclose(sid);
             }
             catch (Exception ex) {
             }
@@ -280,7 +279,7 @@ public class TestH5Sbasic {
     @Test(expected = IllegalArgumentException.class)
     public void testH5Sencode_invalid() throws Throwable
     {
-        H5.H5Sencode(-1);
+        H5Sencode(-1);
     }
 
     @Test(expected = NullPointerException.class)
@@ -326,13 +325,13 @@ public class TestH5Sbasic {
         long offset[][] = {{0, 1}, {2, 4}, {5, 6}};
 
         try {
-            sid = H5.H5Screate(HDF5Constants.H5S_SIMPLE);
-            assertTrue("H5.H5Screate_simple_extent", sid > 0);
+            sid = H5Screate(HDF5Constants.H5S_SIMPLE);
+            assertTrue("H5Screate_simple_extent", sid > 0);
             H5.H5Sselect_adjust(sid, offset);
         }
         finally {
             try {
-                H5.H5Sclose(sid);
+                H5Sclose(sid);
             }
             catch (Exception ex) {
             }
@@ -355,13 +354,13 @@ public class TestH5Sbasic {
         long end[]   = null;
 
         try {
-            sid = H5.H5Screate(HDF5Constants.H5S_SIMPLE);
-            assertTrue("H5.H5Screate_simple_extent", sid > 0);
+            sid = H5Screate(H5S_SIMPLE());
+            assertTrue("H5Screate_simple_extent", sid > 0);
             H5.H5Sselect_intersect_block(sid, start, end);
         }
         finally {
             try {
-                H5.H5Sclose(sid);
+                H5Sclose(sid);
             }
             catch (Exception ex) {
             }
@@ -376,13 +375,13 @@ public class TestH5Sbasic {
         long end[]   = new long[2];
 
         try {
-            sid = H5.H5Screate(HDF5Constants.H5S_SIMPLE);
-            assertTrue("H5.H5Screate_simple_extent", sid > 0);
+            sid = H5Screate(H5S_SIMPLE());
+            assertTrue("H5Screate_simple_extent", sid > 0);
             H5.H5Sselect_intersect_block(sid, start, end);
         }
         finally {
             try {
-                H5.H5Sclose(sid);
+                H5Sclose(sid);
             }
             catch (Exception ex) {
             }
@@ -413,13 +412,13 @@ public class TestH5Sbasic {
         long block[]  = null;
 
         try {
-            sid = H5.H5Screate(HDF5Constants.H5S_SIMPLE);
-            assertTrue("H5.H5Screate_simple_extent", sid > 0);
+            sid = H5Screate(H5S_SIMPLE());
+            assertTrue("H5Screate_simple_extent", sid > 0);
             H5.H5Scombine_hyperslab(sid, 0, start, stride, count, block);
         }
         finally {
             try {
-                H5.H5Sclose(sid);
+                H5Sclose(sid);
             }
             catch (Exception ex) {
             }
@@ -436,13 +435,13 @@ public class TestH5Sbasic {
         long block[]  = null;
 
         try {
-            sid = H5.H5Screate(HDF5Constants.H5S_SIMPLE);
-            assertTrue("H5.H5Screate_simple_extent", sid > 0);
+            sid = H5Screate(H5S_SIMPLE());
+            assertTrue("H5Screate_simple_extent", sid > 0);
             H5.H5Scombine_hyperslab(sid, 0, start, stride, count, block);
         }
         finally {
             try {
-                H5.H5Sclose(sid);
+                H5Sclose(sid);
             }
             catch (Exception ex) {
             }

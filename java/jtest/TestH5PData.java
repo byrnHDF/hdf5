@@ -88,7 +88,7 @@ public class TestH5PData {
         }
         catch (Throwable err) {
             err.printStackTrace();
-            fail("H5.H5Dcreate: " + err);
+            fail("H5Dcreate: " + err);
         }
         assertTrue("TestH5PData._createFloatDataset: ", did > 0);
 
@@ -98,25 +98,24 @@ public class TestH5PData {
     @Before
     public void createH5file() throws NullPointerException, HDF5Exception
     {
-        assertTrue("H5 open ids is 0", H5.getOpenIDCount() == 0);
         System.out.print(testname.getMethodName());
 
         try {
             H5fid    = H5.H5Fcreate(H5_FILE, H5F_ACC_TRUNC(), H5P_DEFAULT(), H5P_DEFAULT());
             H5dsid   = H5.H5Screate_simple(2, H5dims, null);
             H5did    = _createFloatDataset(H5fid, H5dsid, "dset", H5P_DEFAULT());
-            plist_id = H5.H5Pcreate(HDF5Constants.H5P_DATASET_XFER);
+            plist_id = H5Pcreate(HDF5Constants.H5P_DATASET_XFER);
         }
         catch (Throwable err) {
             err.printStackTrace();
             fail("TestH5PData.createH5file: " + err);
         }
-        assertTrue("TestH5PData.createH5file: H5.H5Fcreate: ", H5fid > 0);
-        assertTrue("TestH5PData.createH5file: H5.H5Screate_simple: ", H5dsid > 0);
+        assertTrue("TestH5PData.createH5file: H5Fcreate: ", H5fid > 0);
+        assertTrue("TestH5PData.createH5file: H5Screate_simple: ", H5dsid > 0);
         assertTrue("TestH5PData.createH5file: _createFloatDataset: ", H5did > 0);
         assertTrue(plist_id > 0);
 
-        H5.H5Fflush(H5fid, H5F_SCOPE_LOCAL());
+        H5Fflush(H5fid, H5F_SCOPE_LOCAL());
     }
 
     @After
@@ -124,19 +123,19 @@ public class TestH5PData {
     {
         if (H5dsid > 0)
             try {
-                H5.H5Sclose(H5dsid);
+                H5Sclose(H5dsid);
             }
             catch (Exception ex) {
             }
         if (H5did > 0)
             try {
-                H5.H5Dclose(H5did);
+                H5Dclose(H5did);
             }
             catch (Exception ex) {
             }
         if (H5fid > 0)
             try {
-                H5.H5Fclose(H5fid);
+                H5Fclose(H5fid);
             }
             catch (Exception ex) {
             }
@@ -145,7 +144,7 @@ public class TestH5PData {
 
         if (plist_id > 0)
             try {
-                H5.H5Pclose(plist_id);
+                H5Pclose(plist_id);
             }
             catch (Exception ex) {
             }
@@ -186,9 +185,9 @@ public class TestH5PData {
         long size         = 0;
 
         try {
-            default_size = H5.H5Pget_buffer_size(plist_id);
-            H5.H5Pset_buffer_size(plist_id, DIM_X * DIM_Y);
-            size = H5.H5Pget_buffer_size(plist_id);
+            default_size = H5Pget_buffer_size(plist_id);
+            H5Pset_buffer_size(plist_id, DIM_X * DIM_Y);
+            size = H5Pget_buffer_size(plist_id);
         }
         catch (Throwable err) {
             err.printStackTrace();

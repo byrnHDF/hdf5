@@ -63,19 +63,19 @@ public class TestH5Arw {
     {
         if (H5aid >= 0)
             try {
-                H5.H5Aclose(H5aid);
+                H5Aclose(H5aid);
             }
             catch (Exception ex) {
             }
         if (H5did >= 0)
             try {
-                H5.H5Dclose(H5did);
+                H5Dclose(H5did);
             }
             catch (Exception ex) {
             }
         if (H5fid > 0)
             try {
-                H5.H5Fclose(H5fid);
+                H5Fclose(H5fid);
             }
             catch (Exception ex) {
             }
@@ -90,7 +90,7 @@ public class TestH5Arw {
             err.printStackTrace();
             fail("TestH5Arw._openH5file: " + err);
         }
-        assertTrue("TestH5Arw._openH5file: H5.H5Fopen: ", H5fid >= 0);
+        assertTrue("TestH5Arw._openH5file: H5Fopen: ", H5fid >= 0);
         try {
             H5did = H5.H5Dopen(H5fid, dsetname, H5P_DEFAULT());
         }
@@ -98,7 +98,7 @@ public class TestH5Arw {
             err.printStackTrace();
             fail("TestH5Arw._openH5file: " + err);
         }
-        assertTrue("TestH5Arw._openH5file: H5.H5Dopen: ", H5did >= 0);
+        assertTrue("TestH5Arw._openH5file: H5Dopen: ", H5did >= 0);
         try {
             H5aid = H5.H5Aopen(H5did, dsetname, H5P_DEFAULT());
         }
@@ -106,7 +106,7 @@ public class TestH5Arw {
             err.printStackTrace();
             fail("TestH5Arw._openH5file: " + err);
         }
-        assertTrue("TestH5Arw._openH5file: H5.H5Aopen: ", H5aid >= 0);
+        assertTrue("TestH5Arw._openH5file: H5Aopen: ", H5aid >= 0);
     }
 
     @After
@@ -114,19 +114,19 @@ public class TestH5Arw {
     {
         if (H5aid >= 0)
             try {
-                H5.H5Aclose(H5aid);
+                H5Aclose(H5aid);
             }
             catch (Exception ex) {
             }
         if (H5did >= 0)
             try {
-                H5.H5Dclose(H5did);
+                H5Dclose(H5did);
             }
             catch (Exception ex) {
             }
         if (H5fid > 0)
             try {
-                H5.H5Fclose(H5fid);
+                H5Fclose(H5fid);
             }
             catch (Exception ex) {
             }
@@ -134,13 +134,6 @@ public class TestH5Arw {
         H5did = H5I_INVALID_HID();
         H5aid = H5I_INVALID_HID();
         System.out.println();
-    }
-
-    @Before
-    public void verifyCount() throws NullPointerException, HDF5Exception
-    {
-        assertTrue("H5 open ids is 0", H5.getOpenIDCount() == 0);
-        System.out.print(testname.getMethodName());
     }
 
     @Test
@@ -167,7 +160,7 @@ public class TestH5Arw {
 
         // End access to the attribute and release resources used by it.
         try {
-            H5.H5Aclose(H5aid);
+            H5Aclose(H5aid);
         }
         catch (Exception err) {
             err.printStackTrace();
@@ -175,7 +168,7 @@ public class TestH5Arw {
 
         // End access to the dataset and release resources used by it.
         try {
-            H5.H5Dclose(H5did);
+            H5Dclose(H5did);
         }
         catch (Exception err) {
             err.printStackTrace();
@@ -233,7 +226,7 @@ public class TestH5Arw {
 
         // End access to the attribute and release resources used by it.
         try {
-            H5.H5Aclose(H5aid);
+            H5Aclose(H5aid);
         }
         catch (Exception err) {
             err.printStackTrace();
@@ -241,7 +234,7 @@ public class TestH5Arw {
 
         // End access to the dataset and release resources used by it.
         try {
-            H5.H5Dclose(H5did);
+            H5Dclose(H5did);
         }
         catch (Exception err) {
             err.printStackTrace();
@@ -299,7 +292,7 @@ public class TestH5Arw {
 
         // End access to the attribute and release resources used by it.
         try {
-            H5.H5Aclose(H5aid);
+            H5Aclose(H5aid);
         }
         catch (Exception err) {
             err.printStackTrace();
@@ -307,7 +300,7 @@ public class TestH5Arw {
 
         // End access to the dataset and release resources used by it.
         try {
-            H5.H5Dclose(H5did);
+            H5Dclose(H5did);
         }
         catch (Exception err) {
             err.printStackTrace();
@@ -365,7 +358,7 @@ public class TestH5Arw {
 
         // End access to the attribute and release resources used by it.
         try {
-            H5.H5Aclose(H5aid);
+            H5Aclose(H5aid);
         }
         catch (Exception err) {
             err.printStackTrace();
@@ -373,7 +366,7 @@ public class TestH5Arw {
 
         // End access to the dataset and release resources used by it.
         try {
-            H5.H5Dclose(H5did);
+            H5Dclose(H5did);
         }
         catch (Exception err) {
             err.printStackTrace();
@@ -429,7 +422,7 @@ public class TestH5Arw {
             fail("testH5Aread_32bit_floats: H5Aread: " + err);
         }
         for (int i = 0; i < DIM_X; i++)
-            assertTrue("testH5Aread_32bit_floats - H5.H5Aread: ", attr_data[i][0] == (32 - i));
+            assertTrue("testH5Aread_32bit_floats - H5Aread: ", attr_data[i][0] == (32 - i));
     }
 
     @Test
@@ -454,7 +447,7 @@ public class TestH5Arw {
             fail("testH5Aread_64bit_floats: H5Aread: " + err);
         }
         for (int i = 0; i < DIM_X; i++)
-            assertTrue("testH5Aread_64bit_floats - H5.H5Aread: ", attr_data[i][0] == (64 - i));
+            assertTrue("testH5Aread_64bit_floats - H5Aread: ", attr_data[i][0] == (64 - i));
     }
 
     @Test

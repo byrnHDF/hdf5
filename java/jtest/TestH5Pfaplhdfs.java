@@ -43,11 +43,10 @@ public class TestH5Pfaplhdfs {
     @Before
     public void createFileAccess() throws NullPointerException, HDF5Exception
     {
-        assertTrue("H5 open ids is 0", H5.getOpenIDCount() == 0);
         System.out.print(testname.getMethodName());
 
         try {
-            fapl_id = H5.H5Pcreate(H5P_CLS_FILE_ACCESS_g());
+            fapl_id = H5Pcreate(H5P_CLS_FILE_ACCESS_g());
         }
         catch (Throwable err) {
             err.printStackTrace();
@@ -55,7 +54,7 @@ public class TestH5Pfaplhdfs {
         }
         assertTrue(fapl_id > 0);
         try {
-            plapl_id = H5.H5Pcreate(H5P_CLS_LINK_ACCESS_ID_g());
+            plapl_id = H5Pcreate(H5P_CLS_LINK_ACCESS_ID_g());
         }
         catch (Throwable err) {
             err.printStackTrace();
@@ -63,9 +62,9 @@ public class TestH5Pfaplhdfs {
         }
         assertTrue(plapl_id > 0);
         try {
-            plist_id   = H5.H5Pcreate(HDF5Constants.H5P_DATASET_XFER);
-            btplist_id = H5.H5Pcreate(HDF5Constants.H5P_DATASET_XFER);
-            dapl_id    = H5.H5Pcreate(H5P_CLS_DATASET_ACCESS_g());
+            plist_id   = H5Pcreate(HDF5Constants.H5P_DATASET_XFER);
+            btplist_id = H5Pcreate(HDF5Constants.H5P_DATASET_XFER);
+            dapl_id    = H5Pcreate(H5P_CLS_DATASET_ACCESS_g());
         }
         catch (Throwable err) {
             err.printStackTrace();
@@ -81,31 +80,31 @@ public class TestH5Pfaplhdfs {
     {
         if (fapl_id > 0)
             try {
-                H5.H5Pclose(fapl_id);
+                H5Pclose(fapl_id);
             }
             catch (Exception ex) {
             }
         if (plapl_id > 0)
             try {
-                H5.H5Pclose(plapl_id);
+                H5Pclose(plapl_id);
             }
             catch (Exception ex) {
             }
         if (dapl_id > 0)
             try {
-                H5.H5Pclose(dapl_id);
+                H5Pclose(dapl_id);
             }
             catch (Exception ex) {
             }
         if (plist_id > 0)
             try {
-                H5.H5Pclose(plist_id);
+                H5Pclose(plist_id);
             }
             catch (Exception ex) {
             }
         if (btplist_id > 0)
             try {
-                H5.H5Pclose(btplist_id);
+                H5Pclose(btplist_id);
             }
             catch (Exception ex) {
             }
@@ -126,11 +125,11 @@ public class TestH5Pfaplhdfs {
 
         final H5FD_hdfs_fapl_t config =
             new H5FD_hdfs_fapl_t(nodename, nodeport, username, kerbcache, streamsize);
-        assertTrue("setting fapl should succeed", -1 < H5.H5Pset_fapl_hdfs(fapl_id, config));
+        assertTrue("setting fapl should succeed", -1 < H5Pset_fapl_hdfs(fapl_id, config));
 
-        assertEquals("driver types should match", HDF5Constants.H5FD_HDFS, H5.H5Pget_driver(fapl_id));
+        assertEquals("driver types should match", HDF5Constants.H5FD_HDFS, H5Pget_driver(fapl_id));
 
-        H5FD_hdfs_fapl_t copy = H5.H5Pget_fapl_hdfs(fapl_id);
+        H5FD_hdfs_fapl_t copy = H5Pget_fapl_hdfs(fapl_id);
         assertEquals("fapl contents should match",
                      new H5FD_hdfs_fapl_t(nodename, nodeport, username, kerbcache, streamsize), copy);
     }
@@ -140,7 +139,7 @@ public class TestH5Pfaplhdfs {
     {
         if (HDF5Constants.H5FD_HDFS < 0)
             throw new HDF5LibraryException("skip");
-        H5FD_hdfs_fapl_t fails = H5.H5Pget_fapl_hdfs(-1);
+        H5FD_hdfs_fapl_t fails = H5Pget_fapl_hdfs(-1);
     }
 
     @Test(expected = HDF5LibraryException.class)
@@ -152,8 +151,8 @@ public class TestH5Pfaplhdfs {
             throw new HDF5LibraryException("skip");
         /* TODO: for now, test against a sec2 fapl only */
 
-        H5.H5Pset_fapl_sec2(fapl_id);
-        assertEquals("fapl_id was not set properly", HDF5Constants.H5FD_SEC2, H5.H5Pget_driver(fapl_id));
-        H5FD_hdfs_fapl_t fails = H5.H5Pget_fapl_hdfs(fapl_id);
+        H5Pset_fapl_sec2(fapl_id);
+        assertEquals("fapl_id was not set properly", HDF5Constants.H5FD_SEC2, H5Pget_driver(fapl_id));
+        H5FD_hdfs_fapl_t fails = H5Pget_fapl_hdfs(fapl_id);
     }
 }

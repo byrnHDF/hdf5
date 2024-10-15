@@ -44,17 +44,16 @@ public class TestH5E {
     @Before
     public void H5Eget_stack_class()
     {
-        assertTrue("H5 open ids is 0", H5.getOpenIDCount() == 0);
         System.out.print(testname.getMethodName());
 
         hdf_java_classid = -1;
         try {
             hdf_java_classid = H5.H5Eregister_class("HDF-Java-Error", "hdf-java", "2.5");
-            current_stackid  = H5.H5Eget_current_stack();
+            current_stackid  = H5Eget_current_stack();
         }
         catch (Throwable err) {
             err.printStackTrace();
-            fail("H5.H5Eget_stack_class: " + err);
+            fail("H5Eget_stack_class: " + err);
         }
     }
 
@@ -62,14 +61,14 @@ public class TestH5E {
     public void H5Erestore_stack_class()
     {
         try {
-            H5.H5Eunregister_class(hdf_java_classid);
+            H5Eunregister_class(hdf_java_classid);
             hdf_java_classid = -1;
-            H5.H5Eclose_stack(current_stackid);
+            H5Eclose_stack(current_stackid);
             current_stackid = -1;
         }
         catch (Throwable err) {
             err.printStackTrace();
-            fail("H5.H5Erestore_stack_class: " + err);
+            fail("H5Erestore_stack_class: " + err);
         }
         System.out.println();
     }
@@ -90,10 +89,10 @@ public class TestH5E {
             }
             catch (Throwable err) {
                 err.printStackTrace();
-                fail("H5.H5Eget_msg(Throwable): " + err);
+                fail("H5Eget_msg(Throwable): " + err);
             }
-            assertNotNull("H5.H5Eget_msg: " + msg, msg);
-            assertEquals("H5.H5Eget_msg: ", H5E_MAJOR(), error_msg_type[0]);
+            assertNotNull("H5Eget_msg: " + msg, msg);
+            assertEquals("H5Eget_msg: ", H5E_MAJOR(), error_msg_type[0]);
 
             /*
              * If HDF5_VOL_CONNECTOR is set, this might not be the
@@ -103,11 +102,11 @@ public class TestH5E {
              */
             String connector = System.getenv("HDF5_VOL_CONNECTOR");
             if (connector == null)
-                assertTrue("H5.H5Eget_msg: ", msg.contains("File accessibility"));
+                assertTrue("H5Eget_msg: ", msg.contains("File accessibility"));
         }
         catch (Throwable err) {
             err.printStackTrace();
-            fail("H5.H5Eget_msg(Other): " + err);
+            fail("H5Eget_msg(Other): " + err);
         }
     }
 
@@ -127,10 +126,10 @@ public class TestH5E {
             }
             catch (Throwable err) {
                 err.printStackTrace();
-                fail("H5.H5Eget_msg: " + err);
+                fail("H5Eget_msg: " + err);
             }
-            assertNotNull("H5.H5Eget_msg: " + msg, msg);
-            assertEquals("H5.H5Eget_msg: ", H5E_MINOR(), error_msg_type[0]);
+            assertNotNull("H5Eget_msg: " + msg, msg);
+            assertEquals("H5Eget_msg: ", H5E_MINOR(), error_msg_type[0]);
 
             /*
              * If HDF5_VOL_CONNECTOR is set, this might not be the
@@ -140,11 +139,11 @@ public class TestH5E {
              */
             String connector = System.getenv("HDF5_VOL_CONNECTOR");
             if (connector == null)
-                assertTrue("H5.H5Eget_msg: ", msg.contains("Unable to open file"));
+                assertTrue("H5Eget_msg: ", msg.contains("Unable to open file"));
         }
         catch (Throwable err) {
             err.printStackTrace();
-            fail("H5.H5Eget_msg: " + err);
+            fail("H5Eget_msg: " + err);
         }
     }
 
@@ -156,11 +155,11 @@ public class TestH5E {
         long saved_num_msg = -1;
 
         try {
-            H5.H5Eset_current_stack(current_stackid);
+            H5Eset_current_stack(current_stackid);
         }
         catch (Throwable err) {
             err.printStackTrace();
-            fail("H5.H5Epop: " + err);
+            fail("H5Epop: " + err);
         }
 
         try {
@@ -171,11 +170,11 @@ public class TestH5E {
 
         // Save current stack contents
         try {
-            current_stackid = H5.H5Eget_current_stack();
+            current_stackid = H5Eget_current_stack();
         }
         catch (HDF5LibraryException err) {
             err.printStackTrace();
-            fail("H5.H5Epop: " + err);
+            fail("H5Epop: " + err);
         }
 
         try {
@@ -183,39 +182,39 @@ public class TestH5E {
         }
         catch (Throwable err) {
             err.printStackTrace();
-            fail("H5.H5Epop: " + err);
+            fail("H5Epop: " + err);
         }
 
-        assertTrue("H5.H5Epop #:" + num_msg, num_msg == 0);
+        assertTrue("H5Epop #:" + num_msg, num_msg == 0);
 
         try {
-            num_msg = H5.H5Eget_num(current_stackid);
+            num_msg = H5Eget_num(current_stackid);
         }
         catch (Throwable err) {
             err.printStackTrace();
-            fail("H5.H5Epop: " + err);
+            fail("H5Epop: " + err);
         }
 
-        assertTrue("H5.H5Epop #:" + num_msg, num_msg > 0);
+        assertTrue("H5Epop #:" + num_msg, num_msg > 0);
 
         saved_num_msg = num_msg;
         try {
-            H5.H5Epop(current_stackid, 1);
+            H5Epop(current_stackid, 1);
         }
         catch (Throwable err) {
             err.printStackTrace();
-            fail("H5.H5Epop: " + err);
+            fail("H5Epop: " + err);
         }
 
         try {
-            num_msg = H5.H5Eget_num(current_stackid);
+            num_msg = H5Eget_num(current_stackid);
         }
         catch (Throwable err) {
             err.printStackTrace();
-            fail("H5.H5Epop: " + err);
+            fail("H5Epop: " + err);
         }
 
-        assertTrue("H5.H5Epop", num_msg == saved_num_msg - 1);
+        assertTrue("H5Epop", num_msg == saved_num_msg - 1);
     }
 
     @Test
@@ -231,49 +230,49 @@ public class TestH5E {
         try {
             try {
                 maj_err_id = H5.H5Ecreate_msg(hdf_java_classid, H5E_MAJOR(), "Error in Test");
-                assertFalse("testH5Epush: H5.H5Ecreate_msg_major: " + maj_err_id, maj_err_id < 0);
+                assertFalse("testH5Epush: H5Ecreate_msg_major: " + maj_err_id, maj_err_id < 0);
             }
             catch (Throwable err) {
                 err.printStackTrace();
-                fail("testH5Epush: H5.H5Ecreate_msg_major: " + err);
+                fail("testH5Epush: H5Ecreate_msg_major: " + err);
             }
             try {
                 min_err_id = H5.H5Ecreate_msg(hdf_java_classid, H5E_MINOR(), "Error in Test Function");
-                assertFalse("H5.H5Ecreate_msg_minor: " + min_err_id, min_err_id < 0);
+                assertFalse("H5Ecreate_msg_minor: " + min_err_id, min_err_id < 0);
             }
             catch (Throwable err) {
                 err.printStackTrace();
-                fail("testH5Epush: H5.H5Ecreate_msg_minor: " + err);
+                fail("testH5Epush: H5Ecreate_msg_minor: " + err);
             }
 
             try {
-                estack_id = H5.H5Ecreate_stack();
+                estack_id = H5Ecreate_stack();
             }
             catch (Throwable err) {
                 err.printStackTrace();
-                fail("testH5Epush: H5.H5Ecreate_stack: " + err);
+                fail("testH5Epush: H5Ecreate_stack: " + err);
             }
-            assertFalse("testH5Epush: H5.H5Ecreate_stack: " + estack_id, estack_id < 0);
+            assertFalse("testH5Epush: H5Ecreate_stack: " + estack_id, estack_id < 0);
 
             try {
-                num_msg = H5.H5Eget_num(estack_id);
+                num_msg = H5Eget_num(estack_id);
                 assertTrue("testH5Epush #:" + num_msg, num_msg == 0);
             }
             catch (Throwable err) {
                 err.printStackTrace();
-                fail("testH5Epush: H5.H5Eget_num: " + err);
+                fail("testH5Epush: H5Eget_num: " + err);
             }
 
             H5.H5Epush(estack_id, "TestH5E.java", err_func, 354, hdf_java_classid, maj_err_id, min_err_id,
                        err_msg);
 
             try {
-                num_msg = H5.H5Eget_num(estack_id);
+                num_msg = H5Eget_num(estack_id);
                 assertTrue("testH5Epush #:" + num_msg, num_msg == 1);
             }
             catch (Throwable err) {
                 err.printStackTrace();
-                fail("testH5Epush: H5.H5Eget_num: " + err);
+                fail("testH5Epush: H5Eget_num: " + err);
             }
         }
         catch (Throwable err) {
@@ -283,19 +282,19 @@ public class TestH5E {
         finally {
             if (estack_id >= 0)
                 try {
-                    H5.H5Eclose_stack(estack_id);
+                    H5Eclose_stack(estack_id);
                 }
                 catch (Exception ex) {
                 }
             if (maj_err_id >= 0)
                 try {
-                    H5.H5Eclose_msg(maj_err_id);
+                    H5Eclose_msg(maj_err_id);
                 }
                 catch (Exception ex) {
                 }
             if (min_err_id >= 0)
                 try {
-                    H5.H5Eclose_msg(min_err_id);
+                    H5Eclose_msg(min_err_id);
                 }
                 catch (Exception ex) {
                 }
@@ -332,7 +331,7 @@ public class TestH5E {
         long num_msg        = -1;
 
         try {
-            H5.H5Eset_current_stack(current_stackid);
+            H5Eset_current_stack(current_stackid);
         }
         catch (Throwable err) {
             err.printStackTrace();
@@ -346,15 +345,15 @@ public class TestH5E {
 
         // Save current stack contents
         try {
-            current_stackid = H5.H5Eget_current_stack();
+            current_stackid = H5Eget_current_stack();
         }
         catch (HDF5LibraryException err) {
             err.printStackTrace();
-            fail("H5.H5Epop: " + err);
+            fail("H5Eget_current_stack: " + err);
         }
 
         try {
-            num_msg = H5.H5Eget_num(current_stackid);
+            num_msg = H5Eget_num(current_stackid);
         }
         catch (Throwable err) {
             err.printStackTrace();

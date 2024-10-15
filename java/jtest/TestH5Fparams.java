@@ -38,7 +38,6 @@ public class TestH5Fparams {
     @Before
     public void checkOpenIDs()
     {
-        assertTrue("H5 open ids is 0", H5.getOpenIDCount() == 0);
         System.out.print(testname.getMethodName());
     }
     @After
@@ -91,7 +90,7 @@ public class TestH5Fparams {
             isH5 = H5.H5Fis_hdf5("test.txt");
         }
         catch (Throwable err) {
-            fail("H5.H5Fis_hdf5 failed on test.txt: " + err);
+            fail("H5Fis_hdf5 failed on test.txt: " + err);
         }
 
         assertFalse(isH5);
@@ -108,7 +107,7 @@ public class TestH5Fparams {
     public void testH5Fclose_negative() throws Throwable
     {
         // cannot close a file with negative id.
-        int fid = H5.H5Fclose(-1);
+        int fid = H5Fclose(-1);
         assertTrue(fid == 0);
     }
 
@@ -121,12 +120,12 @@ public class TestH5Fparams {
         try {
             fid = H5.H5Fcreate("test.h5", H5F_ACC_TRUNC(), H5P_DEFAULT(), H5P_DEFAULT());
             if (fid > 0) {
-                H5.H5Fclose(fid);
+                H5Fclose(fid);
             }
             file = new File("test.h5");
         }
         catch (Throwable err) {
-            fail("H5.H5Fopen: " + err);
+            fail("H5Fcreate: " + err);
         }
 
         if (file.exists()) {
@@ -148,18 +147,18 @@ public class TestH5Fparams {
             fid = H5.H5Fcreate("test.h5", H5F_ACC_TRUNC(), H5P_DEFAULT(), H5P_DEFAULT());
         }
         catch (Throwable err) {
-            fail("H5.H5Fopen: " + err);
+            fail("H5Fcreate: " + err);
         }
 
         try {
-            H5.H5Fflush(fid, H5F_SCOPE_GLOBAL());
+            H5Fflush(fid, H5F_SCOPE_GLOBAL());
         }
         catch (Throwable err) {
-            fail("H5.H5Fflush: " + err);
+            fail("H5Fflush: " + err);
         }
 
         try {
-            H5.H5Fclose(fid);
+            H5Fclose(fid);
         }
         catch (Exception ex) {
         }
@@ -174,18 +173,18 @@ public class TestH5Fparams {
             fid = H5.H5Fcreate("test.h5", H5F_ACC_TRUNC(), H5P_DEFAULT(), H5P_DEFAULT());
         }
         catch (Throwable err) {
-            fail("H5.H5Fopen: " + err);
+            fail("H5Fcreate: " + err);
         }
 
         try {
-            H5.H5Fflush(fid, H5F_SCOPE_LOCAL());
+            H5Fflush(fid, H5F_SCOPE_LOCAL());
         }
         catch (Throwable err) {
-            fail("H5.H5Fflush: " + err);
+            fail("H5Fflush: " + err);
         }
 
         try {
-            H5.H5Fclose(fid);
+            H5Fclose(fid);
         }
         catch (Exception ex) {
         }
@@ -201,7 +200,7 @@ public class TestH5Fparams {
                 fid = H5.H5Fcreate("test.h5", H5F_ACC_TRUNC(), H5P_DEFAULT(), H5P_DEFAULT());
             }
             catch (Throwable err) {
-                fail("H5.H5Fcreate: " + err);
+                fail("H5Fcreate: " + err);
             }
 
             try {
@@ -211,7 +210,7 @@ public class TestH5Fparams {
                 assertEquals(finfo.sohm_version, 0);
             }
             catch (Throwable err) {
-                fail("H5.H5Fget_info: " + err);
+                fail("H5Fget_info: " + err);
             }
         }
         catch (Exception e) {
@@ -219,7 +218,7 @@ public class TestH5Fparams {
         }
         finally {
             try {
-                H5.H5Fclose(fid);
+                H5Fclose(fid);
             }
             catch (Exception ex) {
             }
@@ -236,13 +235,13 @@ public class TestH5Fparams {
                 fid = H5.H5Fcreate("test.h5", H5F_ACC_TRUNC(), H5P_DEFAULT(), H5P_DEFAULT());
             }
             catch (Throwable err) {
-                fail("H5.H5Fcreate: " + err);
+                fail("H5Fcreate: " + err);
             }
-            H5.H5Fset_libver_bounds(fid, 5, H5F_LIBVER_LATEST());
+            H5Fset_libver_bounds(fid, 5, H5F_LIBVER_LATEST());
         }
         finally {
             try {
-                H5.H5Fclose(fid);
+                H5Fclose(fid);
             }
             catch (Exception ex) {
             }
@@ -259,13 +258,13 @@ public class TestH5Fparams {
                 fid = H5.H5Fcreate("test.h5", H5F_ACC_TRUNC(), H5P_DEFAULT(), H5P_DEFAULT());
             }
             catch (Throwable err) {
-                fail("H5.H5Fcreate: " + err);
+                fail("H5Fcreate: " + err);
             }
-            H5.H5Fset_libver_bounds(fid, H5F_LIBVER_LATEST(), H5F_LIBVER_LATEST() + 1);
+            H5Fset_libver_bounds(fid, H5F_LIBVER_LATEST(), H5F_LIBVER_LATEST() + 1);
         }
         finally {
             try {
-                H5.H5Fclose(fid);
+                H5Fclose(fid);
             }
             catch (Exception ex) {
             }

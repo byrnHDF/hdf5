@@ -72,7 +72,7 @@ public class TestH5Ocreate {
         }
         catch (Throwable err) {
             err.printStackTrace();
-            fail("H5.H5Dcreate: " + err);
+            fail("H5Dcreate: " + err);
         }
         assertTrue("TestH5O._createDataset: ", did > 0);
 
@@ -88,7 +88,7 @@ public class TestH5Ocreate {
         }
         catch (Throwable err) {
             err.printStackTrace();
-            fail("H5.H5Gcreate: " + err);
+            fail("H5Gcreate: " + err);
         }
         assertTrue("TestH5O._createGroup: ", gid > 0);
 
@@ -101,12 +101,12 @@ public class TestH5Ocreate {
         boolean link_exists = false;
         try {
             H5.H5Lcreate_hard(cid, curname, did, dstname, lcpl, lapl);
-            H5.H5Fflush(fid, H5F_SCOPE_LOCAL());
+            H5Fflush(fid, H5F_SCOPE_LOCAL());
             link_exists = H5.H5Lexists(did, dstname, lapl);
         }
         catch (Throwable err) {
             err.printStackTrace();
-            fail("H5.H5Lcreate_hard: " + err);
+            fail("H5Lcreate_hard: " + err);
         }
         assertTrue("TestH5O._createHardLink ", link_exists);
     }
@@ -117,12 +117,12 @@ public class TestH5Ocreate {
         boolean link_exists = false;
         try {
             H5.H5Lcreate_soft(curname, did, dstname, lcpl, lapl);
-            H5.H5Fflush(fid, H5F_SCOPE_LOCAL());
+            H5Fflush(fid, H5F_SCOPE_LOCAL());
             link_exists = H5.H5Lexists(did, dstname, lapl);
         }
         catch (Throwable err) {
             err.printStackTrace();
-            fail("H5.H5Lcreate_soft: " + err);
+            fail("H5Lcreate_soft: " + err);
         }
         assertTrue("TestH5O._createSoftLink ", link_exists);
     }
@@ -133,12 +133,12 @@ public class TestH5Ocreate {
         boolean link_exists = false;
         try {
             H5.H5Lcreate_external(ext_filename, curname, did, dstname, lcpl, lapl);
-            H5.H5Fflush(fid, H5F_SCOPE_LOCAL());
+            H5Fflush(fid, H5F_SCOPE_LOCAL());
             link_exists = H5.H5Lexists(did, dstname, lapl);
         }
         catch (Throwable err) {
             err.printStackTrace();
-            fail("H5.H5Lcreate_external: " + err);
+            fail("H5Lcreate_external: " + err);
         }
         assertTrue("TestH5O._createExternalLink ", link_exists);
     }
@@ -146,10 +146,9 @@ public class TestH5Ocreate {
     @Before
     public void createH5file() throws NullPointerException, HDF5Exception
     {
-        assertTrue("H5 open ids is 0", H5.getOpenIDCount() == 0);
         System.out.print(testname.getMethodName());
         try {
-            H5fcpl = H5.H5Pcreate(H5P_CLS_FILE_CREATE_ID_g());
+            H5fcpl = H5Pcreate(H5P_CLS_FILE_CREATE_ID_g());
             H5.H5Pset_link_creation_order(H5fcpl, HDF5Constants.H5P_CRT_ORDER_TRACKED +
                                                       HDF5Constants.H5P_CRT_ORDER_INDEXED);
             H5fid  = H5.H5Fcreate(H5_FILE, H5F_ACC_TRUNC(), H5fcpl, H5P_DEFAULT());
@@ -162,11 +161,11 @@ public class TestH5Ocreate {
             err.printStackTrace();
             fail("TestH5O.createH5file: " + err);
         }
-        assertTrue("TestH5O.createH5file: H5.H5Fcreate: ", H5fid > 0);
-        assertTrue("TestH5O.createH5file: H5.H5Screate_simple: ", H5dsid > 0);
-        assertTrue("TestH5O.createH5file: H5.H5Gcreate: ", H5gid > 0);
+        assertTrue("TestH5O.createH5file: H5Fcreate: ", H5fid > 0);
+        assertTrue("TestH5O.createH5file: H5Screate_simple: ", H5dsid > 0);
+        assertTrue("TestH5O.createH5file: H5Gcreate: ", H5gid > 0);
 
-        H5.H5Fflush(H5fid, H5F_SCOPE_LOCAL());
+        H5Fflush(H5fid, H5F_SCOPE_LOCAL());
     }
 
     @After
@@ -174,43 +173,43 @@ public class TestH5Ocreate {
     {
         if (H5gid > 0)
             try {
-                H5.H5Gclose(H5gid);
+                H5Gclose(H5gid);
             }
             catch (Exception ex) {
             }
         if (H5gcpl > 0)
             try {
-                H5.H5Pclose(H5gcpl);
+                H5Pclose(H5gcpl);
             }
             catch (Exception ex) {
             }
         if (H5did2 > 0)
             try {
-                H5.H5Dclose(H5did2);
+                H5Dclose(H5did2);
             }
             catch (Exception ex) {
             }
         if (H5dsid > 0)
             try {
-                H5.H5Sclose(H5dsid);
+                H5Sclose(H5dsid);
             }
             catch (Exception ex) {
             }
         if (H5did1 > 0)
             try {
-                H5.H5Dclose(H5did1);
+                H5Dclose(H5did1);
             }
             catch (Exception ex) {
             }
         if (H5fid > 0)
             try {
-                H5.H5Fclose(H5fid);
+                H5Fclose(H5fid);
             }
             catch (Exception ex) {
             }
         if (H5fcpl > 0)
             try {
-                H5.H5Pclose(H5fcpl);
+                H5Pclose(H5fcpl);
             }
             catch (Exception ex) {
             }
@@ -230,13 +229,13 @@ public class TestH5Ocreate {
     {
         try {
             H5.H5Ocopy(H5fid, "DS1", H5fid, "CPY1", H5P_DEFAULT(), H5P_DEFAULT());
-            H5.H5Fflush(H5fid, H5F_SCOPE_LOCAL());
+            H5Fflush(H5fid, H5F_SCOPE_LOCAL());
             boolean link_exists = H5.H5Lexists(H5fid, "CPY1", H5P_DEFAULT());
             assertTrue("testH5Ocopy:H5Lexists ", link_exists);
         }
         catch (Throwable err) {
             err.printStackTrace();
-            fail("H5.H5Ocopy: " + err);
+            fail("H5Ocopy: " + err);
         }
     }
 
@@ -252,13 +251,13 @@ public class TestH5Ocreate {
     {
         H5O_info_t obj_info = null;
         try {
-            int order = H5.H5Pget_link_creation_order(H5fcpl);
+            int order = H5Pget_link_creation_order(H5fcpl);
             assertTrue("creation order :" + order,
                        order == HDF5Constants.H5P_CRT_ORDER_TRACKED + HDF5Constants.H5P_CRT_ORDER_INDEXED);
         }
         catch (Throwable err) {
             err.printStackTrace();
-            fail("H5.H5Oget_info_by_idx_n0:H5Pget_link_creation_order " + err);
+            fail("H5Oget_info_by_idx_n0:H5Pget_link_creation_order " + err);
         }
         try {
             obj_info =
@@ -266,7 +265,7 @@ public class TestH5Ocreate {
         }
         catch (Throwable err) {
             err.printStackTrace();
-            fail("H5.H5Oget_info_by_idx: " + err);
+            fail("H5Oget_info_by_idx: " + err);
         }
         assertFalse("H5Oget_info_by_idx ", obj_info == null);
         assertTrue("H5Oget_info_by_idx link type", obj_info.type == HDF5Constants.H5O_TYPE_DATASET);
@@ -277,13 +276,13 @@ public class TestH5Ocreate {
     {
         H5O_info_t obj_info = null;
         try {
-            int order = H5.H5Pget_link_creation_order(H5fcpl);
+            int order = H5Pget_link_creation_order(H5fcpl);
             assertTrue("creation order :" + order,
                        order == HDF5Constants.H5P_CRT_ORDER_TRACKED + HDF5Constants.H5P_CRT_ORDER_INDEXED);
         }
         catch (Throwable err) {
             err.printStackTrace();
-            fail("H5.H5Oget_info_by_idx_n1:H5Pget_link_creation_order " + err);
+            fail("H5Oget_info_by_idx_n1:H5Pget_link_creation_order " + err);
         }
         try {
             obj_info =
@@ -291,7 +290,7 @@ public class TestH5Ocreate {
         }
         catch (Throwable err) {
             err.printStackTrace();
-            fail("H5.H5Oget_info_by_idx: " + err);
+            fail("H5Oget_info_by_idx: " + err);
         }
         assertFalse("H5Oget_info_by_idx ", obj_info == null);
         assertTrue("H5Oget_info_by_idx link type", obj_info.type == HDF5Constants.H5O_TYPE_GROUP);
@@ -307,7 +306,7 @@ public class TestH5Ocreate {
         }
         catch (Throwable err) {
             err.printStackTrace();
-            fail("H5.H5Oget_info: " + err);
+            fail("H5Oget_info: " + err);
         }
         assertFalse("H5Oget_info", obj_info == null);
         assertTrue("H5Oget_info link type", obj_info.type == HDF5Constants.H5O_TYPE_DATASET);
@@ -331,7 +330,7 @@ public class TestH5Ocreate {
         }
         catch (Throwable err) {
             err.printStackTrace();
-            fail("H5.H5Oget_info: " + err);
+            fail("H5Oget_info: " + err);
         }
         assertFalse("H5Oget_info", obj_info == null);
         assertTrue("H5Oget_info link type", obj_info.type == HDF5Constants.H5O_TYPE_NAMED_DATATYPE);
@@ -350,18 +349,18 @@ public class TestH5Ocreate {
         }
         catch (Throwable err) {
             err.printStackTrace();
-            fail("H5.H5Oget_info: " + err);
+            fail("H5Oget_info: " + err);
         }
         try {
             H5.H5Olink(oid, H5fid, "CPY1", H5P_DEFAULT(), H5P_DEFAULT());
-            H5.H5Fflush(H5fid, H5F_SCOPE_LOCAL());
+            H5Fflush(H5fid, H5F_SCOPE_LOCAL());
         }
         catch (Throwable err) {
             err.printStackTrace();
-            fail("H5.H5Olink: " + err);
+            fail("H5Olink: " + err);
         }
         try {
-            H5.H5Oclose(oid);
+            H5Oclose(oid);
         }
         catch (Exception ex) {
         }
@@ -374,7 +373,7 @@ public class TestH5Ocreate {
         }
         catch (Throwable err) {
             err.printStackTrace();
-            fail("H5.H5Oget_info_by_name: " + err);
+            fail("H5Oget_info_by_name: " + err);
         }
         assertFalse("H5Oget_info ", dst_obj_info == null);
         assertTrue("H5Oget_info object type", dst_obj_info.type == HDF5Constants.H5O_TYPE_DATASET);
@@ -384,13 +383,13 @@ public class TestH5Ocreate {
     public void testH5Ovisit_create()
     {
         try {
-            int order = H5.H5Pget_link_creation_order(H5fcpl);
+            int order = H5Pget_link_creation_order(H5fcpl);
             assertTrue("creation order :" + order,
                        order == HDF5Constants.H5P_CRT_ORDER_TRACKED + HDF5Constants.H5P_CRT_ORDER_INDEXED);
         }
         catch (Throwable err) {
             err.printStackTrace();
-            fail("H5.H5Ovisit_create:H5Pget_link_creation_order " + err);
+            fail("H5Ovisit_create:H5Pget_link_creation_order " + err);
         }
 
         _createHardLink(H5fid, H5fid, "/G1/DS2", H5fid, "CPY1", H5P_DEFAULT(), H5P_DEFAULT());
@@ -424,7 +423,7 @@ public class TestH5Ocreate {
         }
         catch (Throwable err) {
             err.printStackTrace();
-            fail("H5.H5Ovisit: " + err);
+            fail("H5Ovisit: " + err);
         }
         assertFalse("H5Ovisit ", ((H5O_iter_data)iter_data).iterdata.isEmpty());
         assertTrue("H5Ovisit " + ((H5O_iter_data)iter_data).iterdata.size(),
@@ -452,21 +451,21 @@ public class TestH5Ocreate {
         try {
             oid = H5.H5Oopen(H5fid, "DS1", H5P_DEFAULT());
             H5.H5Oset_comment(oid, "Test Comment");
-            H5.H5Fflush(H5fid, H5F_SCOPE_LOCAL());
+            H5Fflush(H5fid, H5F_SCOPE_LOCAL());
         }
         catch (Throwable err) {
             err.printStackTrace();
-            fail("H5.H5Oset_comment: " + err);
+            fail("H5Oset_comment: " + err);
         }
         try {
             obj_comment = H5.H5Oget_comment(oid);
         }
         catch (Throwable err) {
             err.printStackTrace();
-            fail("H5.H5Oget_comment: " + err);
+            fail("H5Oget_comment: " + err);
         }
         try {
-            H5.H5Oclose(oid);
+            H5Oclose(oid);
         }
         catch (Exception ex) {
         }
@@ -483,38 +482,38 @@ public class TestH5Ocreate {
         try {
             oid = H5.H5Oopen(H5fid, "DS1", H5P_DEFAULT());
             H5.H5Oset_comment(oid, "Test Comment");
-            H5.H5Fflush(H5fid, H5F_SCOPE_LOCAL());
+            H5Fflush(H5fid, H5F_SCOPE_LOCAL());
         }
         catch (Throwable err) {
             err.printStackTrace();
-            fail("H5.H5Oset_comment: " + err);
+            fail("H5Oset_comment: " + err);
         }
         try {
             obj_comment = H5.H5Oget_comment(oid);
         }
         catch (Throwable err) {
             err.printStackTrace();
-            fail("H5.H5Oget_comment: " + err);
+            fail("H5Oget_comment: " + err);
         }
         assertFalse("H5Oget_comment: ", obj_comment == null);
         assertTrue("H5Oget_comment: ", obj_comment.compareTo("Test Comment") == 0);
         try {
             H5.H5Oset_comment(oid, null);
-            H5.H5Fflush(H5fid, H5F_SCOPE_LOCAL());
+            H5Fflush(H5fid, H5F_SCOPE_LOCAL());
         }
         catch (Throwable err) {
             err.printStackTrace();
-            fail("H5.H5Oset_comment: " + err);
+            fail("H5Oset_comment: " + err);
         }
         try {
             obj_comment = H5.H5Oget_comment(oid);
         }
         catch (Throwable err) {
             err.printStackTrace();
-            fail("H5.H5Oget_comment: " + err);
+            fail("H5Oget_comment: " + err);
         }
         try {
-            H5.H5Oclose(oid);
+            H5Oclose(oid);
         }
         catch (Exception ex) {
         }
@@ -528,18 +527,18 @@ public class TestH5Ocreate {
         String obj_comment = null;
         try {
             H5.H5Oset_comment_by_name(H5fid, "DS1", "Test Comment", H5P_DEFAULT());
-            H5.H5Fflush(H5fid, H5F_SCOPE_LOCAL());
+            H5Fflush(H5fid, H5F_SCOPE_LOCAL());
         }
         catch (Throwable err) {
             err.printStackTrace();
-            fail("H5.H5Oset_comment_by_name: " + err);
+            fail("H5Oset_comment_by_name: " + err);
         }
         try {
             obj_comment = H5.H5Oget_comment_by_name(H5fid, "DS1", H5P_DEFAULT());
         }
         catch (Throwable err) {
             err.printStackTrace();
-            fail("H5.H5Oget_comment_by_name: " + err);
+            fail("H5Oget_comment_by_name: " + err);
         }
         assertFalse("H5Oget_comment_by_name: ", obj_comment == null);
         assertTrue("H5Oget_comment_by_name: ", obj_comment.compareTo("Test Comment") == 0);
@@ -552,35 +551,35 @@ public class TestH5Ocreate {
         String obj_comment = null;
         try {
             H5.H5Oset_comment_by_name(H5fid, "DS1", "Test Comment", H5P_DEFAULT());
-            H5.H5Fflush(H5fid, H5F_SCOPE_LOCAL());
+            H5Fflush(H5fid, H5F_SCOPE_LOCAL());
         }
         catch (Throwable err) {
             err.printStackTrace();
-            fail("H5.H5Oset_comment_by_name: " + err);
+            fail("H5Oset_comment_by_name: " + err);
         }
         try {
             obj_comment = H5.H5Oget_comment_by_name(H5fid, "DS1", H5P_DEFAULT());
         }
         catch (Throwable err) {
             err.printStackTrace();
-            fail("H5.H5Oget_comment_by_name: " + err);
+            fail("H5Oget_comment_by_name: " + err);
         }
         assertFalse("H5Oget_comment_by_name: ", obj_comment == null);
         assertTrue("H5Oget_comment_by_name: ", obj_comment.compareTo("Test Comment") == 0);
         try {
             H5.H5Oset_comment_by_name(H5fid, "DS1", null, H5P_DEFAULT());
-            H5.H5Fflush(H5fid, H5F_SCOPE_LOCAL());
+            H5Fflush(H5fid, H5F_SCOPE_LOCAL());
         }
         catch (Throwable err) {
             err.printStackTrace();
-            fail("H5.H5Oset_comment_by_name: " + err);
+            fail("H5Oset_comment_by_name: " + err);
         }
         try {
             obj_comment = H5.H5Oget_comment_by_name(H5fid, "DS1", H5P_DEFAULT());
         }
         catch (Throwable err) {
             err.printStackTrace();
-            fail("H5.H5Oget_comment_by_name: " + err);
+            fail("H5Oget_comment_by_name: " + err);
         }
         assertTrue("H5Oget_comment_by_name: ", obj_comment == null);
     }
@@ -599,14 +598,14 @@ public class TestH5Ocreate {
             }
             catch (Throwable err) {
                 err.printStackTrace();
-                fail("testH5Oinc_dec_count: H5.H5Oget_info: " + err);
+                fail("testH5Oinc_dec_count: H5Oget_info: " + err);
             }
             try {
-                H5.H5Oincr_refcount(oid);
+                H5Oincr_refcount(oid);
             }
             catch (Throwable err) {
                 err.printStackTrace();
-                fail("testH5Oinc_dec_count: H5.H5Oincr_refcount: " + err);
+                fail("testH5Oinc_dec_count: H5Oincr_refcount: " + err);
             }
             try {
                 obj_info = H5.H5Oget_info(oid);
@@ -615,14 +614,14 @@ public class TestH5Ocreate {
             }
             catch (Throwable err) {
                 err.printStackTrace();
-                fail("testH5Oinc_dec_count: H5.H5Oget_info: " + err);
+                fail("testH5Oinc_dec_count: H5Oget_info: " + err);
             }
             try {
-                H5.H5Odecr_refcount(oid);
+                H5Odecr_refcount(oid);
             }
             catch (Throwable err) {
                 err.printStackTrace();
-                fail("testH5Oinc_dec_count: H5.H5Odecr_refcount: " + err);
+                fail("testH5Oinc_dec_count: H5Odecr_refcount: " + err);
             }
             try {
                 obj_info = H5.H5Oget_info(oid);
@@ -631,12 +630,12 @@ public class TestH5Ocreate {
             }
             catch (Throwable err) {
                 err.printStackTrace();
-                fail("testH5Oinc_dec_count: H5.H5Oget_info: " + err);
+                fail("testH5Oinc_dec_count: H5Oget_info: " + err);
             }
         }
         finally {
             try {
-                H5.H5Oclose(oid);
+                H5Oclose(oid);
             }
             catch (Exception ex) {
             }
@@ -650,49 +649,49 @@ public class TestH5Ocreate {
 
         // Check cork status of the group: not corked
         try {
-            corked = H5.H5Oare_mdc_flushes_disabled(H5gid);
+            corked = H5Oare_mdc_flushes_disabled(H5gid);
         }
         catch (Throwable err) {
             err.printStackTrace();
-            fail("testH5Ocork: H5.H5Oare_mdc_flushes_disabled: " + err);
+            fail("testH5Ocork: H5Oare_mdc_flushes_disabled: " + err);
         }
         assertFalse("H5Oare_mdc_flushes_disabled: ", corked);
 
         // Cork the group: an object
         try {
-            H5.H5Odisable_mdc_flushes(H5gid);
+            H5Odisable_mdc_flushes(H5gid);
         }
         catch (Throwable err) {
             err.printStackTrace();
-            fail("testH5Ocork: H5.H5Odisable_mdc_flushes: " + err);
+            fail("testH5Ocork: H5Odisable_mdc_flushes: " + err);
         }
 
         // Check cork status of the group: corked
         try {
-            corked = H5.H5Oare_mdc_flushes_disabled(H5gid);
+            corked = H5Oare_mdc_flushes_disabled(H5gid);
         }
         catch (Throwable err) {
             err.printStackTrace();
-            fail("testH5Ocork: H5.H5Oare_mdc_flushes_disabled: " + err);
+            fail("testH5Ocork: H5Oare_mdc_flushes_disabled: " + err);
         }
         assertTrue("H5Oare_mdc_flushes_disabled: ", corked);
 
         // Unork the group: an object
         try {
-            H5.H5Oenable_mdc_flushes(H5gid);
+            H5Oenable_mdc_flushes(H5gid);
         }
         catch (Throwable err) {
             err.printStackTrace();
-            fail("testH5Ocork: H5.H5Oenable_mdc_flushes: " + err);
+            fail("testH5Ocork: H5Oenable_mdc_flushes: " + err);
         }
 
         // Check cork status of the group: corked
         try {
-            corked = H5.H5Oare_mdc_flushes_disabled(H5gid);
+            corked = H5Oare_mdc_flushes_disabled(H5gid);
         }
         catch (Throwable err) {
             err.printStackTrace();
-            fail("testH5Ocork: H5.H5Oare_mdc_flushes_disabled: " + err);
+            fail("testH5Ocork: H5Oare_mdc_flushes_disabled: " + err);
         }
         assertFalse("H5Oare_mdc_flushes_disabled: ", corked);
     }

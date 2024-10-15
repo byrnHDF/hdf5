@@ -42,10 +42,6 @@ import org.junit.Rule;
 import org.junit.Test;
 import org.junit.rules.TestName;
 
-/**
- * @author xcao
- *
- */
 public class TestH5 {
     @Rule
     public TestName testname            = new TestName();
@@ -302,7 +298,7 @@ public class TestH5 {
             H5open();
         }
         catch (Throwable err) {
-            fail("H5.H5open failed: " + err);
+            fail("H5open failed: " + err);
         }
     }
 

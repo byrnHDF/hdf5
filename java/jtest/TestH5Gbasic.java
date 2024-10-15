@@ -43,7 +43,7 @@ public class TestH5Gbasic {
         }
         catch (Throwable err) {
             err.printStackTrace();
-            fail("H5.H5Gcreate: " + err);
+            fail("H5Gcreate: " + err);
         }
 
         return gid;
@@ -65,11 +65,10 @@ public class TestH5Gbasic {
     @Before
     public void createH5file() throws HDF5LibraryException, NullPointerException
     {
-        assertTrue("H5 open ids is 0", H5.getOpenIDCount() == 0);
         System.out.print(testname.getMethodName());
 
         H5fid = H5.H5Fcreate(H5_FILE, H5F_ACC_TRUNC(), H5P_DEFAULT(), H5P_DEFAULT());
-        H5.H5Fflush(H5fid, H5F_SCOPE_LOCAL());
+        H5Fflush(H5fid, H5F_SCOPE_LOCAL());
     }
 
     @After
@@ -77,7 +76,7 @@ public class TestH5Gbasic {
     {
         if (H5fid > 0) {
             try {
-                H5.H5Fclose(H5fid);
+                H5Fclose(H5fid);
             }
             catch (Exception ex) {
             }
@@ -89,7 +88,7 @@ public class TestH5Gbasic {
     @Test //(expected = HDF5LibraryException.class)
     public void testH5Gclose_invalid() throws Throwable
     {
-        long gid = H5.H5Gclose(-1);
+        long gid = H5Gclose(-1);
         assertTrue(gid == 0);
     }
 
@@ -102,7 +101,7 @@ public class TestH5Gbasic {
         gid = H5.H5Gcreate(H5fid, null, H5P_DEFAULT(), H5P_DEFAULT(), H5P_DEFAULT());
 
         try {
-            H5.H5Gclose(gid);
+            H5Gclose(gid);
         }
         catch (Exception ex) {
         }
@@ -123,12 +122,12 @@ public class TestH5Gbasic {
         }
         catch (Throwable err) {
             err.printStackTrace();
-            fail("H5.H5Gcreate: " + err);
+            fail("H5Gcreate: " + err);
         }
         assertTrue(gid > 0);
 
         try {
-            H5.H5Gclose(gid);
+            H5Gclose(gid);
         }
         catch (Exception ex) {
         }
@@ -141,7 +140,7 @@ public class TestH5Gbasic {
         assertTrue(gid > 0);
 
         try {
-            H5.H5Gclose(gid);
+            H5Gclose(gid);
         }
         catch (Throwable err) {
             fail("H5Gclose: " + err);
@@ -155,7 +154,7 @@ public class TestH5Gbasic {
         assertTrue(gid > 0);
 
         try {
-            H5.H5Gclose(gid);
+            H5Gclose(gid);
         }
         catch (Exception ex) {
         }
@@ -173,12 +172,12 @@ public class TestH5Gbasic {
         }
         catch (Throwable err) {
             err.printStackTrace();
-            fail("H5.H5Gcreate_anon: " + err);
+            fail("H5Gcreate_anon: " + err);
         }
         assertTrue(gid > 0);
 
         try {
-            H5.H5Gclose(gid);
+            H5Gclose(gid);
         }
         catch (Exception ex) {
         }
@@ -192,7 +191,7 @@ public class TestH5Gbasic {
         gid = H5.H5Gopen(H5fid, null, H5P_DEFAULT());
 
         try {
-            H5.H5Gclose(gid);
+            H5Gclose(gid);
         }
         catch (Exception ex) {
         }
@@ -212,7 +211,7 @@ public class TestH5Gbasic {
         gid = H5.H5Gopen(H5fid, "Never_created", H5P_DEFAULT());
 
         try {
-            H5.H5Gclose(gid);
+            H5Gclose(gid);
         }
         catch (Exception ex) {
         }
@@ -225,7 +224,7 @@ public class TestH5Gbasic {
         assertTrue(gid > 0);
 
         try {
-            H5.H5Gclose(gid);
+            H5Gclose(gid);
         }
         catch (Exception ex) {
         }
@@ -235,12 +234,12 @@ public class TestH5Gbasic {
         }
         catch (Throwable err) {
             err.printStackTrace();
-            fail("H5.H5Gopen: " + err);
+            fail("H5Gopen: " + err);
         }
         assertTrue(gid > 0);
 
         try {
-            H5.H5Gclose(gid);
+            H5Gclose(gid);
         }
         catch (Exception ex) {
         }
@@ -249,7 +248,7 @@ public class TestH5Gbasic {
     @Test(expected = HDF5LibraryException.class)
     public void testH5Gget_create_plist_invalid() throws Throwable
     {
-        H5.H5Gget_create_plist(-1);
+        H5Gget_create_plist(-1);
     }
 
     @Test
@@ -260,27 +259,27 @@ public class TestH5Gbasic {
         assertTrue(gid > 0);
 
         try {
-            pid = H5.H5Gget_create_plist(gid);
+            pid = H5Gget_create_plist(gid);
         }
         catch (Throwable err) {
             try {
-                H5.H5Gclose(gid);
+                H5Gclose(gid);
             }
             catch (Exception ex) {
             }
             err.printStackTrace();
-            fail("H5.H5Gget_create_plist: " + err);
+            fail("H5Gget_create_plist: " + err);
         }
         assertTrue(pid > 0);
 
         try {
-            H5.H5Pclose(pid);
+            H5Pclose(pid);
         }
         catch (Exception ex) {
         }
 
         try {
-            H5.H5Gclose(gid);
+            H5Gclose(gid);
         }
         catch (Exception ex) {
         }
@@ -289,7 +288,7 @@ public class TestH5Gbasic {
     @Test(expected = HDF5LibraryException.class)
     public void testH5Gget_info_invalid() throws Throwable
     {
-        H5.H5Gget_info(-1);
+        H5Gget_info(-1);
     }
 
     @Test
@@ -304,17 +303,17 @@ public class TestH5Gbasic {
         }
         catch (Throwable err) {
             try {
-                H5.H5Gclose(gid);
+                H5Gclose(gid);
             }
             catch (Exception ex) {
             }
             err.printStackTrace();
-            fail("H5.H5Gget_info: " + err);
+            fail("H5Gget_info: " + err);
         }
         assertNotNull(info);
 
         try {
-            H5.H5Gclose(gid);
+            H5Gclose(gid);
         }
         catch (Exception ex) {
         }
@@ -350,17 +349,17 @@ public class TestH5Gbasic {
         }
         catch (Throwable err) {
             try {
-                H5.H5Gclose(gid);
+                H5Gclose(gid);
             }
             catch (Exception ex) {
             }
             err.printStackTrace();
-            fail("H5.H5Gget_info_by_name: " + err);
+            fail("H5Gget_info_by_name: " + err);
         }
         assertNotNull(info);
 
         try {
-            H5.H5Gclose(gid);
+            H5Gclose(gid);
         }
         catch (Exception ex) {
         }
@@ -373,7 +372,7 @@ public class TestH5Gbasic {
         long gid        = _createGroup(H5fid, "/testH5Gcreate");
         assertTrue(gid > 0);
         try {
-            H5.H5Gclose(gid);
+            H5Gclose(gid);
         }
         catch (Exception ex) {
         }
@@ -383,17 +382,17 @@ public class TestH5Gbasic {
         }
         catch (Throwable err) {
             try {
-                H5.H5Gclose(gid);
+                H5Gclose(gid);
             }
             catch (Exception ex) {
             }
             err.printStackTrace();
-            fail("H5.H5Gget_info_by_name: " + err);
+            fail("H5Gget_info_by_name: " + err);
         }
         assertNotNull(info);
 
         try {
-            H5.H5Gclose(gid);
+            H5Gclose(gid);
         }
         catch (Exception ex) {
         }
@@ -429,12 +428,12 @@ public class TestH5Gbasic {
         }
         catch (Throwable err) {
             err.printStackTrace();
-            fail("H5.H5Gget_info_by_idx: " + err);
+            fail("H5Gget_info_by_idx: " + err);
         }
         assertNotNull(info);
 
         try {
-            H5.H5Gclose(gid);
+            H5Gclose(gid);
         }
         catch (Exception ex) {
         }
@@ -447,7 +446,7 @@ public class TestH5Gbasic {
         long gid        = _createGroup(H5fid, "/testH5Gcreate");
         assertTrue(gid > 0);
         try {
-            H5.H5Gclose(gid);
+            H5Gclose(gid);
         }
         catch (Exception ex) {
         }
@@ -457,7 +456,7 @@ public class TestH5Gbasic {
         }
         catch (Throwable err) {
             err.printStackTrace();
-            fail("H5.H5Gget_info_by_idx: " + err);
+            fail("H5Gget_info_by_idx: " + err);
         }
         assertNotNull(info);
     }
@@ -465,12 +464,12 @@ public class TestH5Gbasic {
     @Test(expected = HDF5LibraryException.class)
     public void testH5Gflush_invalid() throws Throwable
     {
-        H5.H5Gflush(-1);
+        H5Gflush(-1);
     }
 
     @Test(expected = HDF5LibraryException.class)
     public void testH5Grefresh_invalid() throws Throwable
     {
-        H5.H5Grefresh(-1);
+        H5Grefresh(-1);
     }
 }

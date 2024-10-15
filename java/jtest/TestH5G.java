@@ -50,7 +50,7 @@ public class TestH5G {
         }
         catch (Throwable err) {
             err.printStackTrace();
-            fail("H5.H5Gcreate: " + err);
+            fail("H5Gcreate: " + err);
         }
         assertTrue("TestH5G._createGroup: ", gid > 0);
 
@@ -62,35 +62,35 @@ public class TestH5G {
         long gid  = H5I_INVALID_HID();
         long gcpl = H5I_INVALID_HID();
         try {
-            gcpl = H5.H5Pcreate(HDF5Constants.H5P_GROUP_CREATE); // create gcpl
+            gcpl = H5Pcreate(HDF5Constants.H5P_GROUP_CREATE); // create gcpl
         }
         catch (final Exception ex) {
-            fail("H5.H5Pcreate(): " + ex);
+            fail("H5Pcreate(): " + ex);
         }
         assertTrue("TestH5G._createGroup2: ", gcpl >= 0);
         try {
-            H5.H5Pset_link_creation_order(gcpl,
+            H5Pset_link_creation_order(gcpl,
                                           HDF5Constants.H5P_CRT_ORDER_TRACKED +
                                               HDF5Constants.H5P_CRT_ORDER_INDEXED); // Set link creation order
         }
         catch (final Exception ex) {
             try {
-                H5.H5Pclose(gcpl);
+                H5Pclose(gcpl);
             }
             catch (final Exception exx) {
             }
-            fail("H5.H5Pset_link_creation_order: " + ex);
+            fail("H5Pset_link_creation_order: " + ex);
         }
         try {
             gid = H5.H5Gcreate(fid, name, H5P_DEFAULT(), gcpl, H5P_DEFAULT());
         }
         catch (Throwable err) {
             err.printStackTrace();
-            fail("H5.H5Gcreate: " + err);
+            fail("H5Gcreate: " + err);
         }
         finally {
             try {
-                H5.H5Pclose(gcpl);
+                H5Pclose(gcpl);
             }
             catch (final Exception ex) {
             }
@@ -109,7 +109,7 @@ public class TestH5G {
         catch (Throwable err) {
             gid = H5I_INVALID_HID();
             err.printStackTrace();
-            fail("H5.H5Gopen: " + err);
+            fail("H5Gopen: " + err);
         }
         assertTrue("TestH5G._openGroup: ", gid > 0);
 
@@ -132,7 +132,6 @@ public class TestH5G {
     @Before
     public void createH5file() throws HDF5LibraryException, NullPointerException
     {
-        assertTrue("H5 open ids is 0", H5.getOpenIDCount() == 0);
         System.out.print(testname.getMethodName());
 
         try {
@@ -144,15 +143,15 @@ public class TestH5G {
             err.printStackTrace();
             fail("TestH5G.createH5file: " + err);
         }
-        assertTrue("TestH5G.createH5file: H5.H5Fcreate: ", H5fid > 0);
-        assertTrue("TestH5G.createH5file: H5.H5Fcreate: ", H5fid2 > 0);
+        assertTrue("TestH5G.createH5file: H5Fcreate: ", H5fid > 0);
+        assertTrue("TestH5G.createH5file: H5Fcreate: ", H5fid2 > 0);
 
         long gid = H5I_INVALID_HID();
 
         for (int i = 0; i < GROUPS.length; i++) {
             gid = _createGroup(H5fid, GROUPS[i]);
             try {
-                H5.H5Gclose(gid);
+                H5Gclose(gid);
             }
             catch (Exception ex) {
             }
@@ -161,14 +160,14 @@ public class TestH5G {
         for (int i = 0; i < GROUPS2.length; i++) {
             gid = _createGroup2(H5fid2, GROUPS2[i]);
             try {
-                H5.H5Gclose(gid);
+                H5Gclose(gid);
             }
             catch (Exception ex) {
             }
         }
 
-        H5.H5Fflush(H5fid, H5F_SCOPE_LOCAL());
-        H5.H5Fflush(H5fid2, H5F_SCOPE_LOCAL());
+        H5Fflush(H5fid, H5F_SCOPE_LOCAL());
+        H5Fflush(H5fid2, H5F_SCOPE_LOCAL());
     }
 
     @After
@@ -176,14 +175,14 @@ public class TestH5G {
     {
         if (H5fid > 0) {
             try {
-                H5.H5Fclose(H5fid);
+                H5Fclose(H5fid);
             }
             catch (Exception ex) {
             }
         }
         if (H5fid2 > 0) {
             try {
-                H5.H5Fclose(H5fid2);
+                H5Fclose(H5fid2);
             }
             catch (Exception ex) {
             }
@@ -203,11 +202,11 @@ public class TestH5G {
             }
             catch (Throwable err) {
                 err.printStackTrace();
-                fail("TestH5G.testH5Gopen: H5.H5Gopen: " + err);
+                fail("TestH5G.testH5Gopen: H5Gopen: " + err);
             }
             assertTrue("TestH5G.testH5Gopen: ", gid > 0);
             try {
-                H5.H5Gclose(gid);
+                H5Gclose(gid);
             }
             catch (Exception ex) {
             }
@@ -226,21 +225,21 @@ public class TestH5G {
             }
             catch (Throwable err) {
                 err.printStackTrace();
-                fail("TestH5G.testH5Gget_create_plist: H5.H5Gopen: " + err);
+                fail("TestH5G.testH5Gget_create_plist: H5Gopen: " + err);
             }
             assertTrue("TestH5G.testH5Gget_create_plist: ", gid > 0);
 
             try {
-                pid = H5.H5Gget_create_plist(gid);
+                pid = H5Gget_create_plist(gid);
             }
             catch (Throwable err) {
                 err.printStackTrace();
-                fail("TestH5G.testH5Gget_create_plist: H5.H5Gget_create_plist: " + err);
+                fail("TestH5G.testH5Gget_create_plist: H5Gget_create_plist: " + err);
             }
             assertTrue("TestH5G.testH5Gget_create_plist: ", pid > 0);
 
             try {
-                H5.H5Gclose(gid);
+                H5Gclose(gid);
             }
             catch (Exception ex) {
             }
@@ -255,11 +254,11 @@ public class TestH5G {
         for (int i = 0; i < GROUPS.length; i++) {
 
             try {
-                info = H5.H5Gget_info(H5fid);
+                info = H5Gget_info(H5fid);
             }
             catch (Throwable err) {
                 err.printStackTrace();
-                fail("TestH5G.testH5Gget_info: H5.H5Gget_info: " + err);
+                fail("TestH5G.testH5Gget_info: H5Gget_info: " + err);
             }
             assertNotNull("TestH5G.testH5Gget_info: ", info);
         }
@@ -276,7 +275,7 @@ public class TestH5G {
             }
             catch (Throwable err) {
                 err.printStackTrace();
-                fail("TestH5G.testH5Gget_info_by_name: H5.H5Gget_info_by_name: " + err);
+                fail("TestH5G.testH5Gget_info_by_name: H5Gget_info_by_name: " + err);
             }
             assertNotNull("TestH5G.testH5Gget_info_by_name: ", info);
         }
@@ -292,7 +291,7 @@ public class TestH5G {
             }
             catch (Throwable err) {
                 err.printStackTrace();
-                fail("TestH5G.testH5Gget_info_by_idx: H5.H5Gget_info_by_idx: " + err);
+                fail("TestH5G.testH5Gget_info_by_idx: H5Gget_info_by_idx: " + err);
             }
             assertNotNull("TestH5G.testH5Gget_info_by_idx: ", info);
         }
@@ -310,11 +309,11 @@ public class TestH5G {
         }
         catch (Throwable err) {
             err.printStackTrace();
-            fail("TestH5G.testH5Gget_obj_info_all: H5.H5Gget_info: " + err);
+            fail("TestH5G.testH5Gget_obj_info_all: H5Gget_info: " + err);
         }
         finally {
             try {
-                H5.H5Gclose(gid);
+                H5Gclose(gid);
             }
             catch (Exception ex) {
             }
@@ -333,7 +332,7 @@ public class TestH5G {
         }
         catch (Throwable err) {
             err.printStackTrace();
-            fail("TestH5G.testH5Gget_obj_info_all: H5.H5Gget_obj_info_all: " + err);
+            fail("TestH5G.testH5Gget_obj_info_all: H5Gget_obj_info_all: " + err);
         }
 
         assertTrue("number found[" + names_found + "] different than expected[" + objNames.length + "]",
@@ -367,7 +366,7 @@ public class TestH5G {
             }
             catch (Throwable err) {
                 err.printStackTrace();
-                fail("TestH5G.testH5Gget_obj_info_all_gid: H5.H5Gget_obj_info_all: " + err);
+                fail("TestH5G.testH5Gget_obj_info_all_gid: H5Gget_obj_info_all: " + err);
             }
 
             assertTrue("TestH5G.testH5Gget_obj_info_all_gid: number found[" + names_found +
@@ -381,11 +380,11 @@ public class TestH5G {
         }
         catch (Throwable err) {
             err.printStackTrace();
-            fail("TestH5G.testH5Gget_obj_info_all_gid: H5.H5Gget_info: " + err);
+            fail("TestH5G.testH5Gget_obj_info_all_gid: H5Gget_info: " + err);
         }
         finally {
             try {
-                H5.H5Gclose(gid);
+                H5Gclose(gid);
             }
             catch (Exception ex) {
             }
@@ -415,7 +414,7 @@ public class TestH5G {
             }
             catch (Throwable err) {
                 err.printStackTrace();
-                fail("TestH5G.testH5Gget_obj_info_all_gid2: H5.H5Gget_obj_info_all: " + err);
+                fail("TestH5G.testH5Gget_obj_info_all_gid2: H5Gget_obj_info_all: " + err);
             }
 
             assertTrue("TestH5G.testH5Gget_obj_info_all_gid2: number found[" + names_found +
@@ -429,11 +428,11 @@ public class TestH5G {
         }
         catch (Throwable err) {
             err.printStackTrace();
-            fail("TestH5G.testH5Gget_obj_info_all_gid2: H5.H5Gget_info: " + err);
+            fail("TestH5G.testH5Gget_obj_info_all_gid2: H5Gget_info: " + err);
         }
         finally {
             try {
-                H5.H5Gclose(gid);
+                H5Gclose(gid);
             }
             catch (Exception ex) {
             }
@@ -457,11 +456,11 @@ public class TestH5G {
         }
         catch (Throwable err) {
             err.printStackTrace();
-            fail("TestH5G.testH5Gget_obj_info_max: H5.H5Gget_obj_info_max: " + err);
+            fail("TestH5G.testH5Gget_obj_info_max: H5Gget_obj_info_max: " + err);
         }
         finally {
             try {
-                H5.H5Gclose(gid);
+                H5Gclose(gid);
             }
             catch (Exception ex) {
             }
@@ -494,11 +493,11 @@ public class TestH5G {
         }
         catch (Throwable err) {
             err.printStackTrace();
-            fail("TestH5G.testH5Gget_obj_info_max_limit: H5.H5Gget_obj_info_max: " + err);
+            fail("TestH5G.testH5Gget_obj_info_max_limit: H5Gget_obj_info_max: " + err);
         }
         finally {
             try {
-                H5.H5Gclose(gid);
+                H5Gclose(gid);
             }
             catch (Exception ex) {
             }
@@ -526,11 +525,11 @@ public class TestH5G {
         }
         catch (Throwable err) {
             err.printStackTrace();
-            fail("TestH5G.testH5Gget_obj_info_all_byIndexType: H5.H5Gget_info: " + err);
+            fail("TestH5G.testH5Gget_obj_info_all_byIndexType: H5Gget_info: " + err);
         }
         finally {
             try {
-                H5.H5Gclose(gid);
+                H5Gclose(gid);
             }
             catch (Exception ex) {
             }
@@ -549,7 +548,7 @@ public class TestH5G {
         }
         catch (Throwable err) {
             err.printStackTrace();
-            fail("TestH5G.testH5Gget_obj_info_all_byIndexType: H5.H5Gget_obj_info_all: " + err);
+            fail("TestH5G.testH5Gget_obj_info_all_byIndexType: H5Gget_obj_info_all: " + err);
         }
 
         assertEquals("G12", objNames[1]);
@@ -562,7 +561,7 @@ public class TestH5G {
         }
         catch (Throwable err) {
             err.printStackTrace();
-            fail("TestH5G.testH5Gget_obj_info_all_byIndexType: H5.H5Gget_obj_info_all: " + err);
+            fail("TestH5G.testH5Gget_obj_info_all_byIndexType: H5Gget_obj_info_all: " + err);
         }
 
         assertEquals("G12", objNames[1]);

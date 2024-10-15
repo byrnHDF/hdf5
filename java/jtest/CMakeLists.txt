@@ -43,7 +43,7 @@ set (HDF5_JAVA_JTEST_SOURCES
 #    TestH5Ocopy
 #    TestH5PL
 #    TestH5VL
-#    TestH5Z
+    TestH5Z
 )
 
 #if (NOT HDF5_ENABLE_DEBUG_APIS)

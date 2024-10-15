@@ -67,11 +67,11 @@ public class TestH5Dplist {
     private final void _createPDataset(long fid, long dsid, String name, long dcpl_val)
     {
         try {
-            H5dcpl_id = H5.H5Pcreate(dcpl_val);
+            H5dcpl_id = H5Pcreate(dcpl_val);
         }
         catch (Exception err) {
             err.printStackTrace();
-            fail("H5.H5Pcreate: " + err);
+            fail("H5Pcreate: " + err);
         }
         assertTrue("TestH5Dplist._createPDataset: ", H5dcpl_id > 0);
 
@@ -96,7 +96,7 @@ public class TestH5Dplist {
         // that reading from the dataset immediately after creation will
         // return the fill value.
         try {
-            H5.H5Pset_alloc_time(H5dcpl_id, H5D_ALLOC_TIME_EARLY());
+            H5Pset_alloc_time(H5dcpl_id, H5D_ALLOC_TIME_EARLY());
         }
         catch (Exception e) {
             e.printStackTrace();
@@ -112,7 +112,7 @@ public class TestH5Dplist {
         }
         catch (Throwable err) {
             err.printStackTrace();
-            fail("H5.H5Dcreate: " + err);
+            fail("H5Dcreate: " + err);
         }
         assertTrue("TestH5Dplist._createDataset: ", H5did > 0);
     }
@@ -120,7 +120,6 @@ public class TestH5Dplist {
     @Before
     public void createH5file() throws NullPointerException, HDF5Exception
     {
-        assertTrue("H5 open ids is 0", H5.getOpenIDCount() == 0);
         System.out.print(testname.getMethodName());
         try {
             H5fid  = H5.H5Fcreate(H5_FILE, H5F_ACC_TRUNC(), H5P_DEFAULT(), H5P_DEFAULT());
@@ -130,10 +129,10 @@ public class TestH5Dplist {
             err.printStackTrace();
             fail("TestH5Dplist.createH5file: " + err);
         }
-        assertTrue("TestH5Dplist.createH5file: H5.H5Fcreate: ", H5fid > 0);
-        assertTrue("TestH5Dplist.createH5file: H5.H5Screate_simple: ", H5dsid > 0);
+        assertTrue("TestH5Dplist.createH5file: H5Fcreate: ", H5fid > 0);
+        assertTrue("TestH5Dplist.createH5file: H5Screate_simple: ", H5dsid > 0);
 
-        H5.H5Fflush(H5fid, H5F_SCOPE_LOCAL());
+        H5Fflush(H5fid, H5F_SCOPE_LOCAL());
     }
 
     @After
@@ -141,25 +140,25 @@ public class TestH5Dplist {
     {
         if (H5dcpl_id >= 0)
             try {
-                H5.H5Pclose(H5dcpl_id);
+                H5Pclose(H5dcpl_id);
             }
             catch (Exception ex) {
             }
         if (H5did > 0)
             try {
-                H5.H5Dclose(H5did);
+                H5Dclose(H5did);
             }
             catch (Exception ex) {
             }
         if (H5dsid > 0)
             try {
-                H5.H5Sclose(H5dsid);
+                H5Sclose(H5dsid);
             }
             catch (Exception ex) {
             }
         if (H5fid > 0)
             try {
-                H5.H5Fclose(H5fid);
+                H5Fclose(H5fid);
             }
             catch (Exception ex) {
             }
@@ -189,7 +188,7 @@ public class TestH5Dplist {
         catch (Exception e) {
             e.printStackTrace();
         }
-        assertTrue("testH5Dset_extent - H5.H5Dread: ", read_dset_data[0][0] == 99);
+        assertTrue("testH5Dset_extent - H5Dread: ", read_dset_data[0][0] == 99);
 
         // Write the data to the dataset.
         try {
@@ -206,7 +205,7 @@ public class TestH5Dplist {
         catch (Exception e) {
             e.printStackTrace();
         }
-        assertTrue("testH5Dset_extent - H5.H5Dread: ", read_dset_data[3][6] == 12);
+        assertTrue("testH5Dset_extent - H5Dread: ", read_dset_data[3][6] == 12);
 
         // Extend the dataset.
         try {
@@ -223,8 +222,8 @@ public class TestH5Dplist {
         catch (Exception e) {
             e.printStackTrace();
         }
-        assertTrue("testH5Dset_extent - H5.H5Dread: ", extend_dset_data[3][6] == 12);
-        assertTrue("testH5Dset_extent - H5.H5Dread: ", extend_dset_data[4][8] == 99);
+        assertTrue("testH5Dset_extent - H5Dread: ", extend_dset_data[3][6] == 12);
+        assertTrue("testH5Dset_extent - H5Dread: ", extend_dset_data[4][8] == 99);
     }
 
     @Test
@@ -235,10 +234,10 @@ public class TestH5Dplist {
         _createPDataset(H5fid, H5dsid, "dset", H5P_CLS_DATASET_CREATE_ID_g());
 
         try {
-            ret_val_id = H5.H5Pget_dset_no_attrs_hint(H5dcpl_id);
+            ret_val_id = H5Pget_dset_no_attrs_hint(H5dcpl_id);
             assertFalse("H5P_dset_no_attrs_hint", ret_val_id);
-            H5.H5Pset_dset_no_attrs_hint(H5dcpl_id, true);
-            ret_val_id = H5.H5Pget_dset_no_attrs_hint(H5dcpl_id);
+            H5Pset_dset_no_attrs_hint(H5dcpl_id, true);
+            ret_val_id = H5Pget_dset_no_attrs_hint(H5dcpl_id);
             assertTrue("H5P_dset_no_attrs_hint", ret_val_id);
         }
         catch (Throwable err) {

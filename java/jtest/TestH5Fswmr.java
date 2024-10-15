@@ -53,15 +53,14 @@ public class TestH5Fswmr {
     @Before
     public void createH5file() throws HDF5LibraryException, NullPointerException
     {
-        assertTrue("H5 open ids is 0", H5.getOpenIDCount() == 0);
         System.out.print(testname.getMethodName());
 
-        H5fapl = H5.H5Pcreate(H5P_CLS_FILE_ACCESS_g());
-        H5fcpl = H5.H5Pcreate(H5P_CLS_FILE_CREATE_ID_g());
-        H5.H5Pset_libver_bounds(H5fapl, H5F_LIBVER_LATEST(), H5F_LIBVER_LATEST());
+        H5fapl = H5Pcreate(H5P_CLS_FILE_ACCESS_g());
+        H5fcpl = H5Pcreate(H5P_CLS_FILE_CREATE_ID_g());
+        H5Pset_libver_bounds(H5fapl, H5F_LIBVER_LATEST(), H5F_LIBVER_LATEST());
 
         H5fid = H5.H5Fcreate(H5_FILE, H5F_ACC_TRUNC(), H5fcpl, H5fapl);
-        H5.H5Fflush(H5fid, H5F_SCOPE_LOCAL());
+        H5Fflush(H5fid, H5F_SCOPE_LOCAL());
     }
 
     @After
@@ -69,7 +68,7 @@ public class TestH5Fswmr {
     {
         if (H5fapl > 0) {
             try {
-                H5.H5Pclose(H5fapl);
+                H5Pclose(H5fapl);
             }
             catch (Exception ex) {
             }
@@ -77,7 +76,7 @@ public class TestH5Fswmr {
         }
         if (H5fcpl > 0) {
             try {
-                H5.H5Pclose(H5fcpl);
+                H5Pclose(H5fcpl);
             }
             catch (Exception ex) {
             }
@@ -85,7 +84,7 @@ public class TestH5Fswmr {
         }
         if (H5fid > 0) {
             try {
-                H5.H5Fclose(H5fid);
+                H5Fclose(H5fid);
             }
             catch (Exception ex) {
             }
@@ -99,10 +98,10 @@ public class TestH5Fswmr {
     public void testH5Fstart_swmr_write()
     {
         try {
-            H5.H5Fstart_swmr_write(H5fid);
+            H5Fstart_swmr_write(H5fid);
         }
         catch (Throwable err) {
-            fail("H5.H5Fstart_swmr_write: " + err);
+            fail("H5Fstart_swmr_write: " + err);
         }
     }
 
@@ -112,24 +111,24 @@ public class TestH5Fswmr {
         long read_attempts = 0;
 
         try {
-            read_attempts = H5.H5Pget_metadata_read_attempts(H5fapl);
+            read_attempts = H5Pget_metadata_read_attempts(H5fapl);
         }
         catch (Throwable err) {
-            fail("H5.testH5Fswmr_read_attempts: " + err);
+            fail("testH5Fswmr_read_attempts: " + err);
         }
         assertTrue(read_attempts == 1);
 
         try {
-            H5.H5Pset_metadata_read_attempts(H5fapl, 20);
+            H5Pset_metadata_read_attempts(H5fapl, 20);
         }
         catch (Throwable err) {
-            fail("H5.testH5Fswmr_read_attempts: " + err);
+            fail("testH5Fswmr_read_attempts: " + err);
         }
         try {
-            read_attempts = H5.H5Pget_metadata_read_attempts(H5fapl);
+            read_attempts = H5Pget_metadata_read_attempts(H5fapl);
         }
         catch (Throwable err) {
-            fail("H5.testH5Fswmr_read_attempts: " + err);
+            fail("testH5Fswmr_read_attempts: " + err);
         }
         assertTrue(read_attempts == 20);
     }

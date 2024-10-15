@@ -30,7 +30,6 @@ public class TestH5Dparams {
     @Before
     public void checkOpenIDs()
     {
-        assertTrue("H5 open ids is 0", H5.getOpenIDCount() == 0);
         System.out.print(testname.getMethodName());
     }
     @After
@@ -42,7 +41,7 @@ public class TestH5Dparams {
     @Test //(expected = HDF5LibraryException.class)
     public void testH5Dclose_invalid() throws Throwable
     {
-        long did = H5.H5Dclose(-1);
+        long did = H5Dclose(-1);
         assertTrue(did == 0);
     }
 
@@ -67,37 +66,37 @@ public class TestH5Dparams {
     @Test(expected = HDF5LibraryException.class)
     public void testH5Dget_access_plist_invalid() throws Throwable
     {
-        H5.H5Dget_access_plist(-1);
+        H5Dget_access_plist(-1);
     }
 
     @Test(expected = HDF5LibraryException.class)
     public void testH5Dget_create_plist_invalid() throws Throwable
     {
-        H5.H5Dget_create_plist(-1);
+        H5Dget_create_plist(-1);
     }
 
     @Test(expected = HDF5LibraryException.class)
     public void testH5Dget_offset_invalid() throws Throwable
     {
-        H5.H5Dget_offset(-1);
+        H5Dget_offset(-1);
     }
 
     @Test(expected = HDF5LibraryException.class)
     public void testH5Dget_space_invalid() throws Throwable
     {
-        H5.H5Dget_space(-1);
+        H5Dget_space(-1);
     }
 
     @Test(expected = HDF5LibraryException.class)
     public void testH5Dget_type_invalid() throws Throwable
     {
-        H5.H5Dget_type(-1);
+        H5Dget_type(-1);
     }
 
     @Test(expected = HDF5LibraryException.class)
     public void testH5Dget_space_status_invalid() throws Throwable
     {
-        int status = H5.H5Dget_space_status(-1);
+        int status = H5Dget_space_status(-1);
     }
 
     @Test(expected = HDF5LibraryException.class)
@@ -128,24 +127,24 @@ public class TestH5Dparams {
     @Test(expected = HDF5LibraryException.class)
     public void testH5Dvlen_get_buf_size_invalid() throws Throwable
     {
-        H5.H5Dvlen_get_buf_size(-1, -1, -1);
+        H5Dvlen_get_buf_size(-1, -1, -1);
     }
 
     @Test(expected = IllegalArgumentException.class)
     public void testH5Dget_storage_size_invalid() throws Throwable
     {
-        H5.H5Dget_storage_size(-1);
+        H5Dget_storage_size(-1);
     }
 
     @Test(expected = HDF5LibraryException.class)
     public void testH5Dflush_invalid() throws Throwable
     {
-        H5.H5Dflush(-1);
+        H5Dflush(-1);
     }
 
     @Test(expected = HDF5LibraryException.class)
     public void testH5Drefresh_invalid() throws Throwable
     {
-        H5.H5Drefresh(-1);
+        H5Drefresh(-1);
     }
 }

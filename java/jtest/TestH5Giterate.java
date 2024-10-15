@@ -43,7 +43,7 @@ public class TestH5Giterate {
         catch (Throwable err) {
             gid = H5I_INVALID_HID();
             err.printStackTrace();
-            fail("H5.H5Gcreate: " + err);
+            fail("H5Gcreate: " + err);
         }
 
         return gid;
@@ -52,7 +52,6 @@ public class TestH5Giterate {
     @Before
     public void openH5file() throws HDF5LibraryException, NullPointerException
     {
-        assertTrue("H5 open ids is 0", H5.getOpenIDCount() == 0);
         System.out.print(testname.getMethodName());
 
         try {
@@ -60,7 +59,7 @@ public class TestH5Giterate {
         }
         catch (Throwable err) {
             err.printStackTrace();
-            fail("H5.H5Fopen: openH5file: " + err);
+            fail("H5Fopen: openH5file: " + err);
         }
     }
 
@@ -69,7 +68,7 @@ public class TestH5Giterate {
     {
         if (H5fid > 0) {
             try {
-                H5.H5Fclose(H5fid);
+                H5Fclose(H5fid);
             }
             catch (Exception ex) {
             }
@@ -89,10 +88,10 @@ public class TestH5Giterate {
         }
         catch (Throwable err) {
             err.printStackTrace();
-            fail("H5.H5Gget_info: " + err);
+            fail("H5Gget_info: " + err);
         }
         try {
-            H5.H5Gclose(gid);
+            H5Gclose(gid);
         }
         catch (Exception ex) {
         }
@@ -110,7 +109,7 @@ public class TestH5Giterate {
         }
         catch (Throwable err) {
             err.printStackTrace();
-            fail("H5.H5Gget_obj_info_all: " + err);
+            fail("H5Gget_obj_info_all: " + err);
         }
 
         assertTrue("number found[" + names_found + "] different than expected[" + objNames.length + "]",

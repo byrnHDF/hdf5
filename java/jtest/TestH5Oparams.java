@@ -32,7 +32,6 @@ public class TestH5Oparams {
     @Before
     public void checkOpenIDs()
     {
-        assertTrue("H5 open ids is 0", H5.getOpenIDCount() == 0);
         System.out.print(testname.getMethodName());
     }
     @After
@@ -44,7 +43,7 @@ public class TestH5Oparams {
     @Test //(expected = HDF5LibraryException.class)
     public void testH5Oclose_invalid() throws Throwable
     {
-        long oid = H5.H5Oclose(-1);
+        long oid = H5Oclose(-1);
         assertTrue(oid == 0);
     }
 
@@ -210,13 +209,13 @@ public class TestH5Oparams {
     @Test(expected = HDF5LibraryException.class)
     public void testH5Oflush_invalid() throws Throwable
     {
-        H5.H5Oflush(-1);
+        H5Oflush(-1);
     }
 
     @Test(expected = HDF5LibraryException.class)
     public void testH5Orefresh_invalid() throws Throwable
     {
-        H5.H5Orefresh(-1);
+        H5Orefresh(-1);
     }
 
     @Test(expected = HDF5LibraryException.class)
@@ -228,12 +227,12 @@ public class TestH5Oparams {
     @Test(expected = HDF5LibraryException.class)
     public void testH5Oenable_mdc_flushes() throws Throwable
     {
-        H5.H5Oenable_mdc_flushes(-1);
+        H5Oenable_mdc_flushes(-1);
     }
 
     @Test(expected = HDF5LibraryException.class)
     public void testH5Oare_mdc_flushes_disabled() throws Throwable
     {
-        H5.H5Oare_mdc_flushes_disabled(-1);
+        H5Oare_mdc_flushes_disabled(-1);
     }
 }

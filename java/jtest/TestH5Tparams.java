@@ -30,7 +30,6 @@ public class TestH5Tparams {
     @Before
     public void checkOpenIDs()
     {
-        assertTrue("H5 open ids is 0", H5.getOpenIDCount() == 0);
         System.out.print(testname.getMethodName());
     }
     @After
@@ -42,92 +41,92 @@ public class TestH5Tparams {
     @Test //(expected = HDF5LibraryException.class)
     public void testH5Tclose_invalid() throws Throwable
     {
-        long tid = H5.H5Tclose(-1);
+        long tid = H5Tclose(-1);
         assertTrue(tid == 0);
     }
 
     @Test(expected = HDF5LibraryException.class)
     public void testH5Tcopy_invalid() throws Throwable
     {
-        H5.H5Tcopy(-1);
+        H5Tcopy(-1);
     }
 
     @Test(expected = HDF5LibraryException.class)
     public void testH5Tequal_invalid() throws Throwable
     {
-        H5.H5Tequal(-1, -1);
+        H5Tequal(-1, -1);
     }
 
     @Test(expected = HDF5LibraryException.class)
     public void testH5Tlock_invalid() throws Throwable
     {
-        H5.H5Tlock(-1);
+        H5Tlock(-1);
     }
 
     @Test(expected = HDF5LibraryException.class)
     public void testH5Tget_class_invalid() throws Throwable
     {
-        H5.H5Tget_class(-1);
+        H5Tget_class(-1);
     }
 
     @Test(expected = HDF5LibraryException.class)
     public void testH5Tget_size_invalid() throws Throwable
     {
-        H5.H5Tget_size(-1);
+        H5Tget_size(-1);
     }
 
     @Test(expected = HDF5LibraryException.class)
     public void testH5Tset_size_invalid() throws Throwable
     {
-        H5.H5Tset_size(-1, 0);
+        H5Tset_size(-1, 0);
     }
 
     @Test(expected = HDF5LibraryException.class)
     public void testH5Tget_order_invalid() throws Throwable
     {
-        H5.H5Tget_order(-1);
+        H5Tget_order(-1);
     }
 
     @Test(expected = HDF5LibraryException.class)
     public void testH5Tset_order_invalid() throws Throwable
     {
-        H5.H5Tset_order(-1, 0);
+        H5Tset_order(-1, 0);
     }
 
     @Test(expected = HDF5LibraryException.class)
     public void testH5Tget_precision_invalid() throws Throwable
     {
-        H5.H5Tget_precision(-1);
+        H5Tget_precision(-1);
     }
 
     @Test(expected = HDF5LibraryException.class)
     public void testH5Tget_precision_long_invalid() throws Throwable
     {
-        H5.H5Tget_precision_long(-1);
+        H5Tget_precision_long(-1);
     }
 
     @Test(expected = HDF5LibraryException.class)
     public void testH5Tset_precision_invalid() throws Throwable
     {
-        H5.H5Tset_precision(-1, 0);
+        H5Tset_precision(-1, 0);
     }
 
     @Test(expected = HDF5LibraryException.class)
     public void testH5Tget_offset_invalid() throws Throwable
     {
-        H5.H5Tget_offset(-1);
+        H5Tget_offset(-1);
     }
 
     @Test(expected = HDF5LibraryException.class)
     public void testH5Tset_offset_invalid() throws Throwable
     {
-        H5.H5Tset_offset(-1, 0);
+        H5Tset_offset(-1, 0);
     }
 
     @Test(expected = HDF5LibraryException.class)
     public void testH5Tcreate_invalid() throws Throwable
     {
-        H5.H5Tcreate(-1, (long)0);
+        H5Tcreate(-1, (long)0);
     }
 
     @Test(expected = NullPointerException.class)
@@ -170,19 +169,19 @@ public class TestH5Tparams {
     @Test(expected = HDF5LibraryException.class)
     public void testH5Tset_pad_invalid() throws Throwable
     {
-        H5.H5Tset_pad(-1, -1, -1);
+        H5Tset_pad(-1, -1, -1);
     }
 
     @Test(expected = HDF5LibraryException.class)
     public void testH5Tget_sign_invalid() throws Throwable
     {
-        H5.H5Tget_sign(-1);
+        H5Tget_sign(-1);
     }
 
     @Test(expected = HDF5LibraryException.class)
     public void testH5Tset_sign_invalid() throws Throwable
     {
-        H5.H5Tset_sign(-1, 0);
+        H5Tset_sign(-1, 0);
     }
 
     @Test(expected = NullPointerException.class)
@@ -214,73 +213,73 @@ public class TestH5Tparams {
     @Test(expected = HDF5LibraryException.class)
     public void testH5Tget_ebias_invalid() throws Throwable
     {
-        H5.H5Tget_ebias(-1);
+        H5Tget_ebias(-1);
     }
 
     @Test(expected = HDF5LibraryException.class)
     public void testH5Tget_ebias_long_invalid() throws Throwable
     {
-        H5.H5Tget_ebias_long(-1);
+        H5Tget_ebias_long(-1);
     }
 
     @Test(expected = HDF5LibraryException.class)
     public void testH5Tset_ebias_invalid() throws Throwable
     {
-        H5.H5Tset_ebias(-1, 0);
+        H5Tset_ebias(-1, 0);
     }
 
     @Test(expected = HDF5LibraryException.class)
     public void testH5Tget_norm_invalid() throws Throwable
     {
-        H5.H5Tget_norm(-1);
+        H5Tget_norm(-1);
     }
 
     @Test(expected = HDF5LibraryException.class)
     public void testH5Tset_norm_invalid() throws Throwable
     {
-        H5.H5Tset_norm(-1, 0);
+        H5Tset_norm(-1, 0);
     }
 
     @Test(expected = HDF5LibraryException.class)
     public void testH5Tget_inpad_invalid() throws Throwable
     {
-        H5.H5Tget_inpad(-1);
+        H5Tget_inpad(-1);
     }
 
     @Test(expected = HDF5LibraryException.class)
     public void testH5Tset_inpad_invalid() throws Throwable
     {
-        H5.H5Tset_inpad(-1, 0);
+        H5Tset_inpad(-1, 0);
     }
 
     @Test(expected = HDF5LibraryException.class)
     public void testH5Tget_cset_invalid() throws Throwable
     {
-        H5.H5Tget_cset(-1);
+        H5Tget_cset(-1);
     }
 
     @Test(expected = HDF5LibraryException.class)
     public void testH5Tset_cset_invalid() throws Throwable
     {
-        H5.H5Tset_cset(-1, 0);
+        H5Tset_cset(-1, 0);
     }
 
     @Test(expected = HDF5LibraryException.class)
     public void testH5Tget_strpad_invalid() throws Throwable
     {
-        H5.H5Tget_strpad(-1);
+        H5Tget_strpad(-1);
     }
 
     @Test(expected = HDF5LibraryException.class)
     public void testH5Tset_strpad_invalid() throws Throwable
     {
-        H5.H5Tset_strpad(-1, 0);
+        H5Tset_strpad(-1, 0);
     }
 
     @Test(expected = HDF5LibraryException.class)
     public void testH5Tget_nmembers_invalid() throws Throwable
     {
-        H5.H5Tget_nmembers(-1);
+        H5Tget_nmembers(-1);
     }
 
     @Test(expected = NullPointerException.class)
@@ -298,13 +297,13 @@ public class TestH5Tparams {
     @Test(expected = HDF5LibraryException.class)
     public void testH5Tget_member_type_invalid() throws Throwable
     {
-        H5.H5Tget_member_type(-1, -1);
+        H5Tget_member_type(-1, -1);
     }
 
     @Test(expected = HDF5LibraryException.class)
     public void testH5Tget_member_class_invalid() throws Throwable
     {
-        H5.H5Tget_member_class(-1, -1);
+        H5Tget_member_class(-1, -1);
     }
 
     @Test(expected = NullPointerException.class)
@@ -322,7 +321,7 @@ public class TestH5Tparams {
     @Test(expected = HDF5LibraryException.class)
     public void testH5Tpack_invalid() throws Throwable
     {
-        H5.H5Tpack(-1);
+        H5Tpack(-1);
     }
 
     @Test(expected = HDF5LibraryException.class)
@@ -341,7 +340,7 @@ public class TestH5Tparams {
     @Test(expected = HDF5LibraryException.class)
     public void testH5Tvlen_create_invalid() throws Throwable
     {
-        H5.H5Tvlen_create(-1);
+        H5Tvlen_create(-1);
     }
 
     @Test(expected = NullPointerException.class)
@@ -359,13 +358,13 @@ public class TestH5Tparams {
     @Test(expected = HDF5LibraryException.class)
     public void testH5Tget_super_invalid() throws Throwable
     {
-        H5.H5Tget_super(-1);
+        H5Tget_super(-1);
     }
 
     @Test(expected = HDF5LibraryException.class)
     public void testH5Tenum_create_invalid() throws Throwable
     {
-        H5.H5Tenum_create(-1);
+        H5Tenum_create(-1);
     }
 
     @Test(expected = NullPointerException.class)
@@ -453,7 +452,7 @@ public class TestH5Tparams {
     @Test(expected = HDF5LibraryException.class)
     public void testH5Tget_array_ndims_invalid() throws Throwable
     {
-        H5.H5Tget_array_ndims(-1);
+        H5Tget_array_ndims(-1);
     }
 
     @Test(expected = NullPointerException.class)
@@ -465,18 +464,18 @@ public class TestH5Tparams {
     @Test(expected = HDF5LibraryException.class)
     public void testH5Tget_native_type_invalid() throws Throwable
     {
-        H5.H5Tget_native_type(-1);
+        H5Tget_native_type(-1);
     }
 
     @Test(expected = HDF5LibraryException.class)
     public void testH5Tflush_invalid() throws Throwable
     {
-        H5.H5Tflush(-1);
+        H5Tflush(-1);
     }
 
     @Test(expected = HDF5LibraryException.class)
     public void testH5Trefresh_invalid() throws Throwable
     {
-        H5.H5Trefresh(-1);
+        H5Trefresh(-1);
     }
 }

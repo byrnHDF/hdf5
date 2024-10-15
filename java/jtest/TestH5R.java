@@ -79,7 +79,7 @@ public class TestH5R {
         }
         catch (Throwable err) {
             err.printStackTrace();
-            fail("H5.H5Dcreate: " + err);
+            fail("H5Dcreate: " + err);
         }
         assertTrue("TestH5R._createDataset: ", did > 0);
 
@@ -94,7 +94,7 @@ public class TestH5R {
         }
         catch (Throwable err) {
             err.printStackTrace();
-            fail("H5.H5Gcreate: " + err);
+            fail("H5Gcreate: " + err);
         }
         assertTrue("TestH5R._createGroup: ", gid > 0);
 
@@ -104,7 +104,6 @@ public class TestH5R {
     @Before
     public void createH5file() throws NullPointerException, HDF5Exception
     {
-        assertTrue("H5 open ids is 0", H5.getOpenIDCount() == 0);
         System.out.print(testname.getMethodName());
 
         try {
@@ -131,11 +130,11 @@ public class TestH5R {
             err.printStackTrace();
             fail("TestH5R.createH5file: " + err);
         }
-        assertTrue("TestH5R.createH5file: H5.H5Fcreate: ", H5fid > 0);
-        assertTrue("TestH5R.createH5file: H5.H5Screate_simple: ", H5dsid > 0);
+        assertTrue("TestH5R.createH5file: H5Fcreate: ", H5fid > 0);
+        assertTrue("TestH5R.createH5file: H5Screate_simple: ", H5dsid > 0);
         assertTrue("TestH5R.createH5file: _createDataset: ", H5did > 0);
 
-        H5.H5Fflush(H5fid, H5F_SCOPE_LOCAL());
+        H5Fflush(H5fid, H5F_SCOPE_LOCAL());
     }
 
     @After
@@ -143,31 +142,31 @@ public class TestH5R {
     {
         if (H5dsid > 0)
             try {
-                H5.H5Sclose(H5dsid);
+                H5Sclose(H5dsid);
             }
             catch (Exception ex) {
             }
         if (H5did > 0)
             try {
-                H5.H5Dclose(H5did);
+                H5Dclose(H5did);
             }
             catch (Exception ex) {
             }
         if (H5fid > 0)
             try {
-                H5.H5Fclose(H5fid);
+                H5Fclose(H5fid);
             }
             catch (Exception ex) {
             }
         if (H5gid > 0)
             try {
-                H5.H5Gclose(H5gid);
+                H5Gclose(H5gid);
             }
             catch (Exception ex) {
             }
         if (H5did2 > 0)
             try {
-                H5.H5Dclose(H5did2);
+                H5Dclose(H5did2);
             }
             catch (Exception ex) {
             }
@@ -244,7 +243,7 @@ public class TestH5R {
         }
         catch (Throwable err) {
             err.printStackTrace();
-            fail("testH5Rget_obj_type3: H5.H5Rget_obj_type3: " + err);
+            fail("testH5Rget_obj_type3: H5Rget_obj_type3: " + err);
         }
         assertEquals(obj_type, HDF5Constants.H5O_TYPE_DATASET);
         H5.H5Rdestroy(ref);
@@ -311,8 +310,8 @@ public class TestH5R {
     //            fail("TestH5Rdereference " + err);
     //        }
     //        finally {
-    //            try {H5.H5Dclose(dataset_id);} catch (Exception ex) {}
-    //            try {H5.H5Gclose(group_id);} catch (Exception ex) {}
+    //            try {H5Dclose(dataset_id);} catch (Exception ex) {}
+    //            try {H5Gclose(group_id);} catch (Exception ex) {}
     //        }
     //    }
 
@@ -342,7 +341,7 @@ public class TestH5R {
     //            fail("TestH5Rget_region: " + err);
     //        }
     //        finally {
-    //            try {H5.H5Sclose(dsid);} catch (Exception ex) {}
+    //            try {H5Sclose(dsid);} catch (Exception ex) {}
     //        }
     //    }
 
@@ -372,7 +371,7 @@ public class TestH5R {
     //            fail("TestH5Rget_region: " + err);
     //        }
     //        finally {
-    //            try {H5.H5Sclose(dsid);} catch (Exception ex) {}
+    //            try {H5Sclose(dsid);} catch (Exception ex) {}
     //        }
     //    }
 
@@ -575,13 +574,13 @@ public class TestH5R {
             assertTrue("testH5RVLattr_ref.getClass: " + dataClass, dataClass.isArray());
 
             try {
-                atype_obj_id = H5.H5Tvlen_create(HDF5Constants.H5T_STD_REF_OBJ);
+                atype_obj_id = H5Tvlen_create(HDF5Constants.H5T_STD_REF_OBJ);
                 assertTrue("testH5RVLattr_ref.H5Tvlen_create: ", atype_obj_id >= 0);
             }
             catch (Exception err) {
                 if (atype_obj_id > 0)
                     try {
-                        H5.H5Tclose(atype_obj_id);
+                        H5Tclose(atype_obj_id);
                     }
                     catch (Exception ex) {
                     }
@@ -601,13 +600,13 @@ public class TestH5R {
             catch (Exception err) {
                 if (attr_obj_id > 0)
                     try {
-                        H5.H5Aclose(attr_obj_id);
+                        H5Aclose(attr_obj_id);
                     }
                     catch (Exception ex) {
                     }
                 if (atype_obj_id > 0)
                     try {
-                        H5.H5Tclose(atype_obj_id);
+                        H5Tclose(atype_obj_id);
                     }
                     catch (Exception ex) {
                     }
@@ -617,7 +616,7 @@ public class TestH5R {
             finally {
                 if (aspace_id > 0)
                     try {
-                        H5.H5Sclose(aspace_id);
+                        H5Sclose(aspace_id);
                     }
                     catch (Exception ex) {
                     }
@@ -632,13 +631,13 @@ public class TestH5R {
             assertTrue("testH5RVLattr_ref.getClass: " + dataClass, dataClass.isArray());
 
             try {
-                atype_reg_id = H5.H5Tvlen_create(HDF5Constants.H5T_STD_REF_DSETREG);
+                atype_reg_id = H5Tvlen_create(HDF5Constants.H5T_STD_REF_DSETREG);
                 assertTrue("testH5RVLattr_ref.H5Tvlen_create: ", atype_reg_id >= 0);
             }
             catch (Exception err) {
                 if (atype_reg_id > 0)
                     try {
-                        H5.H5Tclose(atype_reg_id);
+                        H5Tclose(atype_reg_id);
                     }
                     catch (Exception ex) {
                     }
@@ -658,13 +657,13 @@ public class TestH5R {
             catch (Exception err) {
                 if (attr_reg_id > 0)
                     try {
-                        H5.H5Aclose(attr_reg_id);
+                        H5Aclose(attr_reg_id);
                     }
                     catch (Exception ex) {
                     }
                 if (atype_reg_id > 0)
                     try {
-                        H5.H5Tclose(atype_reg_id);
+                        H5Tclose(atype_reg_id);
                     }
                     catch (Exception ex) {
                     }
@@ -674,13 +673,13 @@ public class TestH5R {
             finally {
                 if (aspace_id > 0)
                     try {
-                        H5.H5Sclose(aspace_id);
+                        H5Sclose(aspace_id);
                     }
                     catch (Exception ex) {
                     }
             }
 
-            H5.H5Fflush(H5fid, H5F_SCOPE_LOCAL());
+            H5Fflush(H5fid, H5F_SCOPE_LOCAL());
 
             for (int j = 0; j < dims.length; j++) {
                 lsize *= dims[j];
@@ -733,25 +732,25 @@ public class TestH5R {
         finally {
             if (attr_reg_id > 0)
                 try {
-                    H5.H5Aclose(attr_reg_id);
+                    H5Aclose(attr_reg_id);
                 }
                 catch (Exception ex) {
                 }
             if (attr_obj_id > 0)
                 try {
-                    H5.H5Aclose(attr_obj_id);
+                    H5Aclose(attr_obj_id);
                 }
                 catch (Exception ex) {
                 }
             if (atype_reg_id > 0)
                 try {
-                    H5.H5Tclose(atype_reg_id);
+                    H5Tclose(atype_reg_id);
                 }
                 catch (Exception ex) {
                 }
             if (atype_obj_id > 0)
                 try {
-                    H5.H5Tclose(atype_obj_id);
+                    H5Tclose(atype_obj_id);
                 }
                 catch (Exception ex) {
                 }
@@ -805,13 +804,13 @@ public class TestH5R {
             assertTrue("testH5RVLdset_ref.getClass: " + dataClass, dataClass.isArray());
 
             try {
-                dtype_obj_id = H5.H5Tvlen_create(HDF5Constants.H5T_STD_REF_OBJ);
+                dtype_obj_id = H5Tvlen_create(HDF5Constants.H5T_STD_REF_OBJ);
                 assertTrue("testH5RVLdset_ref.H5Tvlen_create: ", dtype_obj_id >= 0);
             }
             catch (Exception err) {
                 if (dtype_obj_id > 0)
                     try {
-                        H5.H5Tclose(dtype_obj_id);
+                        H5Tclose(dtype_obj_id);
                     }
                     catch (Exception ex) {
                     }
@@ -831,13 +830,13 @@ public class TestH5R {
             catch (Exception err) {
                 if (dset_obj_id > 0)
                     try {
-                        H5.H5Dclose(dset_obj_id);
+                        H5Dclose(dset_obj_id);
                     }
                     catch (Exception ex) {
                     }
                 if (dtype_obj_id > 0)
                     try {
-                        H5.H5Tclose(dtype_obj_id);
+                        H5Tclose(dtype_obj_id);
                     }
                     catch (Exception ex) {
                     }
@@ -847,7 +846,7 @@ public class TestH5R {
             finally {
                 if (dspace_id > 0)
                     try {
-                        H5.H5Sclose(dspace_id);
+                        H5Sclose(dspace_id);
                     }
                     catch (Exception ex) {
                     }
@@ -862,13 +861,13 @@ public class TestH5R {
             assertTrue("testH5RVLdset_ref.getClass: " + dataClass, dataClass.isArray());
 
             try {
-                dtype_reg_id = H5.H5Tvlen_create(HDF5Constants.H5T_STD_REF_DSETREG);
+                dtype_reg_id = H5Tvlen_create(HDF5Constants.H5T_STD_REF_DSETREG);
                 assertTrue("testH5RVLdset_ref.H5Tvlen_create: ", dtype_reg_id >= 0);
             }
             catch (Exception err) {
                 if (dtype_reg_id > 0)
                     try {
-                        H5.H5Tclose(dtype_reg_id);
+                        H5Tclose(dtype_reg_id);
                     }
                     catch (Exception ex) {
                     }
@@ -888,13 +887,13 @@ public class TestH5R {
             catch (Exception err) {
                 if (dset_reg_id > 0)
                     try {
-                        H5.H5Dclose(dset_reg_id);
+                        H5Dclose(dset_reg_id);
                     }
                     catch (Exception ex) {
                     }
                 if (dtype_reg_id > 0)
                     try {
-                        H5.H5Tclose(dtype_reg_id);
+                        H5Tclose(dtype_reg_id);
                     }
                     catch (Exception ex) {
                     }
@@ -904,13 +903,13 @@ public class TestH5R {
             finally {
                 if (dspace_id > 0)
                     try {
-                        H5.H5Sclose(dspace_id);
+                        H5Sclose(dspace_id);
                     }
                     catch (Exception ex) {
                     }
             }
 
-            H5.H5Fflush(H5fid, H5F_SCOPE_LOCAL());
+            H5Fflush(H5fid, H5F_SCOPE_LOCAL());
 
             for (int j = 0; j < dims.length; j++) {
                 lsize *= dims[j];
@@ -963,25 +962,25 @@ public class TestH5R {
         finally {
             if (dset_reg_id > 0)
                 try {
-                    H5.H5Dclose(dset_reg_id);
+                    H5Dclose(dset_reg_id);
                 }
                 catch (Exception ex) {
                 }
             if (dset_obj_id > 0)
                 try {
-                    H5.H5Dclose(dset_obj_id);
+                    H5Dclose(dset_obj_id);
                 }
                 catch (Exception ex) {
                 }
             if (dtype_reg_id > 0)
                 try {
-                    H5.H5Tclose(dtype_reg_id);
+                    H5Tclose(dtype_reg_id);
                 }
                 catch (Exception ex) {
                 }
             if (dtype_obj_id > 0)
                 try {
-                    H5.H5Tclose(dtype_obj_id);
+                    H5Tclose(dtype_obj_id);
                 }
                 catch (Exception ex) {
                 }

@@ -88,7 +88,6 @@ public class TestH5Plist {
     @Before
     public void createPropClass() throws NullPointerException, HDF5Exception
     {
-        assertTrue("H5 open ids is 0", H5.getOpenIDCount() == 0);
         System.out.print(testname.getMethodName());
         // Create a new generic class, derived from the root of the class hierarchy
         try {
@@ -106,7 +105,7 @@ public class TestH5Plist {
     {
         if (plist_class_id > 0)
             try {
-                H5.H5Pclose(plist_class_id);
+                H5Pclose(plist_class_id);
             }
             catch (Exception ex) {
             }
@@ -137,7 +136,7 @@ public class TestH5Plist {
 
             // Check class parent
             try {
-                cid2 = H5.H5Pget_class_parent(plist_class_id);
+                cid2 = H5Pget_class_parent(plist_class_id);
             }
             catch (Throwable err) {
                 err.printStackTrace();
@@ -156,7 +155,7 @@ public class TestH5Plist {
 
             // Make certain false positives aren't being returned
             try {
-                status = H5.H5Pequal(cid2, H5P_CLS_FILE_CREATE_ID_g());
+                status = H5Pequal(cid2, H5P_CLS_FILE_CREATE_ID_g());
             }
             catch (Throwable err) {
                 err.printStackTrace();
@@ -166,7 +165,7 @@ public class TestH5Plist {
 
             // Close parent class
             try {
-                H5.H5Pclose_class(cid2);
+                H5Pclose_class(cid2);
                 cid2 = H5I_INVALID_HID();
             }
             catch (Throwable err) {
@@ -176,7 +175,7 @@ public class TestH5Plist {
 
             // Close class
             try {
-                H5.H5Pclose_class(plist_class_id);
+                H5Pclose_class(plist_class_id);
                 plist_class_id = H5I_INVALID_HID();
             }
             catch (Throwable err) {
@@ -207,7 +206,7 @@ public class TestH5Plist {
 
             // Check class parent
             try {
-                cid2 = H5.H5Pget_class_parent(cid1);
+                cid2 = H5Pget_class_parent(cid1);
             }
             catch (Throwable err) {
                 err.printStackTrace();
@@ -217,7 +216,7 @@ public class TestH5Plist {
 
             // Verify class parent correct
             try {
-                status = H5.H5Pequal(cid2, H5P_CLS_FILE_CREATE_ID_g());
+                status = H5Pequal(cid2, H5P_CLS_FILE_CREATE_ID_g());
             }
             catch (Throwable err) {
                 err.printStackTrace();
@@ -227,7 +226,7 @@ public class TestH5Plist {
 
             // Check class parent's parent
             try {
-                cid3 = H5.H5Pget_class_parent(cid2);
+                cid3 = H5Pget_class_parent(cid2);
             }
             catch (Throwable err) {
                 err.printStackTrace();
@@ -247,7 +246,7 @@ public class TestH5Plist {
 
             // Close parent class's parent
             try {
-                H5.H5Pclose_class(cid3);
+                H5Pclose_class(cid3);
                 cid3 = H5I_INVALID_HID();
             }
             catch (Throwable err) {
@@ -257,7 +256,7 @@ public class TestH5Plist {
 
             // Close parent class's parent
             try {
-                H5.H5Pclose_class(cid2);
+                H5Pclose_class(cid2);
                 cid2 = H5I_INVALID_HID();
             }
             catch (Throwable err) {
@@ -267,7 +266,7 @@ public class TestH5Plist {
 
             // Close parent class's parent
             try {
-                H5.H5Pclose_class(cid1);
+                H5Pclose_class(cid1);
                 cid1 = H5I_INVALID_HID();
             }
             catch (Throwable err) {
@@ -278,19 +277,19 @@ public class TestH5Plist {
         finally {
             if (cid3 > 0)
                 try {
-                    H5.H5Pclose_class(cid3);
+                    H5Pclose_class(cid3);
                 }
                 catch (Throwable err) {
                 }
             if (cid2 > 0)
                 try {
-                    H5.H5Pclose_class(cid2);
+                    H5Pclose_class(cid2);
                 }
                 catch (Throwable err) {
                 }
             if (cid1 > 0)
                 try {
-                    H5.H5Pclose_class(cid1);
+                    H5Pclose_class(cid1);
                 }
                 catch (Throwable err) {
                 }
@@ -307,7 +306,7 @@ public class TestH5Plist {
 
         // Check the number of properties in class
         try {
-            nprops = H5.H5Pget_nprops(plist_class_id);
+            nprops = H5Pget_nprops(plist_class_id);
         }
         catch (Throwable err) {
             err.printStackTrace();
@@ -368,7 +367,7 @@ public class TestH5Plist {
 
         // Check the number of properties in class
         try {
-            nprops = H5.H5Pget_nprops(plist_class_id);
+            nprops = H5Pget_nprops(plist_class_id);
         }
         catch (Throwable err) {
             err.printStackTrace();
@@ -419,7 +418,7 @@ public class TestH5Plist {
 
         // Check the number of properties in class
         try {
-            nprops = H5.H5Pget_nprops(plist_class_id);
+            nprops = H5Pget_nprops(plist_class_id);
         }
         catch (Throwable err) {
             err.printStackTrace();
@@ -450,7 +449,7 @@ public class TestH5Plist {
 
         // Check the size of the third property
         try {
-            size = H5.H5Pget_size(plist_class_id, PROP3_NAME);
+            size = H5Pget_size(plist_class_id, PROP3_NAME);
         }
         catch (Throwable err) {
             err.printStackTrace();
@@ -460,7 +459,7 @@ public class TestH5Plist {
 
         // Check the number of properties in class
         try {
-            nprops = H5.H5Pget_nprops(plist_class_id);
+            nprops = H5Pget_nprops(plist_class_id);
         }
         catch (Throwable err) {
             err.printStackTrace();
@@ -479,7 +478,7 @@ public class TestH5Plist {
 
         // Try to check the size of the first property (should fail)
         try {
-            size = H5.H5Pget_size(plist_class_id, PROP1_NAME);
+            size = H5Pget_size(plist_class_id, PROP1_NAME);
             fail("H5Pget_size PROP1_NAME");
         }
         catch (Throwable err) {
@@ -487,7 +486,7 @@ public class TestH5Plist {
 
         // Check the number of properties in class
         try {
-            nprops = H5.H5Pget_nprops(plist_class_id);
+            nprops = H5Pget_nprops(plist_class_id);
         }
         catch (Throwable err) {
             err.printStackTrace();
@@ -506,7 +505,7 @@ public class TestH5Plist {
 
         // Check the number of properties in class
         try {
-            nprops = H5.H5Pget_nprops(plist_class_id);
+            nprops = H5Pget_nprops(plist_class_id);
         }
         catch (Throwable err) {
             err.printStackTrace();
@@ -525,7 +524,7 @@ public class TestH5Plist {
 
         // Check the number of properties in class
         try {
-            nprops = H5.H5Pget_nprops(plist_class_id);
+            nprops = H5Pget_nprops(plist_class_id);
         }
         catch (Throwable err) {
             err.printStackTrace();
@@ -611,7 +610,7 @@ public class TestH5Plist {
 
         // Check the number of properties in class */
         try {
-            nprops = H5.H5Pget_nprops(plist_class_id);
+            nprops = H5Pget_nprops(plist_class_id);
         }
         catch (Throwable err) {
             err.printStackTrace();
@@ -627,7 +626,7 @@ public class TestH5Plist {
         }
         catch (Throwable err) {
             err.printStackTrace();
-            fail("H5.H5Piterate: " + err);
+            fail("H5Piterate: " + err);
         }
         assertFalse("H5Piterate ", ((H5P_iter_data)iter_data).iterdata.isEmpty());
         assertTrue("H5Piterate " + ((H5P_iter_data)iter_data).iterdata.size(),
@@ -643,7 +642,7 @@ public class TestH5Plist {
         }
         catch (Throwable err) {
             err.printStackTrace();
-            fail("H5.H5Piterate: " + err);
+            fail("H5Piterate: " + err);
         }
         assertFalse("H5Piterate ", ((H5P_iter_data)iter_data).iterdata.isEmpty());
         assertTrue("H5Piterate " + ((H5P_iter_data)iter_data).iterdata.size(),
@@ -691,7 +690,7 @@ public class TestH5Plist {
 
             // Create a property list from the class
             try {
-                lid1 = H5.H5Pcreate(plist_class_id);
+                lid1 = H5Pcreate(plist_class_id);
             }
             catch (Throwable err) {
                 err.printStackTrace();
@@ -700,7 +699,7 @@ public class TestH5Plist {
 
             // Check the number of properties in class
             try {
-                nprops = H5.H5Pget_nprops(lid1);
+                nprops = H5Pget_nprops(lid1);
             }
             catch (Throwable err) {
                 err.printStackTrace();
@@ -734,7 +733,7 @@ public class TestH5Plist {
 
             // Check the number of properties in class
             try {
-                nprops = H5.H5Pget_nprops(lid1);
+                nprops = H5Pget_nprops(lid1);
             }
             catch (Throwable err) {
                 err.printStackTrace();
@@ -779,7 +778,7 @@ public class TestH5Plist {
         finally {
             if (lid1 > 0)
                 try {
-                    H5.H5Pclose(lid1);
+                    H5Pclose(lid1);
                 }
                 catch (Throwable err) {
                 }
@@ -900,7 +899,7 @@ public class TestH5Plist {
     //
     //            // Check the number of properties in class
     //            try {
-    //                nprops = H5.H5Pget_nprops(cid1);
+    //                nprops = H5Pget_nprops(cid1);
     //            }
     //            catch (Throwable err) {
     //                err.printStackTrace();
@@ -918,7 +917,7 @@ public class TestH5Plist {
     //
     //            // Create a property list from the class
     //            try {
-    //                lid1 = H5.H5Pcreate(cid1);
+    //                lid1 = H5Pcreate(cid1);
     //            }
     //            catch (Throwable err) {
     //                err.printStackTrace();
@@ -934,7 +933,7 @@ public class TestH5Plist {
     //
     //            // Check the number of properties in list
     //            try {
-    //                nprops = H5.H5Pget_nprops(lid1);
+    //                nprops = H5Pget_nprops(lid1);
     //            }
     //            catch (Throwable err) {
     //                err.printStackTrace();
@@ -944,7 +943,7 @@ public class TestH5Plist {
     //
     //            // Create another property list from the class
     //            try {
-    //                lid2 = H5.H5Pcreate(cid1);
+    //                lid2 = H5Pcreate(cid1);
     //            }
     //            catch (Throwable err) {
     //                err.printStackTrace();
@@ -960,7 +959,7 @@ public class TestH5Plist {
     //
     //            // Check the number of properties in list
     //            try {
-    //                nprops = H5.H5Pget_nprops(lid2);
+    //                nprops = H5Pget_nprops(lid2);
     //            }
     //            catch (Throwable err) {
     //                err.printStackTrace();
@@ -970,7 +969,7 @@ public class TestH5Plist {
     //
     //            // Create another property list by copying an existing list
     //            try {
-    //                lid3= H5.H5Pcopy(lid1);
+    //                lid3= H5Pcopy(lid1);
     //            }
     //            catch (Throwable err) {
     //                err.printStackTrace();
@@ -985,7 +984,7 @@ public class TestH5Plist {
     //
     //            // Check the number of properties in list
     //            try {
-    //                nprops = H5.H5Pget_nprops(lid3);
+    //                nprops = H5Pget_nprops(lid3);
     //            }
     //            catch (Throwable err) {
     //                err.printStackTrace();
@@ -995,7 +994,7 @@ public class TestH5Plist {
     //
     //            // Close first list
     //            try {
-    //                H5.H5Pclose(lid1);
+    //                H5Pclose(lid1);
     //            }
     //            catch (Throwable err) {
     //                err.printStackTrace();
@@ -1010,7 +1009,7 @@ public class TestH5Plist {
     //
     //            // Close second list
     //            try {
-    //                H5.H5Pclose(lid2);
+    //                H5Pclose(lid2);
     //            }
     //            catch (Throwable err) {
     //                err.printStackTrace();
@@ -1024,7 +1023,7 @@ public class TestH5Plist {
     //
     //            // Close third list
     //            try {
-    //                H5.H5Pclose(lid3);
+    //                H5Pclose(lid3);
     //            }
     //            catch (Throwable err) {
     //                err.printStackTrace();
@@ -1038,15 +1037,15 @@ public class TestH5Plist {
     //        }
     //        finally {
     //            if (lid3 > 0)
-    //                try {H5.H5Pclose(lid3);} catch (Throwable err) {}
+    //                try {H5Pclose(lid3);} catch (Throwable err) {}
     //            if (lid2 > 0)
-    //                try {H5.H5Pclose(lid2);} catch (Throwable err) {}
+    //                try {H5Pclose(lid2);} catch (Throwable err) {}
     //            if (lid1 > 0)
-    //                try {H5.H5Pclose(lid1);} catch (Throwable err) {}
+    //                try {H5Pclose(lid1);} catch (Throwable err) {}
     //            if (cid2 > 0)
-    //                try {H5.H5Pclose_class(cid2);} catch (Throwable err) {}
+    //                try {H5Pclose_class(cid2);} catch (Throwable err) {}
     //            if (cid1 > 0)
-    //                try {H5.H5Pclose_class(cid1);} catch (Throwable err) {}
+    //                try {.H5Pclose_class(cid1);} catch (Throwable err) {}
     //        }
     //    }
 }
