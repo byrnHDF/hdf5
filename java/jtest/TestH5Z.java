@@ -13,15 +13,14 @@
 package test;
 
 import static org.hdfgroup.javahdf5.hdf5_h.*;
+import static org.junit.Assert.assertTrue;
+import static org.junit.Assert.fail;
+
 import java.lang.foreign.Arena;
 import java.lang.foreign.MemorySegment;
 import java.lang.foreign.ValueLayout;
 
-import static org.junit.Assert.assertTrue;
-import static org.junit.Assert.fail;
-
 import org.hdfgroup.javahdf5.*;
-
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Rule;
