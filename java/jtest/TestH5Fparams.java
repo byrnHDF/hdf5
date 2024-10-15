@@ -118,7 +118,15 @@ public class TestH5Fparams {
         File file = null;
 
         try {
-            fid = H5.H5Fcreate("test.h5", H5F_ACC_TRUNC(), H5P_DEFAULT(), H5P_DEFAULT());
+            try (Arena arena = Arena.ofConfined()) {
+                // Allocate a MemorySegment to hold the string bytes
+                MemorySegment filename_segment = arena.allocateFrom("test.h5");
+                fid = H5Fcreate(filename_segment, H5F_ACC_TRUNC(), H5P_DEFAULT(), H5P_DEFAULT());
+            }
+            catch (Throwable err) {
+                err.printStackTrace();
+                fail("Arena: " + err);
+            }
             if (fid > 0) {
                 H5Fclose(fid);
             }
@@ -144,7 +152,15 @@ public class TestH5Fparams {
         long fid = H5I_INVALID_HID();
 
         try {
-            fid = H5.H5Fcreate("test.h5", H5F_ACC_TRUNC(), H5P_DEFAULT(), H5P_DEFAULT());
+            try (Arena arena = Arena.ofConfined()) {
+                // Allocate a MemorySegment to hold the string bytes
+                MemorySegment filename_segment = arena.allocateFrom("test.h5");
+                fid = H5Fcreate(filename_segment, H5F_ACC_TRUNC(), H5P_DEFAULT(), H5P_DEFAULT());
+            }
+            catch (Throwable err) {
+                err.printStackTrace();
+                fail("Arena: " + err);
+            }
         }
         catch (Throwable err) {
             fail("H5Fcreate: " + err);
@@ -170,7 +186,15 @@ public class TestH5Fparams {
         long fid = H5I_INVALID_HID();
 
         try {
-            fid = H5.H5Fcreate("test.h5", H5F_ACC_TRUNC(), H5P_DEFAULT(), H5P_DEFAULT());
+            try (Arena arena = Arena.ofConfined()) {
+                // Allocate a MemorySegment to hold the string bytes
+                MemorySegment filename_segment = arena.allocateFrom("test.h5");
+                fid = H5Fcreate(filename_segment, H5F_ACC_TRUNC(), H5P_DEFAULT(), H5P_DEFAULT());
+            }
+            catch (Throwable err) {
+                err.printStackTrace();
+                fail("Arena: " + err);
+            }
         }
         catch (Throwable err) {
             fail("H5Fcreate: " + err);
@@ -197,7 +221,15 @@ public class TestH5Fparams {
 
         try {
             try {
-                fid = H5.H5Fcreate("test.h5", H5F_ACC_TRUNC(), H5P_DEFAULT(), H5P_DEFAULT());
+                try (Arena arena = Arena.ofConfined()) {
+                    // Allocate a MemorySegment to hold the string bytes
+                    MemorySegment filename_segment = arena.allocateFrom("test.h5");
+                    fid = H5Fcreate(filename_segment, H5F_ACC_TRUNC(), H5P_DEFAULT(), H5P_DEFAULT());
+                }
+                catch (Throwable err) {
+                    err.printStackTrace();
+                    fail("Arena: " + err);
+                }
             }
             catch (Throwable err) {
                 fail("H5Fcreate: " + err);
@@ -232,7 +264,15 @@ public class TestH5Fparams {
 
         try {
             try {
-                fid = H5.H5Fcreate("test.h5", H5F_ACC_TRUNC(), H5P_DEFAULT(), H5P_DEFAULT());
+                try (Arena arena = Arena.ofConfined()) {
+                    // Allocate a MemorySegment to hold the string bytes
+                    MemorySegment filename_segment = arena.allocateFrom("test.h5");
+                    fid = H5Fcreate(filename_segment, H5F_ACC_TRUNC(), H5P_DEFAULT(), H5P_DEFAULT());
+                }
+                catch (Throwable err) {
+                    err.printStackTrace();
+                    fail("Arena: " + err);
+                }
             }
             catch (Throwable err) {
                 fail("H5Fcreate: " + err);
@@ -255,7 +295,15 @@ public class TestH5Fparams {
 
         try {
             try {
-                fid = H5.H5Fcreate("test.h5", H5F_ACC_TRUNC(), H5P_DEFAULT(), H5P_DEFAULT());
+                try (Arena arena = Arena.ofConfined()) {
+                    // Allocate a MemorySegment to hold the string bytes
+                    MemorySegment filename_segment = arena.allocateFrom("test.h5");
+                    fid = H5Fcreate(filename_segment, H5F_ACC_TRUNC(), H5P_DEFAULT(), H5P_DEFAULT());
+                }
+                catch (Throwable err) {
+                    err.printStackTrace();
+                    fail("Arena: " + err);
+                }
             }
             catch (Throwable err) {
                 fail("H5Fcreate: " + err);

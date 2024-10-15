@@ -108,7 +108,15 @@ public class TestH5Dplist {
     private final void _createDataset(long fid, long dsid, String name, long dcpl, long dapl)
     {
         try {
-            H5did = H5.H5Dcreate(fid, name, H5T_STD_I32BE_g(), dsid, H5P_DEFAULT(), dcpl, dapl);
+            try (Arena arena = Arena.ofConfined()) {
+                // Allocate a MemorySegment to hold the string bytes
+                MemorySegment name_segment = arena.allocateFrom(name);
+                H5did = H5Dcreate2(fid, name_segment, H5T_STD_I32BE_g(), dsid, H5P_DEFAULT(), dcpl, dapl);
+            }
+            catch (Throwable err) {
+                err.printStackTrace();
+                fail("Arena: " + err);
+            }
         }
         catch (Throwable err) {
             err.printStackTrace();
@@ -122,7 +130,25 @@ public class TestH5Dplist {
     {
         System.out.print(testname.getMethodName());
         try {
-            H5fid  = H5.H5Fcreate(H5_FILE, H5F_ACC_TRUNC(), H5P_DEFAULT(), H5P_DEFAULT());
+            try (Arena arena = Arena.ofConfined()) {
+                // Allocate a MemorySegment to hold the string bytes
+                MemorySegment filename_segment = arena.allocateFrom(H5_FILE);
+                H5fid = H5Fcreate(filename_segment, H5F_ACC_TRUNC(), H5P_DEFAULT(), H5P_DEFAULT());
+            }
+            catch (Throwable err) {
+                err.printStackTrace();
+                fail("Arena: " + err);
+            }
+            try (Arena arena = Arena.ofConfined()) {
+                // Allocate a MemorySegment to hold the dims bytes
+                MemorySegment H5dims_segment    = MemorySegment.ofArray(H5dims);
+                MemorySegment H5maxdims_segment = MemorySegment.ofArray(H5maxdims);
+                H5dsid                          = H5Screate_simple(RANK, H5dims_segment, H5maxdims_segment);
+            }
+            catch (Throwable err) {
+                err.printStackTrace();
+                fail("Arena: " + err);
+            }
             H5dsid = H5.H5Screate_simple(RANK, H5dims, H5maxdims);
         }
         catch (Throwable err) {

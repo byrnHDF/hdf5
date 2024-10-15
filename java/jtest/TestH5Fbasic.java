@@ -55,7 +55,15 @@ public class TestH5Fbasic {
     {
         System.out.print(testname.getMethodName());
 
-        H5fid = H5.H5Fcreate(H5_FILE, H5F_ACC_TRUNC(), H5P_DEFAULT(), H5P_DEFAULT());
+        try (Arena arena = Arena.ofConfined()) {
+            // Allocate a MemorySegment to hold the string bytes
+            MemorySegment filename_segment = arena.allocateFrom(H5_FILE);
+            H5fid = H5Fcreate(filename_segment, H5F_ACC_TRUNC(), H5P_DEFAULT(), H5P_DEFAULT());
+        }
+        catch (Throwable err) {
+            err.printStackTrace();
+            fail("Arena: " + err);
+        }
         H5Fflush(H5fid, H5F_SCOPE_LOCAL());
     }
 
@@ -96,7 +104,15 @@ public class TestH5Fbasic {
     @Test(expected = HDF5LibraryException.class)
     public void testH5Fcreate_EXCL() throws Throwable
     {
-        H5.H5Fcreate(H5_FILE, H5F_ACC_EXCL(), H5P_DEFAULT(), H5P_DEFAULT());
+        try (Arena arena = Arena.ofConfined()) {
+            // Allocate a MemorySegment to hold the string bytes
+            MemorySegment filename_segment = arena.allocateFrom(H5_FILE);
+            H5fid = H5Fcreate(filename_segment, H5F_ACC_EXCL(), H5P_DEFAULT(), H5P_DEFAULT());
+        }
+        catch (Throwable err) {
+            err.printStackTrace();
+            fail("Arena: " + err);
+        }
     }
 
     @Test(expected = HDF5LibraryException.class)

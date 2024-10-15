@@ -110,21 +110,29 @@ public class TestH5Sbasic {
     @Test(expected = NullPointerException.class)
     public void testH5Screate_simple_dims_null() throws Throwable
     {
-        H5.H5Screate_simple(2, (long[])null, null);
+        H5Screate_simple(2, null, null);
     }
 
     @Test(expected = IllegalArgumentException.class)
     public void testH5Screate_simple_rank_invalid() throws Throwable
     {
         long dims[] = {5, 5};
-        H5.H5Screate_simple(-1, dims, null);
+        try (Arena arena = Arena.ofConfined()) {
+            // Allocate a MemorySegment to hold the dims bytes
+            MemorySegment dims_segment = MemorySegment.ofArray(dims);
+            H5Screate_simple(-1, dims_segment, null);
+        }
     }
 
     @Test(expected = IllegalArgumentException.class)
     public void testH5Screate_simple_dims_invalid() throws Throwable
     {
         long dims[] = {2, 2};
-        H5.H5Screate_simple(5, dims, null);
+        try (Arena arena = Arena.ofConfined()) {
+            // Allocate a MemorySegment to hold the dims bytes
+            MemorySegment dims_segment = MemorySegment.ofArray(dims);
+            H5Screate_simple(5, dims_segment, null);
+        }
     }
 
     @Test(expected = HDF5LibraryException.class)
@@ -132,15 +140,12 @@ public class TestH5Sbasic {
     {
         long dims[] = {0,  1,  2,  3,  4,  5,  6,  7,  8,  9,  10, 11, 12, 13, 14, 15, 16, 17,
                        18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29, 30, 31, 32, 33, 35};
-        H5.H5Screate_simple(35, dims, null);
+        try (Arena arena = Arena.ofConfined()) {
+            // Allocate a MemorySegment to hold the dims bytes
+            MemorySegment dims_segment = MemorySegment.ofArray(dims);
+            H5Screate_simple(35, dims_segment, null);
+        }
     }
-
-    // H5Screate_simple was changed to allow a dim of 0
-    //     @Ignore(expected = HDF5LibraryException.class)
-    //     public void testH5Screate_simple_dims_zero() {
-    //         long dims[] = {0, 0};
-    //         H5.H5Screate_simple(2, dims, null);
-    //     }
 
     @Test
     public void testH5Screate_simple()
@@ -152,7 +157,16 @@ public class TestH5Sbasic {
         long maxdims[] = {10, 10};
 
         try {
-            sid = H5.H5Screate_simple(rank, dims, maxdims);
+            try (Arena arena = Arena.ofConfined()) {
+                // Allocate a MemorySegment to hold the dims bytes
+                MemorySegment dims_segment    = MemorySegment.ofArray(dims);
+                MemorySegment maxdims_segment = MemorySegment.ofArray(maxdims);
+                sid                           = H5Screate_simple(rank, dims_segment, maxdims_segment);
+            }
+            catch (Throwable err) {
+                err.printStackTrace();
+                fail("Arena: " + err);
+            }
             assertTrue("H5Screate_simple", sid > 0);
             class_type = H5.H5Sget_simple_extent_type(sid);
             assertTrue("H5Screate_simple: type", class_type == H5S_SIMPLE());
@@ -180,7 +194,16 @@ public class TestH5Sbasic {
         long maxdims[] = {H5S_UNLIMITED(), H5S_UNLIMITED()};
 
         try {
-            sid = H5.H5Screate_simple(rank, dims, maxdims);
+            try (Arena arena = Arena.ofConfined()) {
+                // Allocate a MemorySegment to hold the dims bytes
+                MemorySegment dims_segment    = MemorySegment.ofArray(dims);
+                MemorySegment maxdims_segment = MemorySegment.ofArray(maxdims);
+                sid                           = H5Screate_simple(rank, dims_segment, maxdims_segment);
+            }
+            catch (Throwable err) {
+                err.printStackTrace();
+                fail("Arena: " + err);
+            }
             assertTrue("H5Screate_simple", sid > 0);
             class_type = H5.H5Sget_simple_extent_type(sid);
             assertTrue("H5Screate_simple: type", class_type == H5S_SIMPLE());
@@ -208,7 +231,16 @@ public class TestH5Sbasic {
         long maxdims[] = {H5S_UNLIMITED()};
 
         try {
-            sid = H5.H5Screate_simple(rank, dims, maxdims);
+            try (Arena arena = Arena.ofConfined()) {
+                // Allocate a MemorySegment to hold the dims bytes
+                MemorySegment dims_segment    = MemorySegment.ofArray(dims);
+                MemorySegment maxdims_segment = MemorySegment.ofArray(maxdims);
+                sid                           = H5Screate_simple(rank, dims_segment, maxdims_segment);
+            }
+            catch (Throwable err) {
+                err.printStackTrace();
+                fail("Arena: " + err);
+            }
             assertTrue("H5Screate_simple", sid > 0);
             class_type = H5.H5Sget_simple_extent_type(sid);
             assertTrue("H5Screate_simple: type", class_type == H5S_SIMPLE());
@@ -234,7 +266,15 @@ public class TestH5Sbasic {
         long dims[] = {5, 5};
 
         try {
-            sid = H5.H5Screate_simple(rank, dims, null);
+            try (Arena arena = Arena.ofConfined()) {
+                // Allocate a MemorySegment to hold the dims bytes
+                MemorySegment dims_segment = MemorySegment.ofArray(dims);
+                sid                        = H5Screate_simple(rank, dims_segment, null);
+            }
+            catch (Throwable err) {
+                err.printStackTrace();
+                fail("Arena: " + err);
+            }
             assertTrue("H5Screate_simple_max_default", sid > 0);
         }
         catch (Throwable err) {

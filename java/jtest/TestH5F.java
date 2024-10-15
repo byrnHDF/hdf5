@@ -237,7 +237,15 @@ public class TestH5F {
         long fid2    = H5I_INVALID_HID();
 
         try {
-            fid1 = H5.H5Fcreate(H5_FILE2, H5F_ACC_TRUNC(), H5P_DEFAULT(), H5P_DEFAULT());
+            try (Arena arena = Arena.ofConfined()) {
+                // Allocate a MemorySegment to hold the string bytes
+                MemorySegment filename_segment = arena.allocateFrom(H5_FILE2);
+                fid1 = H5Fcreate(filename_segment, H5F_ACC_TRUNC(), H5P_DEFAULT(), H5P_DEFAULT());
+            }
+            catch (Throwable err) {
+                err.printStackTrace();
+                fail("Arena: " + err);
+            }
             H5Fflush(fid1, H5F_SCOPE_LOCAL());
             assertTrue("H5Fcreate failed", fid1 > 0);
             fid2 = H5.H5Fopen(H5_FILE2, H5F_ACC_RDWR(), H5P_DEFAULT());
@@ -266,7 +274,15 @@ public class TestH5F {
         long fid2    = H5I_INVALID_HID();
 
         try {
-            fid2 = H5.H5Fcreate(H5_FILE2, H5F_ACC_TRUNC(), H5P_DEFAULT(), H5P_DEFAULT());
+            try (Arena arena = Arena.ofConfined()) {
+                // Allocate a MemorySegment to hold the string bytes
+                MemorySegment filename_segment = arena.allocateFrom(H5_FILE2);
+                fid2 = H5Fcreate(filename_segment, H5F_ACC_TRUNC(), H5P_DEFAULT(), H5P_DEFAULT());
+            }
+            catch (Throwable err) {
+                err.printStackTrace();
+                fail("Arena: " + err);
+            }
             H5Fflush(fid2, H5F_SCOPE_LOCAL());
             assertTrue("H5Fcreate failed", fid2 > 0);
 

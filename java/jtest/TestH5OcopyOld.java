@@ -63,7 +63,15 @@ public class TestH5OcopyOld {
     {
         long did = H5I_INVALID_HID();
         try {
-            did = H5.H5Dcreate(fid, name, H5T_STD_I32BE_g(), dsid, H5P_DEFAULT(), H5P_DEFAULT(), dapl);
+            try (Arena arena = Arena.ofConfined()) {
+                // Allocate a MemorySegment to hold the string bytes
+                MemorySegment name_segment = arena.allocateFrom(name);
+                did = H5Dcreate2(fid, name_segment, H5T_STD_I32BE_g(), dsid, H5P_DEFAULT(), H5P_DEFAULT(), dapl);
+            }
+            catch (Throwable err) {
+                err.printStackTrace();
+                fail("Arena: " + err);
+            }
         }
         catch (Throwable err) {
             err.printStackTrace();
@@ -95,10 +103,26 @@ public class TestH5OcopyOld {
     {
         System.out.print(testname.getMethodName());
         try {
-            H5fid   = H5.H5Fcreate(FILENAME, H5F_ACC_TRUNC(), H5P_DEFAULT(), H5P_DEFAULT());
+            try (Arena arena = Arena.ofConfined()) {
+                // Allocate a MemorySegment to hold the string bytes
+                MemorySegment filename_segment = arena.allocateFrom(FILENAME);
+                H5fid = H5Fcreate(filename_segment, H5F_ACC_TRUNC(), H5P_DEFAULT(), H5P_DEFAULT());
+            }
+            catch (Throwable err) {
+                err.printStackTrace();
+                fail("Arena: " + err);
+            }
             H5dsid2 = H5Screate(H5S_SCALAR());
             H5did1  = _createDataset(H5fid, H5dsid2, "DS2", H5P_DEFAULT());
-            H5dsid  = H5.H5Screate_simple(1, dims, null);
+            try (Arena arena = Arena.ofConfined()) {
+                // Allocate a MemorySegment to hold the dims bytes
+                MemorySegment dims_segment = MemorySegment.ofArray(dims);
+                H5dsid                       = H5Screate_simple(1, dims_segment, null);
+            }
+            catch (Throwable err) {
+                err.printStackTrace();
+                fail("Arena: " + err);
+            }
             H5gid   = _createGroup(H5fid, "/G1");
             H5did2  = _createDataset(H5gid, H5dsid, "DS1", H5P_DEFAULT());
         }
@@ -181,7 +205,7 @@ public class TestH5OcopyOld {
             assertTrue("testH5OcopyRefsAttr.H5Acreate: ", attribute_id >= 0);
             H5.H5Awrite(attribute_id, H5T_STD_REF_OBJ(), dset_data);
 
-            H5.H5Aclose(attribute_id);
+            H5Aclose(attribute_id);
         }
         catch (Exception ex) {
             fail("testH5OcopyRefsAttr: H5Awrite failed");
@@ -225,8 +249,16 @@ public class TestH5OcopyOld {
             rbuf1 = H5.H5Rcreate(H5fid, "DS2", H5R_OBJECT(), -1);
             System.arraycopy(rbuf1, 0, dset_data, 8, 8);
 
-            dataset_id = H5.H5Dcreate(H5fid, "DSREF", H5T_STD_REF_OBJ(), H5dsid, H5P_DEFAULT(), H5P_DEFAULT(),
-                                      H5P_DEFAULT());
+            try (Arena arena = Arena.ofConfined()) {
+                // Allocate a MemorySegment to hold the string bytes
+                MemorySegment name_segment = arena.allocateFrom("DSREF");
+                dataset_id = H5Dcreate2(H5fid, name_segment, H5T_STD_REF_OBJ(), H5dsid, H5P_DEFAULT(), H5P_DEFAULT(),
+                        H5P_DEFAULT());
+            }
+            catch (Throwable err) {
+                err.printStackTrace();
+                fail("Arena: " + err);
+            }
             assertTrue("testH5OcopyRefsDatasettodiffFile.H5Dcreate: ", dataset_id >= 0);
             H5.H5Dwrite(dataset_id, H5T_STD_REF_OBJ(), H5S_ALL(), H5S_ALL(), H5P_DEFAULT(), dset_data);
             H5Dclose(dataset_id);
@@ -244,7 +276,15 @@ public class TestH5OcopyOld {
 
         try {
             // create new file
-            H5fid2 = H5.H5Fcreate("copy_old.h5", H5F_ACC_TRUNC(), H5P_DEFAULT(), H5P_DEFAULT());
+            try (Arena arena = Arena.ofConfined()) {
+                // Allocate a MemorySegment to hold the string bytes
+                MemorySegment filename_segment = arena.allocateFrom("copy_old.h5");
+                H5fid2 = H5Fcreate(filename_segment, H5F_ACC_TRUNC(), H5P_DEFAULT(), H5P_DEFAULT());
+            }
+            catch (Throwable err) {
+                err.printStackTrace();
+                fail("Arena: " + err);
+            }
             assertTrue("testH5OcopyRefsDatasettodiffFile.H5Fcreate: ", H5fid2 >= 0);
             H5Fflush(H5fid2, H5F_SCOPE_LOCAL());
         }
@@ -303,8 +343,16 @@ public class TestH5OcopyOld {
             System.arraycopy(rbuf1, 0, dset_data, 8, 8);
 
             // Create a dataset and write object references to it.
-            dataset_id = H5.H5Dcreate(H5fid, "DSREF", H5T_STD_REF_OBJ(), H5dsid, H5P_DEFAULT(), H5P_DEFAULT(),
-                                      H5P_DEFAULT());
+            try (Arena arena = Arena.ofConfined()) {
+                // Allocate a MemorySegment to hold the string bytes
+                MemorySegment name_segment = arena.allocateFrom("DSREF");
+                dataset_id = H5Dcreate2(fid, name_segment, H5T_STD_REF_OBJ(), H5dsid, H5P_DEFAULT(), H5P_DEFAULT(),
+                        H5P_DEFAULT()
+            }
+            catch (Throwable err) {
+                err.printStackTrace();
+                fail("Arena: " + err);
+            }
             assertTrue("testH5OcopyRefsDatasettosameFile.H5Dcreate: ", dataset_id >= 0);
             H5.H5Dwrite(dataset_id, H5T_STD_REF_OBJ(), H5S_ALL(), H5S_ALL(), H5P_DEFAULT(), dset_data);
             // Close the dataset.
@@ -320,7 +368,7 @@ public class TestH5OcopyOld {
         }
 
         try {
-            ocp_plist_id = H5.H5Pcreate(H5P_OBJECT_COPY());
+            ocp_plist_id = H5Pcreate(H5P_OBJECT_COPY());
             assertTrue("testH5OcopyRefsDatasettosameFile.H5Pcreate: ", ocp_plist_id >= 0);
             H5Pset_copy_object(ocp_plist_id, H5O_COPY_EXPAND_REFERENCE_FLAG());
         }
@@ -400,9 +448,26 @@ public class TestH5OcopyOld {
         long aid         = H5I_INVALID_HID();
 
         try {
-            sid = H5.H5Screate_simple(1, new long[] {1}, null);
+            long[] dims = {1};
+            try (Arena arena = Arena.ofConfined()) {
+                // Allocate a MemorySegment to hold the dims bytes
+                MemorySegment dims_segment = MemorySegment.ofArray(dims);
+                sid                        = H5Screate_simple(1, dims_segment, null);
+            }
+            catch (Throwable err) {
+                err.printStackTrace();
+                fail("Arena: " + err);
+            }
             assertTrue("testH5OcopyNullRef.H5Screate_simple: ", sid >= 0);
-            did = H5.H5Dcreate(H5fid, "Dataset_with_null_Ref", H5T_NATIVE_INT_g(), sid, _pid_, _pid_, _pid_);
+            try (Arena arena = Arena.ofConfined()) {
+                // Allocate a MemorySegment to hold the string bytes
+                MemorySegment name_segment = arena.allocateFrom("Dataset_with_null_Ref");
+                did = H5Dcreate2(H5fid, name_segment, H5T_NATIVE_INT_g(), sid, _pid_, _pid_, _pid_);
+            }
+            catch (Throwable err) {
+                err.printStackTrace();
+                fail("Arena: " + err);
+            }
             assertTrue("testH5OcopyNullRef.H5Dcreate: ", did > 0);
             aid = H5.H5Acreate(did, "Null_Ref", H5T_STD_REF_OBJ(), sid, _pid_, _pid_);
             assertTrue("testH5OcopyNullRef.H5Acreate: ", aid > 0);
@@ -443,42 +508,4 @@ public class TestH5OcopyOld {
             }
         }
     }
-
-    //    @Ignore because of JIRA HDF5-9547
-    //    @Test(expected = HDF5LibraryException.class)
-    //    public void testH5OcopyInvalidRef() throws Throwable {
-    //        final long _pid_ = H5P_DEFAULT();
-    //        long sid = H5I_INVALID_HID();
-    //        long did = H5I_INVALID_HID();
-    //        long aid = H5I_INVALID_HID();
-    //
-    //        try {
-    //            sid = H5.H5Screate_simple(1, new long[] {1}, null);
-    //            assertTrue("testH5OcopyInvalidRef.H5Screate_simple: ", sid >= 0);
-    //            did = H5.H5Dcreate(H5fid, "Dataset_with_invalid_Ref", H5T_NATIVE_INT_g(), sid,
-    //            _pid_, _pid_, _pid_); assertTrue("testH5OcopyInvalidRef.H5Dcreate: ", did > 0); aid =
-    //            H5.H5Acreate(did, "Invalid_Ref", H5T_STD_REF_OBJ(), sid, _pid_, _pid_);
-    //            assertTrue("testH5OcopyInvalidRef.H5Acreate: ", aid > 0);
-    //            H5.H5Awrite(aid, H5T_STD_REF_OBJ(), new long[]{-1});
-    //        }
-    //        catch (Exception ex) {
-    //            ex.printStackTrace();
-    //        }
-    //        finally {
-    //            try {H5Dclose(did);} catch (Exception exx) {}
-    //            try {H5Aclose(aid);} catch (Exception exx) {}
-    //            try {H5Sclose(sid);} catch (Exception exx) {}
-    //        }
-    //
-    //        long ocp_plist_id = H5Pcreate(H5P_OBJECT_COPY());
-    //        assertTrue("testH5OcopyInvalidRef.H5Pcreate: ", ocp_plist_id >= 0);
-    //        H5.H5Pset_copy_object(ocp_plist_id, H5O_COPY_EXPAND_REFERENCE_FLAG());
-    //        try {
-    //            H5.H5Ocopy(H5fid, "/Dataset_with_invalid_Ref", H5fid, "/Dataset_with_invalid_Ref_cp",
-    //            ocp_plist_id, _pid_);
-    //        }
-    //        finally {
-    //            try {H5Pclose(ocp_plist_id);} catch (Exception exx) {}
-    //        }
-    //    }
 }

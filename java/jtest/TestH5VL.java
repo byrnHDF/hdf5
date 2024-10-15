@@ -82,8 +82,17 @@ public class TestH5VL {
     public void testH5VLget_connector_id()
     {
         String H5_FILE = "testFvl.h5";
+        long H5fid = H5I_INVALID_HID();
 
-        long H5fid = H5.H5Fcreate(H5_FILE, H5F_ACC_TRUNC(), H5P_DEFAULT(), H5P_DEFAULT());
+        try (Arena arena = Arena.ofConfined()) {
+            // Allocate a MemorySegment to hold the string bytes
+            MemorySegment filename_segment = arena.allocateFrom(H5_FILE);
+            H5fid = H5Fcreate(filename_segment, H5F_ACC_TRUNC(), H5P_DEFAULT(), H5P_DEFAULT());
+        }
+        catch (Throwable err) {
+            err.printStackTrace();
+            fail("Arena: " + err);
+        }
 
         try {
             long native_id = H5VLget_connector_id(H5fid);
@@ -146,8 +155,17 @@ public class TestH5VL {
     public void testH5VLget_connector_name()
     {
         String H5_FILE = "testFvl.h5";
+        long H5fid = H5I_INVALID_HID();
 
-        long H5fid = H5.H5Fcreate(H5_FILE, H5F_ACC_TRUNC(), H5P_DEFAULT(), H5P_DEFAULT());
+        try (Arena arena = Arena.ofConfined()) {
+            // Allocate a MemorySegment to hold the string bytes
+            MemorySegment filename_segment = arena.allocateFrom(H5_FILE);
+            H5fid = H5Fcreate(filename_segment, H5F_ACC_TRUNC(), H5P_DEFAULT(), H5P_DEFAULT());
+        }
+        catch (Throwable err) {
+            err.printStackTrace();
+            fail("Arena: " + err);
+        }
         H5Fflush(H5fid, H5F_SCOPE_LOCAL());
 
         try {

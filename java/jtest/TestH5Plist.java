@@ -145,7 +145,7 @@ public class TestH5Plist {
 
             // Verify class parent correct
             try {
-                status = H5.H5Pequal(cid2, HDF5Constants.H5P_ROOT);
+                status = H5Pequal(cid2, H5P_ROOT());
             }
             catch (Throwable err) {
                 err.printStackTrace();
@@ -236,7 +236,7 @@ public class TestH5Plist {
 
             // Verify class parent's parent correct
             try {
-                status = H5.H5Pequal(cid3, HDF5Constants.H5P_GROUP_CREATE);
+                status = H5Pequal(cid3, H5P_GROUP_CREATE());
             }
             catch (Throwable err) {
                 err.printStackTrace();

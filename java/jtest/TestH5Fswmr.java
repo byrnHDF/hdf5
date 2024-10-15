@@ -59,7 +59,15 @@ public class TestH5Fswmr {
         H5fcpl = H5Pcreate(H5P_CLS_FILE_CREATE_ID_g());
         H5Pset_libver_bounds(H5fapl, H5F_LIBVER_LATEST(), H5F_LIBVER_LATEST());
 
-        H5fid = H5.H5Fcreate(H5_FILE, H5F_ACC_TRUNC(), H5fcpl, H5fapl);
+        try (Arena arena = Arena.ofConfined()) {
+            // Allocate a MemorySegment to hold the string bytes
+            MemorySegment filename_segment = arena.allocateFrom(H5_FILE);
+            H5fid = H5Fcreate(filename_segment, H5F_ACC_TRUNC(), H5fcpl, H5fapl);
+        }
+        catch (Throwable err) {
+            err.printStackTrace();
+            fail("Arena: " + err);
+        }
         H5Fflush(H5fid, H5F_SCOPE_LOCAL());
     }
 

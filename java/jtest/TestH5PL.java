@@ -180,7 +180,15 @@ public class TestH5PL {
 
             // Create a new file using default properties.
             try {
-                file_id = H5.H5Fcreate(FILENAME, H5F_ACC_TRUNC(), H5P_DEFAULT(), H5P_DEFAULT());
+                try (Arena arena = Arena.ofConfined()) {
+                    // Allocate a MemorySegment to hold the string bytes
+                    MemorySegment filename_segment = arena.allocateFrom(FILENAME);
+                    file_id = H5Fcreate(filename_segment, H5F_ACC_TRUNC(), H5P_DEFAULT(), H5P_DEFAULT());
+                }
+                catch (Throwable err) {
+                    err.printStackTrace();
+                    fail("Arena: " + err);
+                }
             }
             catch (Exception e) {
                 e.printStackTrace();
@@ -190,7 +198,15 @@ public class TestH5PL {
             // Create dataspace. Setting maximum size to NULL sets the maximum
             // size to be the current size.
             try {
-                filespace_id = H5.H5Screate_simple(RANK, dims, null);
+                try (Arena arena = Arena.ofConfined()) {
+                    // Allocate a MemorySegment to hold the dims bytes
+                    MemorySegment dims_segment = MemorySegment.ofArray(dims);
+                    filespace_id               = H5Screate_simple(RANK, dims_segment, null);
+                }
+                catch (Throwable err) {
+                    err.printStackTrace();
+                    fail("Arena: " + err);
+                }
             }
             catch (Exception e) {
                 e.printStackTrace();
@@ -217,7 +233,22 @@ public class TestH5PL {
             }
 
             try {
-                H5.H5get_libversion(libversion);
+                try {
+                    try (Arena arena = Arena.ofConfined()) {
+                        // Allocate a MemorySegment to hold the array bytes
+                        MemorySegment majnum_segment = arena.allocateFrom(ValueLayout.JAVA_INT, libversion[0]);
+                        MemorySegment minnum_segment = arena.allocateFrom(ValueLayout.JAVA_INT, libversion[1]);
+                        MemorySegment relnum_segment = arena.allocateFrom(ValueLayout.JAVA_INT, libversion[2]);
+                        H5get_libversion(majnum_segment, minnum_segment, relnum_segment);
+                    }
+                    catch (Throwable err) {
+                        err.printStackTrace();
+                        fail("Arena: " + err);
+                    }
+                }
+                catch (Throwable err) {
+                    fail("H5get_libversion: " + err);
+                }
                 cd_values[1] = libversion[0];
                 cd_values[2] = libversion[1];
                 cd_values[3] = libversion[2];
@@ -232,8 +263,15 @@ public class TestH5PL {
             // Create the chunked dataset.
             try {
                 if ((file_id >= 0) && (filespace_id >= 0) && (dcpl_id >= 0))
-                    dataset_id = H5.H5Dcreate(file_id, DATASETNAME, H5T_NATIVE_INT_g(), filespace_id,
-                                              H5P_DEFAULT(), dcpl_id, H5P_DEFAULT());
+                    try (Arena arena = Arena.ofConfined()) {
+                        // Allocate a MemorySegment to hold the string bytes
+                        MemorySegment name_segment = arena.allocateFrom(DATASETNAME);
+                        dataset_id = H5Dcreate2(file_id, name_segment, H5T_NATIVE_INT_g(), filespace_id, H5P_DEFAULT(), dcpl_id, H5P_DEFAULT());
+                    }
+                    catch (Throwable err) {
+                        err.printStackTrace();
+                        fail("Arena: " + err);
+                    }
             }
             catch (Exception e) {
                 e.printStackTrace();

@@ -73,11 +73,19 @@ public class TestH5P {
     {
         long did = H5I_INVALID_HID();
         try {
-            did = H5.H5Dcreate(fid, name, H5T_STD_I32BE_g(), dsid, H5P_DEFAULT(), H5P_DEFAULT(), dapl);
+            try (Arena arena = Arena.ofConfined()) {
+                // Allocate a MemorySegment to hold the string bytes
+                MemorySegment name_segment = arena.allocateFrom(name);
+                did = H5Dcreate2(fid, name_segment, H5T_STD_I32BE_g(), dsid, H5P_DEFAULT(), H5P_DEFAULT(), dapl);
+            }
+            catch (Throwable err) {
+                err.printStackTrace();
+                fail("Arena: " + err);
+            }
         }
         catch (Throwable err) {
             err.printStackTrace();
-            fail("H5.H5Dcreate: " + err);
+            fail("H5Dcreate: " + err);
         }
         assertTrue("TestH5P._createDataset: ", did > 0);
 
@@ -87,20 +95,36 @@ public class TestH5P {
     private final void _createH5File(long fcpl, long fapl)
     {
         try {
-            H5fid  = H5.H5Fcreate(H5_FILE, H5F_ACC_TRUNC(), fcpl, fapl);
-            H5dsid = H5.H5Screate_simple(2, H5dims, null);
+            try (Arena arena = Arena.ofConfined()) {
+                // Allocate a MemorySegment to hold the string bytes
+                MemorySegment filename_segment = arena.allocateFrom(H5_FILE);
+                H5fid = H5Fcreate(filename_segment, H5F_ACC_TRUNC(), fcpl, fapl);
+            }
+            catch (Throwable err) {
+                err.printStackTrace();
+                fail("Arena: " + err);
+            }
+            try (Arena arena = Arena.ofConfined()) {
+                // Allocate a MemorySegment to hold the dims bytes
+                MemorySegment H5dims_segment = MemorySegment.ofArray(H5dims);
+                H5dsid                       = H5Screate_simple(2, H5dims_segment, null);
+            }
+            catch (Throwable err) {
+                err.printStackTrace();
+                fail("Arena: " + err);
+            }
             H5did  = _createDataset(H5fid, H5dsid, "dset", H5P_DEFAULT());
         }
         catch (Throwable err) {
             err.printStackTrace();
             fail("TestH5P.createH5file: " + err);
         }
-        assertTrue("TestH5P.createH5file: H5.H5Fcreate: ", H5fid > 0);
-        assertTrue("TestH5P.createH5file: H5.H5Screate_simple: ", H5dsid > 0);
+        assertTrue("TestH5P.createH5file: H5Fcreate: ", H5fid > 0);
+        assertTrue("TestH5P.createH5file: H5Screate_simple: ", H5dsid > 0);
         assertTrue("TestH5P.createH5file: _createDataset: ", H5did > 0);
 
         try {
-            H5.H5Fflush(H5fid, H5F_SCOPE_LOCAL());
+            H5Fflush(H5fid, H5F_SCOPE_LOCAL());
         }
         catch (Throwable err) {
             err.printStackTrace();
@@ -1190,7 +1214,7 @@ public class TestH5P {
         assertTrue("testH5Pget_char_encoding", char_encoding == H5T_CSET_ASCII());
         try {
             H5Pset_char_encoding(acpl_id, H5T_CSET_UTF8());
-            char_encoding = H5.H5Pget_char_encoding(acpl_id);
+            char_encoding = H5Pget_char_encoding(acpl_id);
         }
         catch (Throwable err) {
             err.printStackTrace();

@@ -71,11 +71,20 @@ public class TestH5A {
     {
         long did = H5I_INVALID_HID();
         try {
-            did = H5.H5Dcreate(fid, name, H5T_STD_I32BE_g(), dsid, H5P_DEFAULT(), H5P_DEFAULT(), dapl);
+            try (Arena arena = Arena.ofConfined()) {
+                // Allocate a MemorySegment to hold the string bytes
+                MemorySegment name_segment = arena.allocateFrom(name);
+                did = H5Dcreate2(fid, name_segment, H5T_STD_I32BE_g(), dsid, H5P_DEFAULT(), H5P_DEFAULT(),
+                                 dapl);
+            }
+            catch (Throwable err) {
+                err.printStackTrace();
+                fail("Arena: " + err);
+            }
         }
         catch (Throwable err) {
             err.printStackTrace();
-            fail("H5.H5Dcreate: " + err);
+            fail("H5Dcreate: " + err);
         }
         assertTrue("TestH5A._createDataset: ", did > 0);
 
@@ -88,10 +97,26 @@ public class TestH5A {
         System.out.print(testname.getMethodName());
 
         try {
-            H5fid = H5.H5Fcreate(H5_FILE, H5F_ACC_TRUNC(), H5P_DEFAULT(), H5P_DEFAULT());
-            assertTrue("TestH5A.createH5file: H5.H5Fcreate: ", H5fid > 0);
-            H5dsid = H5.H5Screate_simple(2, H5dims, null);
-            assertTrue("TestH5A.createH5file: H5.H5Screate_simple: ", H5dsid > 0);
+            try (Arena arena = Arena.ofConfined()) {
+                // Allocate a MemorySegment to hold the string bytes
+                MemorySegment filename_segment = arena.allocateFrom(H5_FILE);
+                H5fid = H5Fcreate(filename_segment, H5F_ACC_TRUNC(), H5P_DEFAULT(), H5P_DEFAULT());
+            }
+            catch (Throwable err) {
+                err.printStackTrace();
+                fail("Arena: " + err);
+            }
+            assertTrue("TestH5A.createH5file: H5Fcreate: ", H5fid > 0);
+            try (Arena arena = Arena.ofConfined()) {
+                // Allocate a MemorySegment to hold the dims bytes
+                MemorySegment H5dims_segment = MemorySegment.ofArray(H5dims);
+                H5dsid                       = H5Screate_simple(2, H5dims_segment, null);
+            }
+            catch (Throwable err) {
+                err.printStackTrace();
+                fail("Arena: " + err);
+            }
+            assertTrue("TestH5A.createH5file: H5Screate_simple: ", H5dsid > 0);
             H5did = _createDataset(H5fid, H5dsid, "dset", H5P_DEFAULT());
             assertTrue("TestH5A.createH5file: _createDataset: ", H5did > 0);
             space_id = H5Screate(H5S_NULL());
@@ -180,7 +205,7 @@ public class TestH5A {
         }
         catch (Throwable err) {
             err.printStackTrace();
-            fail("H5.H5Acreate2: " + err);
+            fail("H5Acreate2: " + err);
         }
         finally {
             if (attr_id > 0)
@@ -221,7 +246,7 @@ public class TestH5A {
         }
         catch (Throwable err) {
             err.printStackTrace();
-            fail("H5.H5Aopen: " + err);
+            fail("H5Aopen: " + err);
         }
         finally {
             if (attr_id > 0)
@@ -275,7 +300,7 @@ public class TestH5A {
                 fail("Negative Test Failed:- Error not Thrown when n is invalid.");
             }
             catch (AssertionError err) {
-                fail("H5.H5Aopen_by_idx: " + err);
+                fail("H5Aopen_by_idx: " + err);
             }
             catch (HDF5LibraryException err) {
             }
@@ -290,14 +315,14 @@ public class TestH5A {
                 fail("Negative Test Failed:- Error not Thrown when attribute name is invalid.");
             }
             catch (AssertionError err) {
-                fail("H5.H5Aopen_by_idx: " + err);
+                fail("H5Aopen_by_idx: " + err);
             }
             catch (HDF5LibraryException err) {
             }
         }
         catch (Throwable err) {
             err.printStackTrace();
-            fail("H5.H5Aopen_by_idx: " + err);
+            fail("H5Aopen_by_idx: " + err);
         }
         finally {
             if (attr_id > 0)
@@ -335,7 +360,7 @@ public class TestH5A {
         }
         catch (Throwable err) {
             err.printStackTrace();
-            fail("H5.H5Acreate_by_name " + err);
+            fail("H5Acreate_by_name " + err);
         }
         finally {
             if (attribute_id > 0)
@@ -377,7 +402,7 @@ public class TestH5A {
         }
         catch (Throwable err) {
             err.printStackTrace();
-            fail("H5.H5Arename " + err);
+            fail("H5Arename " + err);
         }
         finally {
             if (attr_id > 0)
@@ -421,12 +446,12 @@ public class TestH5A {
         }
         catch (Throwable err) {
             err.printStackTrace();
-            fail("H5.H5Arename_by_name " + err);
+            fail("H5Arename_by_name " + err);
         }
         finally {
             if (attr_id > 0)
                 try {
-                    H5.H5Aclose(attr_id);
+                    H5Aclose(attr_id);
                 }
                 catch (Exception ex) {
                 }
@@ -455,7 +480,7 @@ public class TestH5A {
         finally {
             if (attribute_id > 0)
                 try {
-                    H5.H5Aclose(attribute_id);
+                    H5Aclose(attribute_id);
                 }
                 catch (Exception ex) {
                 }
@@ -493,18 +518,18 @@ public class TestH5A {
         }
         catch (Throwable err) {
             err.printStackTrace();
-            fail("H5.H5Aget_name_by_idx " + err);
+            fail("H5Aget_name_by_idx " + err);
         }
         finally {
             if (attr1_id > 0)
                 try {
-                    H5.H5Aclose(attr1_id);
+                    H5Aclose(attr1_id);
                 }
                 catch (Exception ex) {
                 }
             if (attr2_id > 0)
                 try {
-                    H5.H5Aclose(attr2_id);
+                    H5Aclose(attr2_id);
                 }
                 catch (Exception ex) {
                 }
@@ -520,17 +545,17 @@ public class TestH5A {
         try {
             attr_id = H5.H5Acreate(H5did, "dset", type_id, space_id, H5P_DEFAULT(), H5P_DEFAULT());
 
-            attr_size = H5.H5Aget_storage_size(attr_id);
+            attr_size = H5Aget_storage_size(attr_id);
             assertTrue("The size of attribute is :", attr_size == 0);
         }
         catch (Throwable err) {
             err.printStackTrace();
-            fail("H5.H5Aget_storage_size: " + err);
+            fail("H5Aget_storage_size: " + err);
         }
         finally {
             if (attr_id > 0)
                 try {
-                    H5.H5Aclose(attr_id);
+                    H5Aclose(attr_id);
                 }
                 catch (Exception ex) {
                 }
@@ -557,18 +582,18 @@ public class TestH5A {
         }
         catch (Throwable err) {
             err.printStackTrace();
-            fail("H5.H5Aget_info: " + err);
+            fail("H5Aget_info: " + err);
         }
         finally {
             if (attr_id > 0)
                 try {
-                    H5.H5Aclose(attr_id);
+                    H5Aclose(attr_id);
                 }
                 catch (Exception ex) {
                 }
             if (attribute_id > 0)
                 try {
-                    H5.H5Aclose(attribute_id);
+                    H5Aclose(attribute_id);
                 }
                 catch (Exception ex) {
                 }
@@ -599,18 +624,18 @@ public class TestH5A {
         }
         catch (Throwable err) {
             err.printStackTrace();
-            fail("H5.H5Aget_info1: " + err);
+            fail("H5Aget_info1: " + err);
         }
         finally {
             if (attr_id > 0)
                 try {
-                    H5.H5Aclose(attr_id);
+                    H5Aclose(attr_id);
                 }
                 catch (Exception ex) {
                 }
             if (attribute_id > 0)
                 try {
-                    H5.H5Aclose(attribute_id);
+                    H5Aclose(attribute_id);
                 }
                 catch (Exception ex) {
                 }
@@ -668,18 +693,18 @@ public class TestH5A {
         }
         catch (Throwable err) {
             err.printStackTrace();
-            fail("H5.H5Aget_info_by_idx:" + err);
+            fail("H5Aget_info_by_idx:" + err);
         }
         finally {
             if (attr_id > 0)
                 try {
-                    H5.H5Aclose(attr_id);
+                    H5Aclose(attr_id);
                 }
                 catch (Exception ex) {
                 }
             if (attr2_id > 0)
                 try {
-                    H5.H5Aclose(attr2_id);
+                    H5Aclose(attr2_id);
                 }
                 catch (Exception ex) {
                 }
@@ -702,12 +727,12 @@ public class TestH5A {
         }
         catch (Throwable err) {
             err.printStackTrace();
-            fail("H5.H5Aget_info_by_name:" + err);
+            fail("H5Aget_info_by_name:" + err);
         }
         finally {
             if (attr_id > 0)
                 try {
-                    H5.H5Aclose(attr_id);
+                    H5Aclose(attr_id);
                 }
                 catch (Exception ex) {
                 }
@@ -741,19 +766,19 @@ public class TestH5A {
                 fail("Negative Test Failed: Error Not thrown.");
             }
             catch (AssertionError err) {
-                fail("H5.H5Adelete_by_name: " + err);
+                fail("H5Adelete_by_name: " + err);
             }
             catch (HDF5LibraryException err) {
             }
         }
         catch (Throwable err) {
             err.printStackTrace();
-            fail("H5.H5Adelete_by_name " + err);
+            fail("H5Adelete_by_name " + err);
         }
         finally {
             if (attr_id > 0)
                 try {
-                    H5.H5Aclose(attr_id);
+                    H5Aclose(attr_id);
                 }
                 catch (Exception ex) {
                 }
@@ -772,7 +797,7 @@ public class TestH5A {
         }
         catch (Throwable err) {
             err.printStackTrace();
-            fail("H5.H5Aexists: " + err);
+            fail("H5Aexists: " + err);
         }
         assertFalse("H5Aexists ", exists);
 
@@ -788,18 +813,18 @@ public class TestH5A {
         }
         catch (Throwable err) {
             err.printStackTrace();
-            fail("H5.H5Aexists: " + err);
+            fail("H5Aexists: " + err);
         }
         finally {
             if (attr_id > 0)
                 try {
-                    H5.H5Aclose(attr_id);
+                    H5Aclose(attr_id);
                 }
                 catch (Exception ex) {
                 }
             if (attribute_id > 0)
                 try {
-                    H5.H5Aclose(attribute_id);
+                    H5Aclose(attribute_id);
                 }
                 catch (Exception ex) {
                 }
@@ -831,30 +856,30 @@ public class TestH5A {
         }
         catch (Throwable err) {
             err.printStackTrace();
-            fail("H5.H5Adelete_by_idx: " + err);
+            fail("H5Adelete_by_idx: " + err);
         }
         finally {
             if (attr1_id > 0)
                 try {
-                    H5.H5Aclose(attr1_id);
+                    H5Aclose(attr1_id);
                 }
                 catch (Exception ex) {
                 }
             if (attr2_id > 0)
                 try {
-                    H5.H5Aclose(attr2_id);
+                    H5Aclose(attr2_id);
                 }
                 catch (Exception ex) {
                 }
             if (attr3_id > 0)
                 try {
-                    H5.H5Aclose(attr3_id);
+                    H5Aclose(attr3_id);
                 }
                 catch (Exception ex) {
                 }
             if (attr4_id > 0)
                 try {
-                    H5.H5Aclose(attr4_id);
+                    H5Aclose(attr4_id);
                 }
                 catch (Exception ex) {
                 }
@@ -882,24 +907,24 @@ public class TestH5A {
         }
         catch (Throwable err) {
             err.printStackTrace();
-            fail("H5.H5Adelete_by_idx: " + err);
+            fail("H5Adelete_by_idx: " + err);
         }
         finally {
             if (attr1_id > 0)
                 try {
-                    H5.H5Aclose(attr1_id);
+                    H5Aclose(attr1_id);
                 }
                 catch (Exception ex) {
                 }
             if (attr2_id > 0)
                 try {
-                    H5.H5Aclose(attr2_id);
+                    H5Aclose(attr2_id);
                 }
                 catch (Exception ex) {
                 }
             if (attr3_id > 0)
                 try {
-                    H5.H5Aclose(attr3_id);
+                    H5Aclose(attr3_id);
                 }
                 catch (Exception ex) {
                 }
@@ -931,30 +956,30 @@ public class TestH5A {
         }
         catch (Throwable err) {
             err.printStackTrace();
-            fail("H5.H5Adelete_by_idx: " + err);
+            fail("H5Adelete_by_idx: " + err);
         }
         finally {
             if (attr1_id > 0)
                 try {
-                    H5.H5Aclose(attr1_id);
+                    H5Aclose(attr1_id);
                 }
                 catch (Exception ex) {
                 }
             if (attr2_id > 0)
                 try {
-                    H5.H5Aclose(attr2_id);
+                    H5Aclose(attr2_id);
                 }
                 catch (Exception ex) {
                 }
             if (attr3_id > 0)
                 try {
-                    H5.H5Aclose(attr3_id);
+                    H5Aclose(attr3_id);
                 }
                 catch (Exception ex) {
                 }
             if (attr4_id > 0)
                 try {
-                    H5.H5Aclose(attr4_id);
+                    H5Aclose(attr4_id);
                 }
                 catch (Exception ex) {
                 }
@@ -993,24 +1018,24 @@ public class TestH5A {
                 }
                 catch (Throwable err) {
                     err.printStackTrace();
-                    fail("H5.H5Aopen_by_name " + err);
+                    fail("H5Aopen_by_name " + err);
                 }
             }
         }
         catch (Throwable err) {
             err.printStackTrace();
-            fail("H5.H5Aopen_by_name " + err);
+            fail("H5Aopen_by_name " + err);
         }
         finally {
             if (aid > 0)
                 try {
-                    H5.H5Aclose(aid);
+                    H5Aclose(aid);
                 }
                 catch (Exception ex) {
                 }
             if (attribute_id > 0)
                 try {
-                    H5.H5Aclose(attribute_id);
+                    H5Aclose(attribute_id);
                 }
                 catch (Exception ex) {
                 }
@@ -1037,12 +1062,12 @@ public class TestH5A {
         catch (Exception err) {
             if (atype_id > 0)
                 try {
-                    H5.H5Tclose(atype_id);
+                    H5Tclose(atype_id);
                 }
                 catch (Exception ex) {
                 }
             err.printStackTrace();
-            fail("H5.testH5Awrite_readVL: " + err);
+            fail("testH5Awrite_readVL: " + err);
         }
 
         try {
@@ -1053,7 +1078,7 @@ public class TestH5A {
 
             H5.H5AwriteVL(attr_id, atype_id, str_data);
 
-            H5.H5Fflush(H5fid, H5F_SCOPE_LOCAL());
+            H5Fflush(H5fid, H5F_SCOPE_LOCAL());
 
             for (int j = 0; j < dims.length; j++) {
                 lsize *= dims[j];
@@ -1075,24 +1100,24 @@ public class TestH5A {
         }
         catch (Throwable err) {
             err.printStackTrace();
-            fail("H5.testH5Awrite_readVL: " + err);
+            fail("testH5Awrite_readVL: " + err);
         }
         finally {
             if (attr_id > 0)
                 try {
-                    H5.H5Aclose(attr_id);
+                    H5Aclose(attr_id);
                 }
                 catch (Exception ex) {
                 }
             if (aspace_id > 0)
                 try {
-                    H5.H5Sclose(aspace_id);
+                    H5Sclose(aspace_id);
                 }
                 catch (Exception ex) {
                 }
             if (atype_id > 0)
                 try {
-                    H5.H5Tclose(atype_id);
+                    H5Tclose(atype_id);
                 }
                 catch (Exception ex) {
                 }
@@ -1108,7 +1133,7 @@ public class TestH5A {
         long attribute_id = H5I_INVALID_HID();
 
         try {
-            plist_id = H5.H5Pcreate(H5P_CLS_ATTRIBUTE_CREATE_ID_g());
+            plist_id = H5Pcreate(H5P_CLS_ATTRIBUTE_CREATE_ID_g());
             assertTrue(plist_id > 0);
         }
         catch (Throwable err) {
@@ -1118,7 +1143,7 @@ public class TestH5A {
         try {
             // Get the character encoding and ensure that it is the default (ASCII)
             try {
-                char_encoding = H5.H5Pget_char_encoding(plist_id);
+                char_encoding = H5Pget_char_encoding(plist_id);
             }
             catch (Throwable err) {
                 err.printStackTrace();
@@ -1133,17 +1158,17 @@ public class TestH5A {
             }
             catch (Throwable err) {
                 err.printStackTrace();
-                fail("H5.H5Acreate: " + err);
+                fail("H5Acreate: " + err);
             }
 
             // Close the property list, and get the attribute's property list
             H5Pclose(plist_id);
-            plist_id = H5.H5Aget_create_plist(attribute_id);
+            plist_id = H5Aget_create_plist(attribute_id);
             assertTrue(plist_id > 0);
 
             // Get the character encoding and ensure that it is the default (ASCII)
             try {
-                char_encoding = H5.H5Pget_char_encoding(plist_id);
+                char_encoding = H5Pget_char_encoding(plist_id);
             }
             catch (Throwable err) {
                 err.printStackTrace();
@@ -1210,7 +1235,7 @@ public class TestH5A {
             }
             catch (Throwable err) {
                 err.printStackTrace();
-                fail("H5.H5Aiterate: " + err);
+                fail("H5Aiterate: " + err);
             }
             assertFalse("H5Aiterate ", ((H5A_iter_data)iter_data).iterdata.isEmpty());
             assertTrue("H5Aiterate " + ((H5A_iter_data)iter_data).iterdata.size(),
@@ -1238,25 +1263,25 @@ public class TestH5A {
         finally {
             if (attr1_id > 0)
                 try {
-                    H5.H5Aclose(attr1_id);
+                    H5Aclose(attr1_id);
                 }
                 catch (Exception ex) {
                 }
             if (attr2_id > 0)
                 try {
-                    H5.H5Aclose(attr2_id);
+                    H5Aclose(attr2_id);
                 }
                 catch (Exception ex) {
                 }
             if (attr3_id > 0)
                 try {
-                    H5.H5Aclose(attr3_id);
+                    H5Aclose(attr3_id);
                 }
                 catch (Exception ex) {
                 }
             if (attr4_id > 0)
                 try {
-                    H5.H5Aclose(attr4_id);
+                    H5Aclose(attr4_id);
                 }
                 catch (Exception ex) {
                 }
@@ -1303,7 +1328,7 @@ public class TestH5A {
             }
             catch (Throwable err) {
                 err.printStackTrace();
-                fail("H5.H5Aiterate_by_name: " + err);
+                fail("H5Aiterate_by_name: " + err);
             }
             assertFalse("H5Aiterate_by_name ", ((H5A_iter_data)iter_data).iterdata.isEmpty());
             assertTrue("H5Aiterate_by_name " + ((H5A_iter_data)iter_data).iterdata.size(),
@@ -1319,25 +1344,25 @@ public class TestH5A {
         finally {
             if (attr1_id > 0)
                 try {
-                    H5.H5Aclose(attr1_id);
+                    H5Aclose(attr1_id);
                 }
                 catch (Exception ex) {
                 }
             if (attr2_id > 0)
                 try {
-                    H5.H5Aclose(attr2_id);
+                    H5Aclose(attr2_id);
                 }
                 catch (Exception ex) {
                 }
             if (attr3_id > 0)
                 try {
-                    H5.H5Aclose(attr3_id);
+                    H5Aclose(attr3_id);
                 }
                 catch (Exception ex) {
                 }
             if (attr4_id > 0)
                 try {
-                    H5.H5Aclose(attr4_id);
+                    H5Aclose(attr4_id);
                 }
                 catch (Exception ex) {
                 }
@@ -1369,18 +1394,18 @@ public class TestH5A {
             assertTrue("testH5AVLwr.getClass: " + dataClass, dataClass.isArray());
 
             try {
-                atype_int_id = H5.H5Tvlen_create(H5T_STD_U32LE_g());
+                atype_int_id = H5Tvlen_create(H5T_STD_U32LE_g());
                 assertTrue("testH5AVLwr.H5Tvlen_create: ", atype_int_id >= 0);
             }
             catch (Exception err) {
                 if (atype_int_id > 0)
                     try {
-                        H5.H5Tclose(atype_int_id);
+                        H5Tclose(atype_int_id);
                     }
                     catch (Exception ex) {
                     }
                 err.printStackTrace();
-                fail("H5.testH5AVLwr: " + err);
+                fail("testH5AVLwr: " + err);
             }
 
             try {
@@ -1395,23 +1420,23 @@ public class TestH5A {
             catch (Exception err) {
                 if (attr_int_id > 0)
                     try {
-                        H5.H5Aclose(attr_int_id);
+                        H5Aclose(attr_int_id);
                     }
                     catch (Exception ex) {
                     }
                 if (atype_int_id > 0)
                     try {
-                        H5.H5Tclose(atype_int_id);
+                        H5Tclose(atype_int_id);
                     }
                     catch (Exception ex) {
                     }
                 err.printStackTrace();
-                fail("H5.testH5AVLwr: " + err);
+                fail("testH5AVLwr: " + err);
             }
             finally {
                 if (aspace_id > 0)
                     try {
-                        H5.H5Sclose(aspace_id);
+                        H5Sclose(aspace_id);
                     }
                     catch (Exception ex) {
                     }
@@ -1426,13 +1451,13 @@ public class TestH5A {
             assertTrue("testH5AVLwr.getClass: " + dataClass, dataClass.isArray());
 
             try {
-                atype_dbl_id = H5.H5Tvlen_create(H5T_NATIVE_DOUBLE_g());
+                atype_dbl_id = H5Tvlen_create(H5T_NATIVE_DOUBLE_g());
                 assertTrue("testH5AVLwr.H5Tvlen_create: ", atype_dbl_id >= 0);
             }
             catch (Exception err) {
                 if (atype_dbl_id > 0)
                     try {
-                        H5.H5Tclose(atype_dbl_id);
+                        H5Tclose(atype_dbl_id);
                     }
                     catch (Exception ex) {
                     }
@@ -1452,29 +1477,29 @@ public class TestH5A {
             catch (Exception err) {
                 if (attr_dbl_id > 0)
                     try {
-                        H5.H5Aclose(attr_dbl_id);
+                        H5Aclose(attr_dbl_id);
                     }
                     catch (Exception ex) {
                     }
                 if (atype_dbl_id > 0)
                     try {
-                        H5.H5Tclose(atype_dbl_id);
+                        H5Tclose(atype_dbl_id);
                     }
                     catch (Exception ex) {
                     }
                 err.printStackTrace();
-                fail("H5.testH5AVLwr: " + err);
+                fail("testH5AVLwr: " + err);
             }
             finally {
                 if (aspace_id > 0)
                     try {
-                        H5.H5Sclose(aspace_id);
+                        H5Sclose(aspace_id);
                     }
                     catch (Exception ex) {
                     }
             }
 
-            H5.H5Fflush(H5fid, H5F_SCOPE_LOCAL());
+            H5Fflush(H5fid, H5F_SCOPE_LOCAL());
 
             for (int j = 0; j < dims.length; j++)
                 lsize *= dims[j];
@@ -1521,30 +1546,30 @@ public class TestH5A {
         }
         catch (Throwable err) {
             err.printStackTrace();
-            fail("H5.testH5AVLwr: " + err);
+            fail("testH5AVLwr: " + err);
         }
         finally {
             if (attr_dbl_id > 0)
                 try {
-                    H5.H5Aclose(attr_dbl_id);
+                    H5Aclose(attr_dbl_id);
                 }
                 catch (Exception ex) {
                 }
             if (attr_int_id > 0)
                 try {
-                    H5.H5Aclose(attr_int_id);
+                    H5Aclose(attr_int_id);
                 }
                 catch (Exception ex) {
                 }
             if (atype_dbl_id > 0)
                 try {
-                    H5.H5Tclose(atype_dbl_id);
+                    H5Tclose(atype_dbl_id);
                 }
                 catch (Exception ex) {
                 }
             if (atype_int_id > 0)
                 try {
-                    H5.H5Tclose(atype_int_id);
+                    H5Tclose(atype_int_id);
                 }
                 catch (Exception ex) {
                 }
@@ -1590,30 +1615,38 @@ public class TestH5A {
             base_vl_int_data[3].add(vl_int_data[3]);
 
             try {
-                atype_int_id = H5.H5Tvlen_create(H5T_STD_U32LE_g());
+                atype_int_id = H5Tvlen_create(H5T_STD_U32LE_g());
                 assertTrue("testH5AVLwr.H5Tvlen_create: ", atype_int_id >= 0);
-                base_atype_int_id = H5.H5Tvlen_create(atype_int_id);
+                base_atype_int_id = H5Tvlen_create(atype_int_id);
                 assertTrue("testH5AVLwrVL.H5Tvlen_create: ", base_atype_int_id >= 0);
             }
             catch (Exception err) {
                 if (base_atype_int_id > 0)
                     try {
-                        H5.H5Tclose(base_atype_int_id);
+                        H5Tclose(base_atype_int_id);
                     }
                     catch (Exception ex) {
                     }
                 if (atype_int_id > 0)
                     try {
-                        H5.H5Tclose(atype_int_id);
+                        H5Tclose(atype_int_id);
                     }
                     catch (Exception ex) {
                     }
                 err.printStackTrace();
-                fail("H5.testH5AVLwrVL: " + err);
+                fail("testH5AVLwrVL: " + err);
             }
 
             try {
-                aspace_id = H5.H5Screate_simple(1, dims, null);
+                try (Arena arena = Arena.ofConfined()) {
+                    // Allocate a MemorySegment to hold the dims bytes
+                    MemorySegment dims_segment = MemorySegment.ofArray(dims);
+                    aspace_id                  = H5Screate_simple(1, dims_segment, null);
+                }
+                catch (Throwable err) {
+                    err.printStackTrace();
+                    fail("Arena: " + err);
+                }
                 assertTrue(aspace_id > 0);
                 attr_int_id = H5.H5Acreate(H5did, attr_int_name, base_atype_int_id, aspace_id, H5P_DEFAULT(),
                                            H5P_DEFAULT());
@@ -1624,29 +1657,29 @@ public class TestH5A {
             catch (Exception err) {
                 if (attr_int_id > 0)
                     try {
-                        H5.H5Aclose(attr_int_id);
+                        H5Aclose(attr_int_id);
                     }
                     catch (Exception ex) {
                     }
                 if (atype_int_id > 0)
                     try {
-                        H5.H5Tclose(atype_int_id);
+                        H5Tclose(atype_int_id);
                     }
                     catch (Exception ex) {
                     }
                 err.printStackTrace();
-                fail("H5.testH5AVLwrVL: " + err);
+                fail("testH5AVLwrVL: " + err);
             }
             finally {
                 if (aspace_id > 0)
                     try {
-                        H5.H5Sclose(aspace_id);
+                        H5Sclose(aspace_id);
                     }
                     catch (Exception ex) {
                     }
             }
 
-            H5.H5Fflush(H5fid, H5F_SCOPE_LOCAL());
+            H5Fflush(H5fid, H5F_SCOPE_LOCAL());
 
             for (int j = 0; j < dims.length; j++)
                 lsize *= dims[j];
@@ -1701,24 +1734,24 @@ public class TestH5A {
         }
         catch (Throwable err) {
             err.printStackTrace();
-            fail("H5.testH5AVLwrVL: " + err);
+            fail("testH5AVLwrVL: " + err);
         }
         finally {
             if (attr_int_id > 0)
                 try {
-                    H5.H5Aclose(attr_int_id);
+                    H5Aclose(attr_int_id);
                 }
                 catch (Exception ex) {
                 }
             if (atype_int_id > 0)
                 try {
-                    H5.H5Tclose(atype_int_id);
+                    H5Tclose(atype_int_id);
                 }
                 catch (Exception ex) {
                 }
             if (base_atype_int_id > 0)
                 try {
-                    H5.H5Tclose(base_atype_int_id);
+                    H5Tclose(base_atype_int_id);
                 }
                 catch (Exception ex) {
                 }
@@ -1752,16 +1785,24 @@ public class TestH5A {
             catch (Exception err) {
                 if (atype_int_id > 0)
                     try {
-                        H5.H5Tclose(atype_int_id);
+                        H5Tclose(atype_int_id);
                     }
                     catch (Exception ex) {
                     }
                 err.printStackTrace();
-                fail("H5.testH5AArraywr: " + err);
+                fail("testH5AArraywr: " + err);
             }
 
             try {
-                aspace_id = H5.H5Screate_simple(1, dims, null);
+                try (Arena arena = Arena.ofConfined()) {
+                    // Allocate a MemorySegment to hold the dims bytes
+                    MemorySegment dims_segment = MemorySegment.ofArray(dims);
+                    aspace_id                  = H5Screate_simple(1, dims_segment, null);
+                }
+                catch (Throwable err) {
+                    err.printStackTrace();
+                    fail("Arena: " + err);
+                }
                 assertTrue(aspace_id > 0);
                 att_int_id =
                     H5.H5Acreate(H5did, att_int_name, atype_int_id, aspace_id, H5P_DEFAULT(), H5P_DEFAULT());
@@ -1772,29 +1813,29 @@ public class TestH5A {
             catch (Exception err) {
                 if (att_int_id > 0)
                     try {
-                        H5.H5Aclose(att_int_id);
+                        H5Aclose(att_int_id);
                     }
                     catch (Exception ex) {
                     }
                 if (atype_int_id > 0)
                     try {
-                        H5.H5Tclose(atype_int_id);
+                        H5Tclose(atype_int_id);
                     }
                     catch (Exception ex) {
                     }
                 err.printStackTrace();
-                fail("H5.testH5AVLwr: " + err);
+                fail("testH5AVLwr: " + err);
             }
             finally {
                 if (aspace_id > 0)
                     try {
-                        H5.H5Sclose(aspace_id);
+                        H5Sclose(aspace_id);
                     }
                     catch (Exception ex) {
                     }
             }
 
-            H5.H5Fflush(H5fid, H5F_SCOPE_LOCAL());
+            H5Fflush(H5fid, H5F_SCOPE_LOCAL());
 
             for (int j = 0; j < dims.length; j++)
                 lsize *= dims[j];
@@ -1821,18 +1862,18 @@ public class TestH5A {
         }
         catch (Throwable err) {
             err.printStackTrace();
-            fail("H5.testH5AArraywr: " + err);
+            fail("testH5AArraywr: " + err);
         }
         finally {
             if (att_int_id > 0)
                 try {
-                    H5.H5Aclose(att_int_id);
+                    H5Aclose(att_int_id);
                 }
                 catch (Exception ex) {
                 }
             if (atype_int_id > 0)
                 try {
-                    H5.H5Tclose(atype_int_id);
+                    H5Tclose(atype_int_id);
                 }
                 catch (Exception ex) {
                 }
@@ -1866,16 +1907,16 @@ public class TestH5A {
         arr_str_data[5]          = new ArrayList<String>(Arrays.asList(str_data5));
 
         try {
-            H5atid = H5.H5Tcopy(H5T_C_S1());
+            H5atid = H5Tcopy(H5T_C_S1());
         }
         catch (Throwable err) {
             err.printStackTrace();
-            fail("testH5AArray_string_buffer.H5.H5Tcopy: " + err);
+            fail("testH5AArray_string_buffer.H5Tcopy: " + err);
         }
         assertTrue("testH5AArray_string_buffer.H5Tcopy: ", H5atid >= 0);
         try {
-            H5.H5Tset_size(H5atid, H5T_VARIABLE());
-            assertTrue("testH5AArray_string_buffer.H5Tis_variable_str", H5.H5Tis_variable_str(H5atid));
+            H5Tset_size(H5atid, H5T_VARIABLE());
+            assertTrue("testH5AArray_string_buffer.H5Tis_variable_str", H5Tis_variable_str(H5atid));
         }
         catch (Throwable err) {
             err.printStackTrace();
@@ -1888,7 +1929,7 @@ public class TestH5A {
         catch (Exception err) {
             if (atype_str_id > 0)
                 try {
-                    H5.H5Tclose(atype_str_id);
+                    H5Tclose(atype_str_id);
                 }
                 catch (Exception ex) {
                 }
@@ -1897,7 +1938,15 @@ public class TestH5A {
         }
 
         try {
-            aspace_id = H5.H5Screate_simple(1, dims, null);
+            try (Arena arena = Arena.ofConfined()) {
+                // Allocate a MemorySegment to hold the dims bytes
+                MemorySegment dims_segment = MemorySegment.ofArray(dims);
+                aspace_id                  = H5Screate_simple(1, dims_segment, null);
+            }
+            catch (Throwable err) {
+                err.printStackTrace();
+                fail("Arena: " + err);
+            }
             assertTrue(aspace_id > 0);
             att_str_id =
                 H5.H5Acreate(H5did, att_str_name, atype_str_id, aspace_id, H5P_DEFAULT(), H5P_DEFAULT());
@@ -1908,13 +1957,13 @@ public class TestH5A {
         catch (Exception err) {
             if (att_str_id > 0)
                 try {
-                    H5.H5Dclose(att_str_id);
+                    H5Dclose(att_str_id);
                 }
                 catch (Exception ex) {
                 }
             if (atype_str_id > 0)
                 try {
-                    H5.H5Tclose(atype_str_id);
+                    H5Tclose(atype_str_id);
                 }
                 catch (Exception ex) {
                 }
@@ -1924,13 +1973,13 @@ public class TestH5A {
         finally {
             if (aspace_id > 0)
                 try {
-                    H5.H5Sclose(aspace_id);
+                    H5Sclose(aspace_id);
                 }
                 catch (Exception ex) {
                 }
         }
 
-        H5.H5Fflush(H5fid, H5F_SCOPE_LOCAL());
+        H5Fflush(H5fid, H5F_SCOPE_LOCAL());
 
         for (int j = 0; j < dims.length; j++)
             lsize *= dims[j];
@@ -1948,13 +1997,13 @@ public class TestH5A {
         finally {
             if (att_str_id > 0)
                 try {
-                    H5.H5Aclose(att_str_id);
+                    H5Aclose(att_str_id);
                 }
                 catch (Exception ex) {
                 }
             if (atype_str_id > 0)
                 try {
-                    H5.H5Tclose(atype_str_id);
+                    H5Tclose(atype_str_id);
                 }
                 catch (Exception ex) {
                 }

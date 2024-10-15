@@ -167,7 +167,15 @@ public class TestH5Pfapl {
     {
         long did = H5I_INVALID_HID();
         try {
-            did = H5.H5Dcreate(fid, name, H5T_STD_I32BE_g(), dsid, H5P_DEFAULT(), H5P_DEFAULT(), dapl);
+            try (Arena arena = Arena.ofConfined()) {
+                // Allocate a MemorySegment to hold the string bytes
+                MemorySegment name_segment = arena.allocateFrom(name);
+                did = H5Dcreate2(fid, name_segment, H5T_STD_I32BE_g(), dsid, H5P_DEFAULT(), H5P_DEFAULT(), dapl);
+            }
+            catch (Throwable err) {
+                err.printStackTrace();
+                fail("Arena: " + err);
+            }
         }
         catch (Throwable err) {
             err.printStackTrace();
@@ -181,9 +189,24 @@ public class TestH5Pfapl {
     private final void _createFloatDataset()
     {
         try {
-            H5Fdsid = H5.H5Screate_simple(2, H5Fdims, null);
-            H5Fdid  = H5.H5Dcreate(H5fid, "dsfloat", H5T_NATIVE_FLOAT_g(), H5Fdsid, H5P_DEFAULT(),
-                                   H5P_DEFAULT(), H5P_DEFAULT());
+            try (Arena arena = Arena.ofConfined()) {
+                // Allocate a MemorySegment to hold the dims bytes
+                MemorySegment H5Fdims_segment = MemorySegment.ofArray(H5Fdims);
+                H5Fdsid                       = H5Screate_simple(2, H5Fdims_segment, null);
+            }
+            catch (Throwable err) {
+                err.printStackTrace();
+                fail("Arena: " + err);
+            }
+            try (Arena arena = Arena.ofConfined()) {
+                // Allocate a MemorySegment to hold the string bytes
+                MemorySegment name_segment = arena.allocateFrom("dsfloat");
+                H5Fdid = H5Dcreate2(H5fid, name_segment, H5T_NATIVE_FLOAT_g(), H5Fdsid, H5P_DEFAULT(), H5P_DEFAULT(), H5P_DEFAULT());
+            }
+            catch (Throwable err) {
+                err.printStackTrace();
+                fail("Arena: " + err);
+            }
         }
         catch (Throwable err) {
             err.printStackTrace();
@@ -221,16 +244,32 @@ public class TestH5Pfapl {
     private final void _createH5File(long fapl)
     {
         try {
-            H5fid  = H5.H5Fcreate(H5_FILE, H5F_ACC_TRUNC(), H5P_DEFAULT(), fapl);
-            H5dsid = H5.H5Screate_simple(2, H5dims, null);
+            try (Arena arena = Arena.ofConfined()) {
+                // Allocate a MemorySegment to hold the string bytes
+                MemorySegment filename_segment = arena.allocateFrom(H5_FILE);
+                H5fid = H5Fcreate(filename_segment, H5F_ACC_TRUNC(), H5P_DEFAULT(), fapl);
+            }
+            catch (Throwable err) {
+                err.printStackTrace();
+                fail("Arena: " + err);
+            }
+            try (Arena arena = Arena.ofConfined()) {
+                // Allocate a MemorySegment to hold the dims bytes
+                MemorySegment H5dims_segment = MemorySegment.ofArray(H5dims);
+                H5dsid                       = H5Screate_simple(2, H5dims_segment, null);
+            }
+            catch (Throwable err) {
+                err.printStackTrace();
+                fail("Arena: " + err);
+            }
             H5did  = _createDataset(H5fid, H5dsid, "dset", H5P_DEFAULT());
         }
         catch (Throwable err) {
             err.printStackTrace();
             fail("TestH5Pfapl.createH5file: " + err);
         }
-        assertTrue("TestH5Pfapl.createH5file: H5.H5Fcreate: ", H5fid > 0);
-        assertTrue("TestH5Pfapl.createH5file: H5.H5Screate_simple: ", H5dsid > 0);
+        assertTrue("TestH5Pfapl.createH5file: H5Fcreate: ", H5fid > 0);
+        assertTrue("TestH5Pfapl.createH5file: H5Screate_simple: ", H5dsid > 0);
         assertTrue("TestH5Pfapl.createH5file: _createDataset: ", H5did > 0);
 
         try {
@@ -244,8 +283,24 @@ public class TestH5Pfapl {
     private final void _createH5familyFile(long fapl)
     {
         try {
-            H5fid  = H5.H5Fcreate(H5_FAMILY_FILE + ".h5", H5F_ACC_TRUNC(), H5P_DEFAULT(), fapl);
-            H5dsid = H5.H5Screate_simple(2, H5dims, null);
+            try (Arena arena = Arena.ofConfined()) {
+                // Allocate a MemorySegment to hold the string bytes
+                MemorySegment filename_segment = arena.allocateFrom(H5_FAMILY_FILE + ".h5");
+                H5fid = H5Fcreate(filename_segment, H5F_ACC_TRUNC(), H5P_DEFAULT(), fapl);
+            }
+            catch (Throwable err) {
+                err.printStackTrace();
+                fail("Arena: " + err);
+            }
+            try (Arena arena = Arena.ofConfined()) {
+                // Allocate a MemorySegment to hold the dims bytes
+                MemorySegment H5dims_segment = MemorySegment.ofArray(H5dims);
+                H5dsid                       = H5Screate_simple(2, H5dims_segment, null);
+            }
+            catch (Throwable err) {
+                err.printStackTrace();
+                fail("Arena: " + err);
+            }
             H5did  = _createDataset(H5fid, H5dsid, "dset", H5P_DEFAULT());
         }
         catch (Throwable err) {
@@ -267,8 +322,24 @@ public class TestH5Pfapl {
     private final void _createH5multiFile(long fapl)
     {
         try {
-            H5fid  = H5.H5Fcreate(H5_MULTI_FILE, H5F_ACC_TRUNC(), H5P_DEFAULT(), fapl);
-            H5dsid = H5.H5Screate_simple(2, H5dims, null);
+            try (Arena arena = Arena.ofConfined()) {
+                // Allocate a MemorySegment to hold the string bytes
+                MemorySegment filename_segment = arena.allocateFrom(H5_MULTI_FILE);
+                H5fid = H5Fcreate(filename_segment, H5F_ACC_TRUNC(), H5P_DEFAULT(), fapl);
+            }
+            catch (Throwable err) {
+                err.printStackTrace();
+                fail("Arena: " + err);
+            }
+            try (Arena arena = Arena.ofConfined()) {
+                // Allocate a MemorySegment to hold the dims bytes
+                MemorySegment H5dims_segment = MemorySegment.ofArray(H5dims);
+                H5dsid                       = H5Screate_simple(2, H5dims_segment, null);
+            }
+            catch (Throwable err) {
+                err.printStackTrace();
+                fail("Arena: " + err);
+            }
         }
         catch (Throwable err) {
             err.printStackTrace();

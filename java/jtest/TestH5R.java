@@ -75,7 +75,15 @@ public class TestH5R {
     {
         long did = H5I_INVALID_HID();
         try {
-            did = H5.H5Dcreate(fid, name, H5T_STD_I32BE_g(), dsid, H5P_DEFAULT(), H5P_DEFAULT(), dapl);
+            try (Arena arena = Arena.ofConfined()) {
+                // Allocate a MemorySegment to hold the string bytes
+                MemorySegment name_segment = arena.allocateFrom(name);
+                did = H5Dcreate2(fid, name_segment, H5T_STD_I32BE_g(), dsid, H5P_DEFAULT(), H5P_DEFAULT(), dapl);
+            }
+            catch (Throwable err) {
+                err.printStackTrace();
+                fail("Arena: " + err);
+            }
         }
         catch (Throwable err) {
             err.printStackTrace();
@@ -107,8 +115,24 @@ public class TestH5R {
         System.out.print(testname.getMethodName());
 
         try {
-            H5fid  = H5.H5Fcreate(H5_FILE, H5F_ACC_TRUNC(), H5P_DEFAULT(), H5P_DEFAULT());
-            H5dsid = H5.H5Screate_simple(2, H5dims, null);
+            try (Arena arena = Arena.ofConfined()) {
+                // Allocate a MemorySegment to hold the string bytes
+                MemorySegment filename_segment = arena.allocateFrom(H5_FILE);
+                H5fid = H5Fcreate(filename_segment, H5F_ACC_TRUNC(), H5P_DEFAULT(), H5P_DEFAULT());
+            }
+            catch (Throwable err) {
+                err.printStackTrace();
+                fail("Arena: " + err);
+            }
+            try (Arena arena = Arena.ofConfined()) {
+                // Allocate a MemorySegment to hold the dims bytes
+                MemorySegment H5dims_segment = MemorySegment.ofArray(H5dims);
+                H5dsid                       = H5Screate_simple(2, H5dims_segment, null);
+            }
+            catch (Throwable err) {
+                err.printStackTrace();
+                fail("Arena: " + err);
+            }
             H5gid  = _createGroup(H5fid, "Group1");
             H5did2 = _createDataset(H5gid, H5dsid, "dset2", H5P_DEFAULT());
             H5did  = _createDataset(H5fid, H5dsid, "dset", H5P_DEFAULT());
@@ -589,7 +613,15 @@ public class TestH5R {
             }
 
             try {
-                aspace_id = H5.H5Screate_simple(1, dims, null);
+                try (Arena arena = Arena.ofConfined()) {
+                    // Allocate a MemorySegment to hold the dims bytes
+                    MemorySegment dims_segment = MemorySegment.ofArray(dims);
+                    aspace_id                  = H5Screate_simple(1, dims_segment, null);
+                }
+                catch (Throwable err) {
+                    err.printStackTrace();
+                    fail("Arena: " + err);
+                }
                 assertTrue(aspace_id > 0);
                 attr_obj_id =
                     H5.H5Acreate(H5did, attr_obj_name, atype_obj_id, aspace_id, H5P_DEFAULT(), H5P_DEFAULT());
@@ -646,7 +678,15 @@ public class TestH5R {
             }
 
             try {
-                aspace_id = H5.H5Screate_simple(1, dims, null);
+                try (Arena arena = Arena.ofConfined()) {
+                    // Allocate a MemorySegment to hold the dims bytes
+                    MemorySegment dims_segment = MemorySegment.ofArray(dims);
+                    aspace_id                  = H5Screate_simple(1, dims_segment, null);
+                }
+                catch (Throwable err) {
+                    err.printStackTrace();
+                    fail("Arena: " + err);
+                }
                 assertTrue(aspace_id > 0);
                 attr_reg_id =
                     H5.H5Acreate(H5did, attr_reg_name, atype_reg_id, aspace_id, H5P_DEFAULT(), H5P_DEFAULT());
@@ -819,10 +859,25 @@ public class TestH5R {
             }
 
             try {
-                dspace_id = H5.H5Screate_simple(1, dims, null);
+                try (Arena arena = Arena.ofConfined()) {
+                    // Allocate a MemorySegment to hold the dims bytes
+                    MemorySegment dims_segment = MemorySegment.ofArray(dims);
+                    dspace_id                  = H5Screate_simple(1, dims_segment, null);
+                }
+                catch (Throwable err) {
+                    err.printStackTrace();
+                    fail("Arena: " + err);
+                }
                 assertTrue(dspace_id > 0);
-                dset_obj_id = H5.H5Dcreate(H5fid, dset_obj_name, dtype_obj_id, dspace_id, H5P_DEFAULT(),
-                                           H5P_DEFAULT(), H5P_DEFAULT());
+                try (Arena arena = Arena.ofConfined()) {
+                    // Allocate a MemorySegment to hold the string bytes
+                    MemorySegment name_segment = arena.allocateFrom(dset_obj_name);
+                    dset_obj_id = H5Dcreate2(H5fid, name_segment, dtype_obj_id, dspace_id, H5P_DEFAULT(), H5P_DEFAULT(), H5P_DEFAULT());
+                }
+                catch (Throwable err) {
+                    err.printStackTrace();
+                    fail("Arena: " + err);
+                }
                 assertTrue("testH5RVLdset_ref: ", dset_obj_id >= 0);
 
                 H5.H5Dwrite(dset_obj_id, dtype_obj_id, H5S_ALL(), H5S_ALL(), H5P_DEFAULT(), vl_obj_data);
@@ -876,10 +931,25 @@ public class TestH5R {
             }
 
             try {
-                dspace_id = H5.H5Screate_simple(1, dims, null);
+                try (Arena arena = Arena.ofConfined()) {
+                    // Allocate a MemorySegment to hold the dims bytes
+                    MemorySegment dims_segment = MemorySegment.ofArray(dims);
+                    dspace_id                  = H5Screate_simple(1, dims_segment, null);
+                }
+                catch (Throwable err) {
+                    err.printStackTrace();
+                    fail("Arena: " + err);
+                }
                 assertTrue(dspace_id > 0);
-                dset_reg_id = H5.H5Dcreate(H5fid, dset_reg_name, dtype_reg_id, dspace_id, H5P_DEFAULT(),
-                                           H5P_DEFAULT(), H5P_DEFAULT());
+                try (Arena arena = Arena.ofConfined()) {
+                    // Allocate a MemorySegment to hold the string bytes
+                    MemorySegment name_segment = arena.allocateFrom(dset_reg_name);
+                    dset_reg_id = H5Dcreate2(H5fid, name_segment, dtype_reg_id, dspace_id, H5P_DEFAULT(), H5P_DEFAULT(), H5P_DEFAULT());
+                }
+                catch (Throwable err) {
+                    err.printStackTrace();
+                    fail("Arena: " + err);
+                }
                 assertTrue("testH5RVLdset_ref: ", dset_reg_id >= 0);
 
                 H5.H5Dwrite(dset_reg_id, dtype_reg_id, H5S_ALL(), H5S_ALL(), H5P_DEFAULT(), vl_reg_data);

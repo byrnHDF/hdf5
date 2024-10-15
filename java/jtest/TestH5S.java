@@ -40,7 +40,16 @@ public class TestH5S {
     {
         System.out.print(testname.getMethodName());
 
-        H5sid = H5.H5Screate_simple(H5rank, H5dims, H5maxdims);
+        try (Arena arena = Arena.ofConfined()) {
+            // Allocate a MemorySegment to hold the dims bytes
+            MemorySegment H5dims_segment    = MemorySegment.ofArray(H5dims);
+            MemorySegment H5maxdims_segment = MemorySegment.ofArray(H5maxdims);
+            H5sid                          = H5Screate_simple(H5rank, H5dims_segment, H5maxdims_segment);
+        }
+        catch (Throwable err) {
+            err.printStackTrace();
+            fail("Arena: " + err);
+        }
         assertTrue("H5.H5Screate_simple_extent", H5sid > 0);
     }
 

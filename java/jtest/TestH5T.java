@@ -59,7 +59,15 @@ public class TestH5T {
     {
         System.out.print(testname.getMethodName());
 
-        H5fid = H5.H5Fcreate(H5_FILE, H5F_ACC_TRUNC(), H5P_DEFAULT(), H5P_DEFAULT());
+        try (Arena arena = Arena.ofConfined()) {
+            // Allocate a MemorySegment to hold the string bytes
+            MemorySegment filename_segment = arena.allocateFrom(H5_FILE);
+            H5fid = H5Fcreate(filename_segment, H5F_ACC_TRUNC(), H5P_DEFAULT(), H5P_DEFAULT());
+        }
+        catch (Throwable err) {
+            err.printStackTrace();
+            fail("Arena: " + err);
+        }
         assertTrue("H5Fcreate", H5fid > 0);
         H5strdid = H5Tcopy(H5T_C_S1());
         assertTrue("H5Tcopy", H5strdid > 0);

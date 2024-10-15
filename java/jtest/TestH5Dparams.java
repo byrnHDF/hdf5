@@ -54,7 +54,11 @@ public class TestH5Dparams {
     @Test(expected = HDF5LibraryException.class)
     public void testH5Dcreate_invalid() throws Throwable
     {
-        H5.H5Dcreate(-1, "Bogus", -1, -1, -1, -1, -1);
+        try (Arena arena = Arena.ofConfined()) {
+            // Allocate a MemorySegment to hold the string bytes
+            MemorySegment name_segment = arena.allocateFrom("Bogus");
+            H5Dcreate2(-1, name_segment, -1, -1, -1, -1, -1);
+        }
     }
 
     @Test(expected = HDF5LibraryException.class)
