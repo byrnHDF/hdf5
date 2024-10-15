@@ -82,7 +82,7 @@ public class TestH5VL {
     public void testH5VLget_connector_id()
     {
         String H5_FILE = "testFvl.h5";
-        long H5fid = H5I_INVALID_HID();
+        long H5fid     = H5I_INVALID_HID();
 
         try (Arena arena = Arena.ofConfined()) {
             // Allocate a MemorySegment to hold the string bytes
@@ -155,7 +155,7 @@ public class TestH5VL {
     public void testH5VLget_connector_name()
     {
         String H5_FILE = "testFvl.h5";
-        long H5fid = H5I_INVALID_HID();
+        long H5fid     = H5I_INVALID_HID();
 
         try (Arena arena = Arena.ofConfined()) {
             // Allocate a MemorySegment to hold the string bytes

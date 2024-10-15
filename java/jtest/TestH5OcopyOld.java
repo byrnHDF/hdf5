@@ -66,7 +66,8 @@ public class TestH5OcopyOld {
             try (Arena arena = Arena.ofConfined()) {
                 // Allocate a MemorySegment to hold the string bytes
                 MemorySegment name_segment = arena.allocateFrom(name);
-                did = H5Dcreate2(fid, name_segment, H5T_STD_I32BE_g(), dsid, H5P_DEFAULT(), H5P_DEFAULT(), dapl);
+                did = H5Dcreate2(fid, name_segment, H5T_STD_I32BE_g(), dsid, H5P_DEFAULT(), H5P_DEFAULT(),
+                                 dapl);
             }
             catch (Throwable err) {
                 err.printStackTrace();
@@ -117,14 +118,14 @@ public class TestH5OcopyOld {
             try (Arena arena = Arena.ofConfined()) {
                 // Allocate a MemorySegment to hold the dims bytes
                 MemorySegment dims_segment = MemorySegment.ofArray(dims);
-                H5dsid                       = H5Screate_simple(1, dims_segment, null);
+                H5dsid                     = H5Screate_simple(1, dims_segment, null);
             }
             catch (Throwable err) {
                 err.printStackTrace();
                 fail("Arena: " + err);
             }
-            H5gid   = _createGroup(H5fid, "/G1");
-            H5did2  = _createDataset(H5gid, H5dsid, "DS1", H5P_DEFAULT());
+            H5gid  = _createGroup(H5fid, "/G1");
+            H5did2 = _createDataset(H5gid, H5dsid, "DS1", H5P_DEFAULT());
         }
         catch (Throwable err) {
             err.printStackTrace();
@@ -252,8 +253,8 @@ public class TestH5OcopyOld {
             try (Arena arena = Arena.ofConfined()) {
                 // Allocate a MemorySegment to hold the string bytes
                 MemorySegment name_segment = arena.allocateFrom("DSREF");
-                dataset_id = H5Dcreate2(H5fid, name_segment, H5T_STD_REF_OBJ(), H5dsid, H5P_DEFAULT(), H5P_DEFAULT(),
-                        H5P_DEFAULT());
+                dataset_id = H5Dcreate2(H5fid, name_segment, H5T_STD_REF_OBJ(), H5dsid, H5P_DEFAULT(),
+                                        H5P_DEFAULT(), H5P_DEFAULT());
             }
             catch (Throwable err) {
                 err.printStackTrace();

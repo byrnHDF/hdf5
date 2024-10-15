@@ -78,7 +78,8 @@ public class TestH5R {
             try (Arena arena = Arena.ofConfined()) {
                 // Allocate a MemorySegment to hold the string bytes
                 MemorySegment name_segment = arena.allocateFrom(name);
-                did = H5Dcreate2(fid, name_segment, H5T_STD_I32BE_g(), dsid, H5P_DEFAULT(), H5P_DEFAULT(), dapl);
+                did = H5Dcreate2(fid, name_segment, H5T_STD_I32BE_g(), dsid, H5P_DEFAULT(), H5P_DEFAULT(),
+                                 dapl);
             }
             catch (Throwable err) {
                 err.printStackTrace();
@@ -872,7 +873,8 @@ public class TestH5R {
                 try (Arena arena = Arena.ofConfined()) {
                     // Allocate a MemorySegment to hold the string bytes
                     MemorySegment name_segment = arena.allocateFrom(dset_obj_name);
-                    dset_obj_id = H5Dcreate2(H5fid, name_segment, dtype_obj_id, dspace_id, H5P_DEFAULT(), H5P_DEFAULT(), H5P_DEFAULT());
+                    dset_obj_id = H5Dcreate2(H5fid, name_segment, dtype_obj_id, dspace_id, H5P_DEFAULT(),
+                                             H5P_DEFAULT(), H5P_DEFAULT());
                 }
                 catch (Throwable err) {
                     err.printStackTrace();
@@ -944,7 +946,8 @@ public class TestH5R {
                 try (Arena arena = Arena.ofConfined()) {
                     // Allocate a MemorySegment to hold the string bytes
                     MemorySegment name_segment = arena.allocateFrom(dset_reg_name);
-                    dset_reg_id = H5Dcreate2(H5fid, name_segment, dtype_reg_id, dspace_id, H5P_DEFAULT(), H5P_DEFAULT(), H5P_DEFAULT());
+                    dset_reg_id = H5Dcreate2(H5fid, name_segment, dtype_reg_id, dspace_id, H5P_DEFAULT(),
+                                             H5P_DEFAULT(), H5P_DEFAULT());
                 }
                 catch (Throwable err) {
                     err.printStackTrace();

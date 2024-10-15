@@ -87,7 +87,8 @@ public class TestH5PData {
             try (Arena arena = Arena.ofConfined()) {
                 // Allocate a MemorySegment to hold the string bytes
                 MemorySegment name_segment = arena.allocateFrom(name);
-                did = H5Dcreate2(fid, name_segment, H5T_NATIVE_FLOAT_g(), dsid, H5P_DEFAULT(), H5P_DEFAULT(), dapl);
+                did = H5Dcreate2(fid, name_segment, H5T_NATIVE_FLOAT_g(), dsid, H5P_DEFAULT(), H5P_DEFAULT(),
+                                 dapl);
             }
             catch (Throwable err) {
                 err.printStackTrace();

@@ -66,7 +66,8 @@ public class TestH5Ocopy {
             try (Arena arena = Arena.ofConfined()) {
                 // Allocate a MemorySegment to hold the string bytes
                 MemorySegment name_segment = arena.allocateFrom(name);
-                did = H5Dcreate2(fid, name_segment, H5T_STD_I32BE_g(), dsid, H5P_DEFAULT(), H5P_DEFAULT(), dapl);
+                did = H5Dcreate2(fid, name_segment, H5T_STD_I32BE_g(), dsid, H5P_DEFAULT(), H5P_DEFAULT(),
+                                 dapl);
             }
             catch (Throwable err) {
                 err.printStackTrace();
@@ -117,14 +118,14 @@ public class TestH5Ocopy {
             try (Arena arena = Arena.ofConfined()) {
                 // Allocate a MemorySegment to hold the dims bytes
                 MemorySegment dims_segment = MemorySegment.ofArray(dims);
-                H5dsid                       = H5Screate_simple(1, dims_segment, null);
+                H5dsid                     = H5Screate_simple(1, dims_segment, null);
             }
             catch (Throwable err) {
                 err.printStackTrace();
                 fail("Arena: " + err);
             }
-            H5gid   = _createGroup(H5fid, "/G1");
-            H5did2  = _createDataset(H5gid, H5dsid, "DS1", H5P_DEFAULT());
+            H5gid  = _createGroup(H5fid, "/G1");
+            H5did2 = _createDataset(H5gid, H5dsid, "DS1", H5P_DEFAULT());
         }
         catch (Throwable err) {
             err.printStackTrace();
@@ -206,8 +207,8 @@ public class TestH5Ocopy {
             }
 
             try {
-                attribute_id = H5.H5Acreate(H5did2, "A1", H5T_STD_REF(), H5dsid, H5P_DEFAULT(),
-                                            H5P_DEFAULT());
+                attribute_id =
+                    H5.H5Acreate(H5did2, "A1", H5T_STD_REF(), H5dsid, H5P_DEFAULT(), H5P_DEFAULT());
                 assertTrue("testH5OcopyRefsAttr.H5Acreate: ", attribute_id >= 0);
                 H5.H5Awrite(attribute_id, H5T_STD_REF(), dset_data);
 
@@ -286,16 +287,15 @@ public class TestH5Ocopy {
                 try (Arena arena = Arena.ofConfined()) {
                     // Allocate a MemorySegment to hold the string bytes
                     MemorySegment name_segment = arena.allocateFrom("DSREF");
-                    dataset_id = H5Dcreate2(H5fid, name_segment, H5T_STD_REF(), H5dsid, H5P_DEFAULT(), H5P_DEFAULT(),
-                                           H5P_DEFAULT());
+                    dataset_id = H5Dcreate2(H5fid, name_segment, H5T_STD_REF(), H5dsid, H5P_DEFAULT(),
+                                            H5P_DEFAULT(), H5P_DEFAULT());
                 }
                 catch (Throwable err) {
                     err.printStackTrace();
                     fail("Arena: " + err);
                 }
                 assertTrue("testH5OcopyRefsDatasettodiffFile.H5Dcreate: ", dataset_id >= 0);
-                H5.H5Dwrite(dataset_id, H5T_STD_REF(), H5S_ALL(), H5S_ALL(), H5P_DEFAULT(),
-                            dset_data);
+                H5.H5Dwrite(dataset_id, H5T_STD_REF(), H5S_ALL(), H5S_ALL(), H5P_DEFAULT(), dset_data);
                 H5Dclose(dataset_id);
             }
             catch (Exception ex) {
@@ -408,16 +408,15 @@ public class TestH5Ocopy {
                 try (Arena arena = Arena.ofConfined()) {
                     // Allocate a MemorySegment to hold the string bytes
                     MemorySegment name_segment = arena.allocateFrom("DSREF");
-                    dataset_id = H5Dcreate2(H5fid, name_segment, H5T_STD_REFg(), H5dsid, H5P_DEFAULT(), H5P_DEFAULT(),
-                            H5P_DEFAULT());
+                    dataset_id = H5Dcreate2(H5fid, name_segment, H5T_STD_REFg(), H5dsid, H5P_DEFAULT(),
+                                            H5P_DEFAULT(), H5P_DEFAULT());
                 }
                 catch (Throwable err) {
                     err.printStackTrace();
                     fail("Arena: " + err);
                 }
                 assertTrue("testH5OcopyRefsDatasettosameFile.H5Dcreate: ", dataset_id >= 0);
-                H5.H5Dwrite(dataset_id, H5T_STD_REF(), H5S_ALL(), H5S_ALL(), H5P_DEFAULT(),
-                            dset_data);
+                H5.H5Dwrite(dataset_id, H5T_STD_REF(), H5S_ALL(), H5S_ALL(), H5P_DEFAULT(), dset_data);
                 // Close the dataset.
                 H5Dclose(dataset_id);
             }

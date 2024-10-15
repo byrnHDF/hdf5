@@ -71,7 +71,8 @@ public class TestH5Ocreate {
             try (Arena arena = Arena.ofConfined()) {
                 // Allocate a MemorySegment to hold the string bytes
                 MemorySegment name_segment = arena.allocateFrom(name);
-                did = H5Dcreate2(fid, name_segment, H5T_STD_I32BE_g(), dsid, H5P_DEFAULT(), H5P_DEFAULT(), dapl);
+                did = H5Dcreate2(fid, name_segment, H5T_STD_I32BE_g(), dsid, H5P_DEFAULT(), H5P_DEFAULT(),
+                                 dapl);
             }
             catch (Throwable err) {
                 err.printStackTrace();
@@ -157,8 +158,7 @@ public class TestH5Ocreate {
         System.out.print(testname.getMethodName());
         try {
             H5fcpl = H5Pcreate(H5P_CLS_FILE_CREATE_ID_g());
-            H5.H5Pset_link_creation_order(H5fcpl, H5P_CRT_ORDER_TRACKED() +
-                                                      H5P_CRT_ORDER_INDEXED());
+            H5.H5Pset_link_creation_order(H5fcpl, H5P_CRT_ORDER_TRACKED() + H5P_CRT_ORDER_INDEXED());
             try (Arena arena = Arena.ofConfined()) {
                 // Allocate a MemorySegment to hold the string bytes
                 MemorySegment filename_segment = arena.allocateFrom(H5_FILE);

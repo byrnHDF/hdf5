@@ -62,7 +62,7 @@ public class TestH5Fswmr {
         try (Arena arena = Arena.ofConfined()) {
             // Allocate a MemorySegment to hold the string bytes
             MemorySegment filename_segment = arena.allocateFrom(H5_FILE);
-            H5fid = H5Fcreate(filename_segment, H5F_ACC_TRUNC(), H5fcpl, H5fapl);
+            H5fid                          = H5Fcreate(filename_segment, H5F_ACC_TRUNC(), H5fcpl, H5fapl);
         }
         catch (Throwable err) {
             err.printStackTrace();

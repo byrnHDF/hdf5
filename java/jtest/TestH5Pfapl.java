@@ -170,7 +170,8 @@ public class TestH5Pfapl {
             try (Arena arena = Arena.ofConfined()) {
                 // Allocate a MemorySegment to hold the string bytes
                 MemorySegment name_segment = arena.allocateFrom(name);
-                did = H5Dcreate2(fid, name_segment, H5T_STD_I32BE_g(), dsid, H5P_DEFAULT(), H5P_DEFAULT(), dapl);
+                did = H5Dcreate2(fid, name_segment, H5T_STD_I32BE_g(), dsid, H5P_DEFAULT(), H5P_DEFAULT(),
+                                 dapl);
             }
             catch (Throwable err) {
                 err.printStackTrace();
@@ -201,7 +202,8 @@ public class TestH5Pfapl {
             try (Arena arena = Arena.ofConfined()) {
                 // Allocate a MemorySegment to hold the string bytes
                 MemorySegment name_segment = arena.allocateFrom("dsfloat");
-                H5Fdid = H5Dcreate2(H5fid, name_segment, H5T_NATIVE_FLOAT_g(), H5Fdsid, H5P_DEFAULT(), H5P_DEFAULT(), H5P_DEFAULT());
+                H5Fdid = H5Dcreate2(H5fid, name_segment, H5T_NATIVE_FLOAT_g(), H5Fdsid, H5P_DEFAULT(),
+                                    H5P_DEFAULT(), H5P_DEFAULT());
             }
             catch (Throwable err) {
                 err.printStackTrace();
@@ -262,7 +264,7 @@ public class TestH5Pfapl {
                 err.printStackTrace();
                 fail("Arena: " + err);
             }
-            H5did  = _createDataset(H5fid, H5dsid, "dset", H5P_DEFAULT());
+            H5did = _createDataset(H5fid, H5dsid, "dset", H5P_DEFAULT());
         }
         catch (Throwable err) {
             err.printStackTrace();
@@ -301,7 +303,7 @@ public class TestH5Pfapl {
                 err.printStackTrace();
                 fail("Arena: " + err);
             }
-            H5did  = _createDataset(H5fid, H5dsid, "dset", H5P_DEFAULT());
+            H5did = _createDataset(H5fid, H5dsid, "dset", H5P_DEFAULT());
         }
         catch (Throwable err) {
             err.printStackTrace();
