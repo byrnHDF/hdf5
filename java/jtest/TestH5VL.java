@@ -23,7 +23,6 @@ import java.lang.foreign.Arena;
 import java.lang.foreign.MemorySegment;
 
 import org.hdfgroup.javahdf5.*;
-
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Rule;
@@ -70,7 +69,7 @@ public class TestH5VL {
             try (Arena arena = Arena.ofConfined()) {
                 // Allocate a MemorySegment to hold the string bytes
                 MemorySegment name_segment = arena.allocateFrom("FAKE_VOL_NAME");
-                is_registered = H5VLis_connector_registered_by_name(name_segment);
+                is_registered              = H5VLis_connector_registered_by_name(name_segment);
             }
             assertFalse("H5VLis_connector_registered_by_name FAKE_VOL_NAME", is_registered == 0);
 
@@ -174,7 +173,7 @@ public class TestH5VL {
         H5Fflush(H5fid, H5F_SCOPE_LOCAL());
 
         try {
-            long buf_size = H5VLget_connector_name(H5fid, null, 0);
+            long buf_size      = H5VLget_connector_name(H5fid, null, 0);
             String native_name = null;
             try (Arena arena = Arena.ofConfined()) {
                 // Allocate a MemorySegment to hold the string bytes

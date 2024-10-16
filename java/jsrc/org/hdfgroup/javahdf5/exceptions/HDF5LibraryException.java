@@ -46,9 +46,9 @@ public class HDF5LibraryException extends HDF5Exception {
     {
         super();
 
-//        this.majorErrorNumber = H5Eget_major();
-//        this.minorErrorNumber = H5Eget_minor();
-//        detailMessage         = getMinorError(minorErrorNumber);
+        //        this.majorErrorNumber = H5Eget_major();
+        //        this.minorErrorNumber = H5Eget_minor();
+        //        detailMessage         = getMinorError(minorErrorNumber);
     }
 
     /**
@@ -63,8 +63,8 @@ public class HDF5LibraryException extends HDF5Exception {
     public HDF5LibraryException(String s)
     {
         super(s);
-//        this.majorErrorNumber = _getMajorErrorNumber();
-//        this.minorErrorNumber = _getMinorErrorNumber();
+        //        this.majorErrorNumber = _getMajorErrorNumber();
+        //        this.minorErrorNumber = _getMinorErrorNumber();
     }
 
     /**
@@ -75,8 +75,8 @@ public class HDF5LibraryException extends HDF5Exception {
      *
      * @return the major error number
      */
-//    public long getMajorErrorNumber() { return majorErrorNumber; }
-//    private native long _getMajorErrorNumber();
+    //    public long getMajorErrorNumber() { return majorErrorNumber; }
+    //    private native long _getMajorErrorNumber();
 
     /**
      * @ingroup JERRLIB
@@ -86,8 +86,8 @@ public class HDF5LibraryException extends HDF5Exception {
      *
      * @return the minor error number
      */
-//    public long getMinorErrorNumber() { return minorErrorNumber; }
-//    private native long _getMinorErrorNumber();
+    //    public long getMinorErrorNumber() { return minorErrorNumber; }
+    //    private native long _getMinorErrorNumber();
 
     /**
      * @ingroup JERRLIB
@@ -340,7 +340,7 @@ public class HDF5LibraryException extends HDF5Exception {
     public void printStackTrace()
     {
         System.err.println(this);
-//        printStackTrace0(null);  // the HDF5 Library error stack
+        //        printStackTrace0(null);  // the HDF5 Library error stack
         super.printStackTrace(); // the Java stack trace
     }
 
@@ -369,7 +369,7 @@ public class HDF5LibraryException extends HDF5Exception {
                 System.err.println(this);
             };
             // the HDF5 Library error stack
-//            printStackTrace0(f.getPath());
+            //            printStackTrace0(f.getPath());
             super.printStackTrace(); // the Java stack trace
         }
     }
@@ -378,5 +378,5 @@ public class HDF5LibraryException extends HDF5Exception {
      * This private method calls the HDF5 library to extract the error codes
      * and error stack.
      */
-//    private native void printStackTrace0(String s);
+    //    private native void printStackTrace0(String s);
 }

@@ -128,18 +128,18 @@ public class HDF5Exception extends RuntimeException {
 
     public int checkException(int status)
     {
-        long stk_id = H5I_INVALID_HID();
+        long stk_id             = H5I_INVALID_HID();
         long[] exceptionNumbers = {0, 0};
 
-        try (Arena arena = Arena.openConfined()) {                    
+        try (Arena arena = Arena.openConfined()) {
             MemorySegment exceptionNumbersSegment = arena.ofArray(exceptionNumbers);
             /* Save current stack contents for future use */
             if ((stk_id = H5Eget_current_stack()) >= 0)
                 MemorySegment walk_error_callback = H5E_walk2_t.allocate(this::walk_error_callback, arena);
-                /* This will clear current stack */
-                if (H5Ewalk2(stk_id, H5E_WALK_DOWNWARD(), walk_error_callback, exceptionNumbersSegment) < 0)
-                    return status;
-                exceptionNumbers = exceptionNumbersSegment.toArray();
+            /* This will clear current stack */
+            if (H5Ewalk2(stk_id, H5E_WALK_DOWNWARD(), walk_error_callback, exceptionNumbersSegment) < 0)
+                return status;
+            exceptionNumbers = exceptionNumbersSegment.toArray();
         }
         /*
          * No error detected in HDF5 error stack.
@@ -148,49 +148,49 @@ public class HDF5Exception extends RuntimeException {
             return status;
 
         String exception = defineHDF5LibraryException(exceptionNumbers[0]);
-        long msg_size = 0;
-        String msg_str = null;
+        long msg_size    = 0;
+        String msg_str   = null;
 
         /* get the length of the name */
         if ((msg_size = H5Eget_msg(exceptionNumbers[1], null, null, 0)) < 0)
             return status;
 
-/*        if (msg_size > 0) {
-            if (NULL == (msg_str = (char *)calloc((size_t)msg_size + 1, sizeof(char))))
-                H5_OUT_OF_MEMORY_ERROR(ENVONLY, "h5libraryerror: failed to allocate buffer for error message");
+        /*        if (msg_size > 0) {
+                    if (NULL == (msg_str = (char *)calloc((size_t)msg_size + 1, sizeof(char))))
+                        H5_OUT_OF_MEMORY_ERROR(ENVONLY, "h5libraryerror: failed to allocate buffer for error
+           message");
 
-            if ((msg_size = H5Eget_msg(min_num, &error_msg_type, msg_str, (size_t)msg_size + 1)) < 0)
-                goto done;
-            msg_str[msg_size] = '\0';
+                    if ((msg_size = H5Eget_msg(min_num, &error_msg_type, msg_str, (size_t)msg_size + 1)) < 0)
+                        goto done;
+                    msg_str[msg_size] = '\0';
 
-            if (NULL == (str = ENVPTR->NewStringUTF(ENVONLY, msg_str)))
-                CHECK_JNI_EXCEPTION(ENVONLY, JNI_FALSE);
-        }
-        else
-            str = NULL;
+                    if (NULL == (str = ENVPTR->NewStringUTF(ENVONLY, msg_str)))
+                        CHECK_JNI_EXCEPTION(ENVONLY, JNI_FALSE);
+                }
+                else
+                    str = NULL;
 
-        if (stk_id >= 0)
-            H5Eset_current_stack(stk_id);
+                if (stk_id >= 0)
+                    H5Eset_current_stack(stk_id);
 
-        args[0] = (char *)str;
-        args[1] = 0;
+                args[0] = (char *)str;
+                args[1] = 0;
 
-        THROWEXCEPTION(exception, args);
-*/
+                THROWEXCEPTION(exception, args);
+        */
         return status;
     }
 
     /* get the major and minor error numbers on the top of the error stack */
-    public static int
-    walk_error_callback(int n, MemorySegment err_desc, MemorySegment _err_nums)
+    public static int walk_error_callback(int n, MemorySegment err_desc, MemorySegment _err_nums)
     {
         H5E_num_t *err_nums = (H5E_num_t *)_err_nums;
 
         if (err_desc) {
-            err_nums->maj_num = H5E_error2_t.maj_num(err_desc);
-            err_nums->min_num = H5E_error2_t.min_num(err_desc);
+            err_nums -> maj_num = H5E_error2_t.maj_num(err_desc);
+            err_nums -> min_num = H5E_error2_t.min_num(err_desc);
         } /* end if */
-    
+
         return 0;
     }
 }
