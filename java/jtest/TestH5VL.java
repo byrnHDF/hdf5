@@ -197,11 +197,13 @@ public class TestH5VL {
         }
     }
 
+    @Test
     public void testH5VLclose_NegativeID() throws Throwable
     {
         assertTrue("testH5VLclose_NegativeID", H5VLclose(-1) < 0);
     }
 
+    @Test
     public void testH5VLunregister_connector_NegativeID() throws Throwable
     {
         assertTrue("testH5VLclose_NegativeID", H5VLunregister_connector(-1) < 0);

@@ -129,6 +129,7 @@ public class TestH5Z {
         }
     }
 
+    @Test
     public void testH5Zunregister_predefined() throws Throwable
     {
         int filter_found = H5Zfilter_avail(H5Z_FILTER_SHUFFLE());
