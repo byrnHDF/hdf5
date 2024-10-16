@@ -54,14 +54,31 @@ public class TestH5PL {
     public void TestH5PLplugins()
     {
         try {
-            int plugin_flags = H5PLget_loading_state();
+            int plugin_flags;
+            try (Arena offHeap = Arena.ofConfined()) {
+                // Allocate memory to store the integers
+                MemorySegment plugin_flags_ptr = offHeap.allocate(ValueLayout.JAVA_INT);
+                H5PLget_loading_state(plugin_flags_ptr);
+                plugin_flags = plugin_flags_ptr.get(ValueLayout.JAVA_INT, 0);
+            }
             assertTrue("H5PLget_loading_state: " + plugin_flags, plugin_flags == H5PL_ALL_PLUGIN());
             int new_setting = plugin_flags & ~H5PL_FILTER_PLUGIN();
             H5PLset_loading_state(new_setting);
-            int changed_flags = H5PLget_loading_state();
+            int changed_flags;
+            try (Arena offHeap = Arena.ofConfined()) {
+                // Allocate memory to store the integers
+                MemorySegment plugin_flags_ptr = offHeap.allocate(ValueLayout.JAVA_INT);
+                H5PLget_loading_state(plugin_flags_ptr);
+                changed_flags = plugin_flags_ptr.get(ValueLayout.JAVA_INT, 0);
+            }
             assertTrue("H5PLget_loading_state: " + changed_flags, changed_flags == new_setting);
             H5PLset_loading_state(plugin_flags);
-            changed_flags = H5PLget_loading_state();
+            try (Arena offHeap = Arena.ofConfined()) {
+                // Allocate memory to store the integers
+                MemorySegment plugin_flags_ptr = offHeap.allocate(ValueLayout.JAVA_INT);
+                H5PLget_loading_state(plugin_flags_ptr);
+                changed_flags = plugin_flags_ptr.get(ValueLayout.JAVA_INT, 0);
+            }
             assertTrue("H5PLget_loading_state: " + changed_flags, changed_flags == H5PL_ALL_PLUGIN());
         }
         catch (Throwable err) {
@@ -84,20 +101,37 @@ public class TestH5PL {
 
             // APPEND a path and ensure it was added correctly
             String pathAppend = "path_append";
-            H5.H5PLappend(pathAppend);
+            try (Arena arena = Arena.ofConfined()) {
+                // Allocate a MemorySegment to hold the string bytes
+                MemorySegment path_name_segment = arena.allocateFrom(pathAppend);
+                H5PLappend(path_name_segment);
+            }
 
             nPaths = H5PLsize();
             nTruePaths++;
             assertTrue("# paths should be " + nTruePaths + " but was " + nPaths, nTruePaths == nPaths);
 
             index = nTruePaths - 1;
-            path  = H5.H5PLget(index);
+            /* Get the length of the name */
+            long buf_size = H5PLget(index, NULL, 0);
+            assertTrue("length of the name should be positive", buf_size > 0);
+            /* Allocate buffer for the name */
+            try (Arena arena = Arena.ofConfined()) {
+                // Allocate a MemorySegment to hold the string bytes
+                MemorySegment path_name_segment = arena.allocateFrom(pathAppend);
+                H5PLget((unsigned)index, path_name_segment, buf_size + 1);
+                path = path_name_segment.get();
+            }
             assertTrue("Path should be " + pathAppend + " but was " + path,
                        path.compareToIgnoreCase(pathAppend) == 0);
 
             // PREPEND a path and ensure it was added correctly
             String pathPrepend = "path_prepend";
-            H5.H5PLprepend(pathPrepend);
+            try (Arena arena = Arena.ofConfined()) {
+                // Allocate a MemorySegment to hold the string bytes
+                MemorySegment path_name_segment = arena.allocateFrom(pathPrepend);
+                H5PLprepend(path_name_segment);
+            }
 
             nPaths = H5PLsize();
             nTruePaths++;
@@ -112,7 +146,11 @@ public class TestH5PL {
             // Inserting at the index == # of start paths ensures we're in the middle
             String pathInsert = "path_insert";
             index             = nStartPaths;
-            H5.H5PLinsert(pathInsert, index);
+            try (Arena arena = Arena.ofConfined()) {
+                // Allocate a MemorySegment to hold the string bytes
+                MemorySegment path_name_segment = arena.allocateFrom(pathInsert);
+                H5PLinsert(path_name_segment, index);
+            }
 
             nPaths = H5PLsize();
             nTruePaths++;
@@ -125,7 +163,11 @@ public class TestH5PL {
             // REPLACE the path we just added and ensure it updated correctly
             String pathReplace = "path_replace";
             index              = nStartPaths;
-            H5.H5PLreplace(pathReplace, index);
+            try (Arena arena = Arena.ofConfined()) {
+                // Allocate a MemorySegment to hold the string bytes
+                MemorySegment path_name_segment = arena.allocateFrom(pathReplace);
+                H5PLreplace(path_name_segment, index);
+            }
 
             nPaths = H5.H5PLsize();
             assertTrue("# paths should be " + nTruePaths + " but was " + nPaths, nTruePaths == nPaths);

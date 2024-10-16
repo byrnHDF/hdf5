@@ -12,16 +12,17 @@
 
 package test;
 
+import static org.hdfgroup.javahdf5.hdf5_h.*;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 import static org.junit.Assert.fail;
 
 import java.io.File;
+import java.lang.foreign.Arena;
+import java.lang.foreign.MemorySegment;
 
-import hdf.hdf5lib.H5;
-import hdf.hdf5lib.HDF5Constants;
-import hdf.hdf5lib.exceptions.HDF5LibraryException;
+import org.hdfgroup.javahdf5.*;
 
 import org.junit.After;
 import org.junit.Before;
@@ -61,16 +62,20 @@ public class TestH5VL {
     public void testH5VLnative_init()
     {
         try {
-            boolean is_registered;
+            int is_registered;
 
             is_registered = H5VLis_connector_registered_by_name(H5VL_NATIVE_NAME());
-            assertTrue("H5VLis_connector_registered_by_name H5VL_NATIVE_NAME", is_registered);
+            assertTrue("H5VLis_connector_registered_by_name H5VL_NATIVE_NAME", is_registered == 1);
 
-            is_registered = H5.H5VLis_connector_registered_by_name("FAKE_VOL_NAME");
-            assertFalse("H5VLis_connector_registered_by_name FAKE_VOL_NAME", is_registered);
+            try (Arena arena = Arena.ofConfined()) {
+                // Allocate a MemorySegment to hold the string bytes
+                MemorySegment name_segment = arena.allocateFrom("FAKE_VOL_NAME");
+                is_registered = H5VLis_connector_registered_by_name(name_segment);
+            }
+            assertFalse("H5VLis_connector_registered_by_name FAKE_VOL_NAME", is_registered == 0);
 
-            is_registered = H5.H5VLis_connector_registered_by_value(H5VL_NATIVE_VALUE());
-            assertTrue("H5VLis_connector_registered_by_value H5VL_NATIVE_VALUE", is_registered);
+            is_registered = H5VLis_connector_registered_by_value(H5VL_NATIVE_VALUE());
+            assertTrue("H5VLis_connector_registered_by_value H5VL_NATIVE_VALUE", is_registered == 1);
         }
         catch (Throwable err) {
             err.printStackTrace();
@@ -105,7 +110,7 @@ public class TestH5VL {
              */
             String connector = System.getenv("HDF5_VOL_CONNECTOR");
             if (connector == null)
-                assertEquals(H5VL_NATIVE(), native_id);
+                assertEquals(H5VL_NATIVE_g(), native_id);
         }
         catch (Throwable err) {
             err.printStackTrace();
@@ -129,7 +134,7 @@ public class TestH5VL {
         try {
             long native_id = H5VLget_connector_id_by_name(H5VL_NATIVE_NAME());
             assertTrue("H5VLget_connector_id_by_name H5VL_NATIVE_NAME", native_id >= 0);
-            assertEquals(H5VL_NATIVE(), native_id);
+            assertEquals(H5VL_NATIVE_g(), native_id);
         }
         catch (Throwable err) {
             err.printStackTrace();
@@ -143,7 +148,7 @@ public class TestH5VL {
         try {
             long native_id = H5VLget_connector_id_by_value(H5VL_NATIVE_VALUE());
             assertTrue("H5VLget_connector_id_by_value H5VL_NATIVE_VALUE", native_id >= 0);
-            assertEquals(H5VL_NATIVE(), native_id);
+            assertEquals(H5VL_NATIVE_g(), native_id);
         }
         catch (Throwable err) {
             err.printStackTrace();
@@ -169,7 +174,14 @@ public class TestH5VL {
         H5Fflush(H5fid, H5F_SCOPE_LOCAL());
 
         try {
-            String native_name = H5VLget_connector_name(H5fid);
+            long buf_size = H5VLget_connector_name(H5fid, null, 0);
+            String native_name = null;
+            try (Arena arena = Arena.ofConfined()) {
+                // Allocate a MemorySegment to hold the string bytes
+                MemorySegment path_name_segment = arena.allocate(buf_size + 1);
+                H5VLget_connector_name(H5fid, path_name_segment, buf_size);
+                native_name = path_name_segment.getString(0);
+            }
 
             /*
              * If HDF5_VOL_CONNECTOR is set, this might not be the
@@ -179,7 +191,7 @@ public class TestH5VL {
             String connector = System.getenv("HDF5_VOL_CONNECTOR");
             if (connector == null)
                 assertTrue("H5VLget_connector_name H5VL_NATIVE",
-                           native_name.compareToIgnoreCase(H5VL_NATIVE_NAME()) == 0);
+                           native_name.compareToIgnoreCase(H5VL_NATIVE_NAME().getString(0)) == 0);
         }
         catch (Throwable err) {
             err.printStackTrace();

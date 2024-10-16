@@ -42,7 +42,7 @@ set (HDF5_JAVA_JTEST_SOURCES
 #    TestH5OcopyOld
 #    TestH5Ocopy
 #    TestH5PL
-#    TestH5VL
+    TestH5VL
     TestH5Z
 )
 
