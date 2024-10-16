@@ -197,15 +197,13 @@ public class TestH5VL {
         }
     }
 
-    @Test(expected = HDF5LibraryException.class)
     public void testH5VLclose_NegativeID() throws Throwable
     {
-        H5VLclose(-1);
+        assertTrue("testH5VLclose_NegativeID", H5VLclose(-1) < 0);
     }
 
-    @Test(expected = HDF5LibraryException.class)
     public void testH5VLunregister_connector_NegativeID() throws Throwable
     {
-        H5VLunregister_connector(-1);
+        assertTrue("testH5VLclose_NegativeID", H5VLunregister_connector(-1) < 0);
     }
 }

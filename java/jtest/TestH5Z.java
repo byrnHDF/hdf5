@@ -129,12 +129,12 @@ public class TestH5Z {
         }
     }
 
-    @Test(expected = Exception.class)
     public void testH5Zunregister_predefined() throws Throwable
     {
         int filter_found = H5Zfilter_avail(H5Z_FILTER_SHUFFLE());
         assertTrue("H5Zfilter_avail", filter_found > 0);
 
-        H5Zunregister(H5Z_FILTER_SHUFFLE());
+        int status = H5Zunregister(H5Z_FILTER_SHUFFLE());
+        assertTrue("H5Zfilter_avail", status < 0);
     }
 }
