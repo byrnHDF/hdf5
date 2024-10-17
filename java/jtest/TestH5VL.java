@@ -71,7 +71,7 @@ public class TestH5VL {
                 MemorySegment name_segment = arena.allocateFrom("FAKE_VOL_NAME");
                 is_registered              = H5VLis_connector_registered_by_name(name_segment);
             }
-            assertFalse("H5VLis_connector_registered_by_name FAKE_VOL_NAME", is_registered == 0);
+            assertFalse("H5VLis_connector_registered_by_name FAKE_VOL_NAME", is_registered == 1);
 
             is_registered = H5VLis_connector_registered_by_value(H5VL_NATIVE_VALUE());
             assertTrue("H5VLis_connector_registered_by_value H5VL_NATIVE_VALUE", is_registered == 1);

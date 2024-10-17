@@ -12,12 +12,18 @@
 
 package test;
 
+import static org.hdfgroup.javahdf5.hdf5_h.*;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 import static org.junit.Assert.fail;
 
-import hdf.hdf5lib.H5;
-import hdf.hdf5lib.HDF5Constants;
-import hdf.hdf5lib.exceptions.HDF5LibraryException;
+import java.io.File;
+import java.lang.foreign.Arena;
+import java.lang.foreign.MemorySegment;
+import java.lang.foreign.ValueLayout;
+
+import org.hdfgroup.javahdf5.*;
 
 import org.junit.After;
 import org.junit.Before;
@@ -92,12 +98,19 @@ public class TestH5PL {
     {
         try {
             // Get the original number of paths
-            int nStartPaths = H5PLsize();
+            int nStartPaths = 0;
 
-            int nPaths;                   /* # paths from H5PLSize()      */
+            int nPaths     = nStartPaths; /* # paths from H5PLSize()      */
             int nTruePaths = nStartPaths; /* What the # paths should be   */
             int index;                    /* Path table index             */
             String path;                  /* Path from H5PLget()          */
+
+            // CURRENT number of paths
+            try (Arena arena = Arena.ofConfined()) {
+                // Allocate a MemorySegment to hold the array bytes
+                MemorySegment num_paths_segment = arena.allocateFrom(ValueLayout.JAVA_INT, nStartPaths);
+                H5PLsize(num_paths_segment);
+            }
 
             // APPEND a path and ensure it was added correctly
             String pathAppend = "path_append";
@@ -107,20 +120,24 @@ public class TestH5PL {
                 H5PLappend(path_name_segment);
             }
 
-            nPaths = H5PLsize();
+            try (Arena arena = Arena.ofConfined()) {
+                // Allocate a MemorySegment to hold the array bytes
+                MemorySegment num_paths_segment = arena.allocateFrom(ValueLayout.JAVA_INT, nPaths);
+                H5PLsize(num_paths_segment);
+            }
             nTruePaths++;
             assertTrue("# paths should be " + nTruePaths + " but was " + nPaths, nTruePaths == nPaths);
 
             index = nTruePaths - 1;
             /* Get the length of the name */
-            long buf_size = H5PLget(index, NULL, 0);
+            long buf_size = H5PLget(index, null, 0);
             assertTrue("length of the name should be positive", buf_size > 0);
             /* Allocate buffer for the name */
             try (Arena arena = Arena.ofConfined()) {
                 // Allocate a MemorySegment to hold the string bytes
-                MemorySegment path_name_segment = arena.allocateFrom(pathAppend);
-                H5PLget((unsigned)index, path_name_segment, buf_size + 1);
-                path = path_name_segment.get();
+                MemorySegment path_name_segment = arena.allocate(buf_size + 1);
+                H5PLget(index, path_name_segment, buf_size + 1);
+                path = path_name_segment.getString(0);
             }
             assertTrue("Path should be " + pathAppend + " but was " + path,
                        path.compareToIgnoreCase(pathAppend) == 0);
@@ -133,12 +150,25 @@ public class TestH5PL {
                 H5PLprepend(path_name_segment);
             }
 
-            nPaths = H5PLsize();
+            try (Arena arena = Arena.ofConfined()) {
+                // Allocate a MemorySegment to hold the array bytes
+                MemorySegment num_paths_segment = arena.allocateFrom(ValueLayout.JAVA_INT, nPaths);
+                H5PLsize(num_paths_segment);
+            }
             nTruePaths++;
             assertTrue("# paths should be " + nTruePaths + " but was " + nPaths, nTruePaths == nPaths);
 
             index = 0;
-            path  = H5.H5PLget(index);
+            /* Get the length of the name */
+            buf_size = H5PLget(index, null, 0);
+            assertTrue("length of the name should be positive", buf_size > 0);
+            /* Allocate buffer for the name */
+            try (Arena arena = Arena.ofConfined()) {
+                // Allocate a MemorySegment to hold the string bytes
+                MemorySegment path_name_segment = arena.allocate(buf_size + 1);
+                H5PLget(index, path_name_segment, buf_size + 1);
+                path = path_name_segment.getString(0);
+            }
             assertTrue("Path should be " + pathPrepend + " but was " + path,
                        path.compareToIgnoreCase(pathPrepend) == 0);
 
@@ -152,11 +182,24 @@ public class TestH5PL {
                 H5PLinsert(path_name_segment, index);
             }
 
-            nPaths = H5PLsize();
+            try (Arena arena = Arena.ofConfined()) {
+                // Allocate a MemorySegment to hold the array bytes
+                MemorySegment num_paths_segment = arena.allocateFrom(ValueLayout.JAVA_INT, nPaths);
+                H5PLsize(num_paths_segment);
+            }
             nTruePaths++;
             assertTrue("# paths should be " + nTruePaths + " but was " + nPaths, nTruePaths == nPaths);
 
-            path = H5.H5PLget(index);
+            /* Get the length of the name */
+            buf_size = H5PLget(index, null, 0);
+            assertTrue("length of the name should be positive", buf_size > 0);
+            /* Allocate buffer for the name */
+            try (Arena arena = Arena.ofConfined()) {
+                // Allocate a MemorySegment to hold the string bytes
+                MemorySegment path_name_segment = arena.allocate(buf_size + 1);
+                H5PLget(index, path_name_segment, buf_size + 1);
+                path = path_name_segment.getString(0);
+            }
             assertTrue("Path should be " + pathInsert + " but was " + path,
                        path.compareToIgnoreCase(pathInsert) == 0);
 
@@ -169,24 +212,60 @@ public class TestH5PL {
                 H5PLreplace(path_name_segment, index);
             }
 
-            nPaths = H5.H5PLsize();
+            try (Arena arena = Arena.ofConfined()) {
+                // Allocate a MemorySegment to hold the array bytes
+                MemorySegment num_paths_segment = arena.allocateFrom(ValueLayout.JAVA_INT, nPaths);
+                H5PLsize(num_paths_segment);
+            }
             assertTrue("# paths should be " + nTruePaths + " but was " + nPaths, nTruePaths == nPaths);
 
-            path = H5.H5PLget(index);
+            /* Get the length of the name */
+            buf_size = H5PLget(index, null, 0);
+            assertTrue("length of the name should be positive", buf_size > 0);
+            /* Allocate buffer for the name */
+            try (Arena arena = Arena.ofConfined()) {
+                // Allocate a MemorySegment to hold the string bytes
+                MemorySegment path_name_segment = arena.allocate(buf_size + 1);
+                H5PLget(index, path_name_segment, buf_size + 1);
+                path = path_name_segment.getString(0);
+            }
             assertTrue("Path should be " + pathReplace + " but was " + path,
                        path.compareToIgnoreCase(pathReplace) == 0);
 
             // REMOVE the path we just replaced and check that the table was compacted
             // The (index+1) path should move down to fill the space when the path is removed.
             index             = nStartPaths;
-            String pathRemove = H5.H5PLget(index + 1);
+            String pathRemove = null;
+            /* Get the length of the name */
+            buf_size = H5PLget(index + 1, null, 0);
+            assertTrue("length of the name should be positive", buf_size > 0);
+            /* Allocate buffer for the name */
+            try (Arena arena = Arena.ofConfined()) {
+                // Allocate a MemorySegment to hold the string bytes
+                MemorySegment path_name_segment = arena.allocate(buf_size + 1);
+                H5PLget(index, path_name_segment, buf_size + 1);
+                pathRemove = path_name_segment.getString(0);
+            }
             H5PLremove(index);
 
-            nPaths = H5PLsize();
+            try (Arena arena = Arena.ofConfined()) {
+                // Allocate a MemorySegment to hold the array bytes
+                MemorySegment num_paths_segment = arena.allocateFrom(ValueLayout.JAVA_INT, nPaths);
+                H5PLsize(num_paths_segment);
+            }
             nTruePaths--;
             assertTrue("# paths should be " + nTruePaths + " but was " + nPaths, nTruePaths == nPaths);
 
-            path = H5.H5PLget(index);
+            /* Get the length of the name */
+            buf_size = H5PLget(index, null, 0);
+            assertTrue("length of the name should be positive", buf_size > 0);
+            /* Allocate buffer for the name */
+            try (Arena arena = Arena.ofConfined()) {
+                // Allocate a MemorySegment to hold the string bytes
+                MemorySegment path_name_segment = arena.allocate(buf_size + 1);
+                H5PLget(index, path_name_segment, buf_size + 1);
+                path = path_name_segment.getString(0);
+            }
             assertTrue("Path should be " + pathRemove + " but was " + path,
                        path.compareToIgnoreCase(pathRemove) == 0);
         }
@@ -209,7 +288,7 @@ public class TestH5PL {
             int[] libversion   = {0, 0, 0};
             long[] dims        = {DIM_X, DIM_Y};
             long[] chunk_dims  = {CHUNK_X, CHUNK_Y};
-            int[][] dset_data  = new int[DIM_X][DIM_Y];
+            int[] dset_data    = new int[DIM_X * DIM_Y];
             int[] mdc_nelmts   = {0};
             long[] rdcc_nelmts = {0};
             long[] rdcc_nbytes = {0};
@@ -218,7 +297,7 @@ public class TestH5PL {
             // Initialize data to "1", to make it easier to see the selections.
             for (int indx = 0; indx < DIM_X; indx++)
                 for (int jndx = 0; jndx < DIM_Y; jndx++)
-                    dset_data[indx][jndx] = 1;
+                    dset_data[indx * DIM_Y + jndx] = 1;
 
             // Create a new file using default properties.
             try {
@@ -267,7 +346,11 @@ public class TestH5PL {
             // Set the chunk size.
             try {
                 if (dcpl_id >= 0)
-                    H5.H5Pset_chunk(dcpl_id, NDIMS, chunk_dims);
+                    try (Arena arena = Arena.ofConfined()) {
+                        // Allocate a MemorySegment to hold the array bytes
+                        MemorySegment chunk_dims_segment = MemorySegment.ofArray(chunk_dims);
+                        H5Pset_chunk(dcpl_id, NDIMS, chunk_dims_segment);
+                    }
             }
             catch (Exception e) {
                 e.printStackTrace();
@@ -275,21 +358,12 @@ public class TestH5PL {
             }
 
             try {
-                try {
-                    try (Arena arena = Arena.ofConfined()) {
-                        // Allocate a MemorySegment to hold the array bytes
-                        MemorySegment majnum_segment =
-                            arena.allocateFrom(ValueLayout.JAVA_INT, libversion[0]);
-                        MemorySegment minnum_segment =
-                            arena.allocateFrom(ValueLayout.JAVA_INT, libversion[1]);
-                        MemorySegment relnum_segment =
-                            arena.allocateFrom(ValueLayout.JAVA_INT, libversion[2]);
-                        H5get_libversion(majnum_segment, minnum_segment, relnum_segment);
-                    }
-                    catch (Throwable err) {
-                        err.printStackTrace();
-                        fail("Arena: " + err);
-                    }
+                try (Arena arena = Arena.ofConfined()) {
+                    // Allocate a MemorySegment to hold the array bytes
+                    MemorySegment majnum_segment = arena.allocateFrom(ValueLayout.JAVA_INT, libversion[0]);
+                    MemorySegment minnum_segment = arena.allocateFrom(ValueLayout.JAVA_INT, libversion[1]);
+                    MemorySegment relnum_segment = arena.allocateFrom(ValueLayout.JAVA_INT, libversion[2]);
+                    H5get_libversion(majnum_segment, minnum_segment, relnum_segment);
                 }
                 catch (Throwable err) {
                     fail("H5get_libversion: " + err);
@@ -298,7 +372,11 @@ public class TestH5PL {
                 cd_values[2] = libversion[1];
                 cd_values[3] = libversion[2];
                 if (dcpl_id >= 0)
-                    H5.H5Pset_filter(dcpl_id, H5Z_FILTER_DYNLIB4, H5Z_FLAG_MANDATORY(), 4, cd_values);
+                    try (Arena arena = Arena.ofConfined()) {
+                        // Allocate a MemorySegment to hold the array bytes
+                        MemorySegment cd_values_segment = MemorySegment.ofArray(cd_values);
+                        H5Pset_filter(dcpl_id, H5Z_FILTER_DYNLIB4, H5Z_FLAG_MANDATORY(), 4, cd_values_segment);
+                    }
             }
             catch (Exception e) {
                 e.printStackTrace();
@@ -326,7 +404,11 @@ public class TestH5PL {
 
             try {
                 if (dataset_id >= 0)
-                    H5.H5Dwrite(dataset_id, H5T_NATIVE_INT_g(), H5S_ALL(), H5S_ALL(), H5S_ALL(), dset_data);
+                    try (Arena arena = Arena.ofConfined()) {
+                        // Allocate a MemorySegment to hold the array bytes
+                        MemorySegment dset_data_segment = MemorySegment.ofArray(dset_data);
+                        H5Dwrite(dataset_id, H5T_NATIVE_INT_g(), H5S_ALL(), H5S_ALL(), H5S_ALL(), dset_data_segment);
+                    }
             }
             catch (Exception e) {
                 e.printStackTrace();
