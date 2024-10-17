@@ -24,7 +24,6 @@ import java.lang.foreign.MemorySegment;
 import java.lang.foreign.ValueLayout;
 
 import org.hdfgroup.javahdf5.*;
-
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Ignore;
@@ -375,7 +374,8 @@ public class TestH5PL {
                     try (Arena arena = Arena.ofConfined()) {
                         // Allocate a MemorySegment to hold the array bytes
                         MemorySegment cd_values_segment = MemorySegment.ofArray(cd_values);
-                        H5Pset_filter(dcpl_id, H5Z_FILTER_DYNLIB4, H5Z_FLAG_MANDATORY(), 4, cd_values_segment);
+                        H5Pset_filter(dcpl_id, H5Z_FILTER_DYNLIB4, H5Z_FLAG_MANDATORY(), 4,
+                                      cd_values_segment);
                     }
             }
             catch (Exception e) {
@@ -407,7 +407,8 @@ public class TestH5PL {
                     try (Arena arena = Arena.ofConfined()) {
                         // Allocate a MemorySegment to hold the array bytes
                         MemorySegment dset_data_segment = MemorySegment.ofArray(dset_data);
-                        H5Dwrite(dataset_id, H5T_NATIVE_INT_g(), H5S_ALL(), H5S_ALL(), H5S_ALL(), dset_data_segment);
+                        H5Dwrite(dataset_id, H5T_NATIVE_INT_g(), H5S_ALL(), H5S_ALL(), H5S_ALL(),
+                                 dset_data_segment);
                     }
             }
             catch (Exception e) {

@@ -35,7 +35,6 @@ import java.lang.foreign.ValueLayout;
 import java.nio.charset.StandardCharsets;
 
 import org.hdfgroup.javahdf5.*;
-
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Ignore;
