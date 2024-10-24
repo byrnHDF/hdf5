@@ -261,7 +261,11 @@ public class TestH5D {
     private final void _openH5file(String filename, String dsetname, long dapl)
     {
         try {
-            H5fid = H5.H5Fopen(filename, H5F_ACC_RDONLY(), H5P_DEFAULT());
+            try (Arena arena = Arena.ofConfined()) {
+                // Allocate a MemorySegment to hold the string bytes
+                MemorySegment filename_segment = arena.allocateFrom(filename);
+                H5fid                          = H5Fopen(filename_segment, H5F_ACC_RDONLY(), H5P_DEFAULT());
+            }
         }
         catch (Throwable err) {
             err.printStackTrace();
@@ -269,7 +273,11 @@ public class TestH5D {
         }
         assertTrue("TestH5D._openH5file: H5Fopen: ", H5fid >= 0);
         try {
-            H5did = H5.H5Dopen(H5fid, dsetname, dapl);
+            try (Arena arena = Arena.ofConfined()) {
+                // Allocate a MemorySegment to hold the string bytes
+                MemorySegment filename_segment = arena.allocateFrom(dsetname);
+                H5did                          = H5Dopen(H5fid, filename_segment, dapl);
+            }
         }
         catch (Throwable err) {
             err.printStackTrace();

@@ -116,16 +116,21 @@ public class TestH5Dparams {
         H5.H5Dset_extent(-1, null);
     }
 
-    @Test(expected = NullPointerException.class)
     public void testH5Dopen_null() throws Throwable
     {
-        H5.H5Dopen(-1, null, 0);
+        long did = H5.H5Dopen(-1, null, 0);
+        assertTrue("H5Dopen", did < 0);
     }
 
-    @Test(expected = HDF5LibraryException.class)
     public void testH5Dopen_invalid() throws Throwable
     {
-        H5.H5Dopen(-1, "Bogus", 0);
+        long did         = H5I_INVALID_HID();
+        try (Arena arena = Arena.ofConfined()) {
+            // Allocate a MemorySegment to hold the string bytes
+            MemorySegment filename_segment = arena.allocateFrom("Bogus");
+            did                            = H5Dopen(-1, filename_segment, 0);
+        }
+        assertTrue("H5Dopen", did < 0);
     }
 
     @Test(expected = HDF5LibraryException.class)

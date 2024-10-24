@@ -75,7 +75,12 @@ public class TestH5Obasic {
     {
         long oid = H5I_INVALID_HID();
 
-        oid = H5.H5Oopen(H5fid, "Never_created", H5P_DEFAULT());
+        try (Arena arena = Arena.ofConfined()) {
+            // Allocate a MemorySegment to hold the string bytes
+            MemorySegment filename_segment = arena.allocateFrom("Never_created");
+            oid                          = H5Oopen(H5fid, filename_segment, H5P_DEFAULT());
+        }
+        assertTrue("H5Oopen", oid < 0);
 
         try {
             H5Oclose(oid);

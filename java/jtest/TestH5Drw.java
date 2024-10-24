@@ -77,7 +77,11 @@ public class TestH5Drw {
     public void openH5file(String filename, String dsetname)
     {
         try {
-            H5fid = H5.H5Fopen(filename, H5F_ACC_RDONLY(), H5P_DEFAULT());
+            try (Arena arena = Arena.ofConfined()) {
+                // Allocate a MemorySegment to hold the string bytes
+                MemorySegment filename_segment = arena.allocateFrom(filename);
+                H5fid                          = H5Fopen(filename_segment, H5F_ACC_RDONLY(), H5P_DEFAULT());
+            }
         }
         catch (Throwable err) {
             err.printStackTrace();
@@ -85,7 +89,11 @@ public class TestH5Drw {
         }
         assertTrue("TestH5Drw._openH5file: H5Fopen: ", H5fid >= 0);
         try {
-            H5did = H5.H5Dopen(H5fid, dsetname, H5P_DEFAULT());
+            try (Arena arena = Arena.ofConfined()) {
+                // Allocate a MemorySegment to hold the string bytes
+                MemorySegment filename_segment = arena.allocateFrom(dsetname);
+                H5did                          = H5Dopen(H5fid, filename_segment, H5P_DEFAULT());
+            }
         }
         catch (Throwable err) {
             err.printStackTrace();
@@ -152,7 +160,11 @@ public class TestH5Drw {
 
         // Open an existing dataset.
         try {
-            H5did = H5.H5Dopen(H5fid, DATASETS08, H5P_DEFAULT());
+            try (Arena arena = Arena.ofConfined()) {
+                // Allocate a MemorySegment to hold the string bytes
+                MemorySegment filename_segment = arena.allocateFrom(DATASETS08);
+                H5did                          = H5Dopen(H5fid, filename_segment, H5P_DEFAULT());
+            }
         }
         catch (Exception err) {
             err.printStackTrace();
@@ -201,7 +213,11 @@ public class TestH5Drw {
 
         // Open an existing dataset.
         try {
-            H5did = H5.H5Dopen(H5fid, DATASETS16, H5P_DEFAULT());
+            try (Arena arena = Arena.ofConfined()) {
+                // Allocate a MemorySegment to hold the string bytes
+                MemorySegment filename_segment = arena.allocateFrom(DATASETS16);
+                H5did                          = H5Dopen(H5fid, filename_segment, H5P_DEFAULT());
+            }
         }
         catch (Exception err) {
             err.printStackTrace();
@@ -250,7 +266,11 @@ public class TestH5Drw {
 
         // Open an existing dataset.
         try {
-            H5did = H5.H5Dopen(H5fid, DATASETS32, H5P_DEFAULT());
+            try (Arena arena = Arena.ofConfined()) {
+                // Allocate a MemorySegment to hold the string bytes
+                MemorySegment filename_segment = arena.allocateFrom(DATASETS32);
+                H5did                          = H5Dopen(H5fid, filename_segment, H5P_DEFAULT());
+            }
         }
         catch (Exception err) {
             err.printStackTrace();
@@ -299,7 +319,11 @@ public class TestH5Drw {
 
         // Open an existing dataset.
         try {
-            H5did = H5.H5Dopen(H5fid, DATASETS64, H5P_DEFAULT());
+            try (Arena arena = Arena.ofConfined()) {
+                // Allocate a MemorySegment to hold the string bytes
+                MemorySegment filename_segment = arena.allocateFrom(DATASETS64);
+                H5did                          = H5Dopen(H5fid, filename_segment, H5P_DEFAULT());
+            }
         }
         catch (Exception err) {
             err.printStackTrace();

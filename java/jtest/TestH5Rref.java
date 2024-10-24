@@ -63,7 +63,11 @@ public class TestH5Rref {
         }
         assertTrue("TestH5R._openH5file: H5Fopen: ", H5fid >= 0);
         try {
-            H5did = H5.H5Dopen(H5fid, dsetname, H5P_DEFAULT());
+            try (Arena arena = Arena.ofConfined()) {
+                // Allocate a MemorySegment to hold the string bytes
+                MemorySegment filename_segment = arena.allocateFrom(dsetname);
+                H5did                          = H5Dopen(H5fid, filename_segment, H5P_DEFAULT());
+            }
         }
         catch (Throwable err) {
             err.printStackTrace();
@@ -340,10 +344,18 @@ public class TestH5Rref {
                 assertTrue("testH5Rget_region_dataset: H5Rget_type[" + i + "]=" + ret_val,
                            ret_val == ref_type);
                 try {
-                    loc_id = H5.H5Ropen_object(refbuf[i], H5P_DEFAULT(), H5P_DEFAULT());
+                    try (Arena arena = Arena.ofConfined()) {
+                        // Allocate a MemorySegment to hold the refbuf bytes
+                        MemorySegment refbuf_segment = arena.allocateFrom(refbuf[i]);
+                        loc_id                       = H5Ropen_object(refbuf_segment, H5P_DEFAULT(), H5P_DEFAULT());
+                    }
                     assertTrue(loc_id >= 0);
                     try {
-                        loc_sid = H5.H5Ropen_region(refbuf[i], H5P_DEFAULT(), H5P_DEFAULT());
+                        try (Arena arena = Arena.ofConfined()) {
+                            // Allocate a MemorySegment to hold the refbuf bytes
+                            MemorySegment refbuf_segment = arena.allocateFrom(refbuf[i]);
+                            loc_sid                      = H5Ropen_region(refbuf_segment, H5P_DEFAULT(), H5P_DEFAULT());
+                        }
                         assertTrue(loc_sid >= 0);
                         int region_type = -1;
                         try {
@@ -430,7 +442,11 @@ public class TestH5Rref {
                 fail("testH5Rget_region_dataset: H5Rget_type: " + err);
             }
             finally {
-                H5.H5Rdestroy(refbuf[i]);
+                try (Arena arena = Arena.ofConfined()) {
+                    // Allocate a MemorySegment to hold the refbuf bytes
+                    MemorySegment refbuf_segment = arena.allocateFrom(refbuf[i]);
+                    H5Rdestroy(refbuf_segment);
+                }
             }
         } // for (int i = 0; i < ndims; i++)
     }

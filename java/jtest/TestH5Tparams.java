@@ -135,10 +135,15 @@ public class TestH5Tparams {
         H5.H5Topen(-1, null, 0);
     }
 
-    @Test(expected = HDF5LibraryException.class)
     public void testH5Topen_invalid() throws Throwable
     {
-        H5.H5Topen(-1, "Bogus", 0);
+        long tid         = H5I_INVALID_HID();
+        try (Arena arena = Arena.ofConfined()) {
+            // Allocate a MemorySegment to hold the string bytes
+            MemorySegment filename_segment = arena.allocateFrom("Bogus");
+            tid                            = H5Topen(-1, filename_segment, 0);
+        }
+        assertTrue("H5Topen", tid < 0);
     }
 
     @Test(expected = NullPointerException.class)

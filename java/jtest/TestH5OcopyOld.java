@@ -88,7 +88,11 @@ public class TestH5OcopyOld {
         long gid = H5I_INVALID_HID();
         try {
             H5gcpl = H5P_DEFAULT();
-            gid    = H5.H5Gcreate(fid, name, H5P_DEFAULT(), H5gcpl, H5P_DEFAULT());
+            try (Arena arena = Arena.ofConfined()) {
+                // Allocate a MemorySegment to hold the string bytes
+                MemorySegment name_segment = arena.allocateFrom(name);
+                gid                        = H5Gcreate(fid, name_segment, H5P_DEFAULT(), H5gcpl, H5P_DEFAULT());
+            }
         }
         catch (Throwable err) {
             err.printStackTrace();
@@ -397,7 +401,11 @@ public class TestH5OcopyOld {
 
         // Open the dataset that has been copied
         try {
-            did = H5.H5Dopen(H5fid, "DSREF", H5P_DEFAULT());
+            try (Arena arena = Arena.ofConfined()) {
+                // Allocate a MemorySegment to hold the string bytes
+                MemorySegment filename_segment = arena.allocateFrom("DSREF");
+                did                            = H5Dopen(H5fid, filename_segment, H5P_DEFAULT());
+            }
             assertTrue("testH5OcopyRefsDatasettosameFile.H5Dopen: ", did >= 0);
         }
         catch (Exception e) {
