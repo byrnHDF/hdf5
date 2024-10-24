@@ -91,7 +91,7 @@ public class TestH5OcopyOld {
             try (Arena arena = Arena.ofConfined()) {
                 // Allocate a MemorySegment to hold the string bytes
                 MemorySegment name_segment = arena.allocateFrom(name);
-                gid                        = H5Gcreate(fid, name_segment, H5P_DEFAULT(), H5gcpl, H5P_DEFAULT());
+                gid = H5Gcreate(fid, name_segment, H5P_DEFAULT(), H5gcpl, H5P_DEFAULT());
             }
         }
         catch (Throwable err) {

@@ -347,14 +347,14 @@ public class TestH5Rref {
                     try (Arena arena = Arena.ofConfined()) {
                         // Allocate a MemorySegment to hold the refbuf bytes
                         MemorySegment refbuf_segment = arena.allocateFrom(refbuf[i]);
-                        loc_id                       = H5Ropen_object(refbuf_segment, H5P_DEFAULT(), H5P_DEFAULT());
+                        loc_id = H5Ropen_object(refbuf_segment, H5P_DEFAULT(), H5P_DEFAULT());
                     }
                     assertTrue(loc_id >= 0);
                     try {
                         try (Arena arena = Arena.ofConfined()) {
                             // Allocate a MemorySegment to hold the refbuf bytes
                             MemorySegment refbuf_segment = arena.allocateFrom(refbuf[i]);
-                            loc_sid                      = H5Ropen_region(refbuf_segment, H5P_DEFAULT(), H5P_DEFAULT());
+                            loc_sid = H5Ropen_region(refbuf_segment, H5P_DEFAULT(), H5P_DEFAULT());
                         }
                         assertTrue(loc_sid >= 0);
                         int region_type = -1;

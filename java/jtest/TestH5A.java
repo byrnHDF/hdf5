@@ -203,7 +203,7 @@ public class TestH5A {
             try (Arena arena = Arena.ofConfined()) {
                 // Allocate a MemorySegment to hold the string bytes
                 MemorySegment name_segment = arena.allocateFrom("dset");
-                attr_id                    = H5Acreate2(H5did, name_segment, type_id, space_id, H5P_DEFAULT(), H5P_DEFAULT());
+                attr_id = H5Acreate2(H5did, name_segment, type_id, space_id, H5P_DEFAULT(), H5P_DEFAULT());
             }
             assertTrue("testH5Acreate2", attr_id >= 0);
         }
@@ -223,21 +223,21 @@ public class TestH5A {
 
     public void testH5Acreate2_invalidobject() throws Throwable
     {
-        long attr_id  = H5I_INVALID_HID();
+        long attr_id = H5I_INVALID_HID();
 
         try (Arena arena = Arena.ofConfined()) {
             // Allocate a MemorySegment to hold the string bytes
             MemorySegment name_segment = arena.allocateFrom("dset");
-            attr_id                    = H5Acreate2(H5dsid, name_segment, type_id, space_id, H5P_DEFAULT(), H5P_DEFAULT());
+            attr_id = H5Acreate2(H5dsid, name_segment, type_id, space_id, H5P_DEFAULT(), H5P_DEFAULT());
         }
         assertTrue("H5Acreate2", attr_id < 0);
     }
 
     public void testH5Acreate2_nullname() throws Throwable
     {
-        long attr_id  = H5I_INVALID_HID();
+        long attr_id = H5I_INVALID_HID();
 
-        attr_id  = H5Acreate2(H5did, null, type_id, space_id, H5P_DEFAULT(), H5P_DEFAULT());
+        attr_id = H5Acreate2(H5did, null, type_id, space_id, H5P_DEFAULT(), H5P_DEFAULT());
         assertTrue("H5Acreate2", attr_id < 0);
     }
 
@@ -252,7 +252,7 @@ public class TestH5A {
             try (Arena arena = Arena.ofConfined()) {
                 // Allocate a MemorySegment to hold the string bytes
                 MemorySegment name_segment = arena.allocateFrom(attr_name);
-                attr_id                    = H5Acreate2(H5did, name_segment, type_id, space_id, H5P_DEFAULT(), H5P_DEFAULT());
+                attr_id = H5Acreate2(H5did, name_segment, type_id, space_id, H5P_DEFAULT(), H5P_DEFAULT());
             }
 
             // Opening the existing attribute, attr_name(Created by H5ACreate2)
@@ -310,15 +310,16 @@ public class TestH5A {
             try (Arena arena = Arena.ofConfined()) {
                 // Allocate a MemorySegment to hold the string bytes
                 MemorySegment name_segment = arena.allocateFrom("file");
-                attr_id                    = H5Acreate2(H5did, name_segment, type_id, space_id, H5P_DEFAULT(), H5P_DEFAULT());
+                attr_id = H5Acreate2(H5did, name_segment, type_id, space_id, H5P_DEFAULT(), H5P_DEFAULT());
             }
 
             // Opening the existing attribute, obj_name(Created by H5ACreate2)
             // by index, attached to an object identifier.
             try (Arena arena = Arena.ofConfined()) {
                 // Allocate a MemorySegment to hold the string bytes
-                MemorySegment obj_name_segment  = arena.allocateFrom(".");
-                attribute_id                    = H5Aopen_by_idx(loc_id, obj_name_segment, H5_INDEX_CRT_ORDER(), H5_ITER_INC(), 0, aapl_id, lapl_id);
+                MemorySegment obj_name_segment = arena.allocateFrom(".");
+                attribute_id = H5Aopen_by_idx(loc_id, obj_name_segment, H5_INDEX_CRT_ORDER(), H5_ITER_INC(),
+                                              0, aapl_id, lapl_id);
             }
             assertTrue("testH5Aopen_by_idx: H5Aopen_by_idx", attribute_id >= 0);
 
@@ -329,11 +330,12 @@ public class TestH5A {
                 n = 5;
                 try (Arena arena = Arena.ofConfined()) {
                     // Allocate a MemorySegment to hold the string bytes
-                    MemorySegment obj_name_segment  = arena.allocateFrom(obj_name);
-                    attribute_id                    = H5Aopen_by_idx(loc_id, obj_name_segment, idx_type, order, n, aapl_id, lapl_id);
+                    MemorySegment obj_name_segment = arena.allocateFrom(obj_name);
+                    attribute_id =
+                        H5Aopen_by_idx(loc_id, obj_name_segment, idx_type, order, n, aapl_id, lapl_id);
                 }
                 assertTrue("H5Aopen_by_idx did not fail", attribute_id < 0);
-                //fail("Negative Test Failed:- Error not Thrown when n is invalid.");
+                // fail("Negative Test Failed:- Error not Thrown when n is invalid.");
             }
             catch (AssertionError err) {
                 fail("H5Aopen_by_idx: " + err);
@@ -349,11 +351,12 @@ public class TestH5A {
                 obj_name = "file";
                 try (Arena arena = Arena.ofConfined()) {
                     // Allocate a MemorySegment to hold the string bytes
-                    MemorySegment obj_name_segment  = arena.allocateFrom(obj_name);
-                    attribute_id                    = H5Aopen_by_idx(loc_id, obj_name_segment, idx_type, order, n, aapl_id, lapl_id);
+                    MemorySegment obj_name_segment = arena.allocateFrom(obj_name);
+                    attribute_id =
+                        H5Aopen_by_idx(loc_id, obj_name_segment, idx_type, order, n, aapl_id, lapl_id);
                 }
                 assertTrue("H5Aopen_by_idx did not fail", attribute_id < 0);
-                //fail("Negative Test Failed:- Error not Thrown when attribute name is invalid.");
+                // fail("Negative Test Failed:- Error not Thrown when attribute name is invalid.");
             }
             catch (AssertionError err) {
                 fail("H5Aopen_by_idx: " + err);
@@ -394,8 +397,8 @@ public class TestH5A {
                 // Allocate a MemorySegment to hold the string bytes
                 MemorySegment attr_name_segment = arena.allocateFrom(attr_name);
                 MemorySegment obj_name_segment  = arena.allocateFrom(obj_name);
-                attribute_id                    = H5Acreate_by_name(H5fid, obj_name_segment, attr_name_segment,
-                                                                    type_id, space_id, H5P_DEFAULT(), aapl_id, lapl_id);
+                attribute_id = H5Acreate_by_name(H5fid, obj_name_segment, attr_name_segment, type_id,
+                                                 space_id, H5P_DEFAULT(), aapl_id, lapl_id);
             }
             assertTrue("testH5Acreate_by_name: H5Acreate_by_name", attribute_id >= 0);
 
@@ -405,7 +408,7 @@ public class TestH5A {
                 // Allocate a MemorySegment to hold the string bytes
                 MemorySegment attr_name_segment = arena.allocateFrom(attr_name);
                 MemorySegment obj_name_segment  = arena.allocateFrom(obj_name);
-                bool_val                        = H5Aexists_by_name(H5fid, obj_name_segment, attr_name_segment, lapl_id);
+                bool_val = H5Aexists_by_name(H5fid, obj_name_segment, attr_name_segment, lapl_id);
             }
             assertTrue("testH5Acreate_by_name: H5Aexists_by_name", bool_val == true);
         }
@@ -437,7 +440,7 @@ public class TestH5A {
             try (Arena arena = Arena.ofConfined()) {
                 // Allocate a MemorySegment to hold the string bytes
                 MemorySegment name_segment = arena.allocateFrom(old_attr_name);
-                attr_id                    = H5Acreate2(loc_id, name_segment, type_id, space_id, H5P_DEFAULT(), aapl_id);
+                attr_id = H5Acreate2(loc_id, name_segment, type_id, space_id, H5P_DEFAULT(), aapl_id);
             }
 
             try (Arena arena = Arena.ofConfined()) {
@@ -498,8 +501,8 @@ public class TestH5A {
                 // Allocate a MemorySegment to hold the string bytes
                 MemorySegment attr_name_segment = arena.allocateFrom(old_attr_name);
                 MemorySegment obj_name_segment  = arena.allocateFrom(obj_name);
-                attr_id                         = H5Acreate_by_name(loc_id, obj_name_segment, attr_name_segment,
-                                                                    type_id, space_id, H5P_DEFAULT(), aapl_id, lapl_id);
+                attr_id = H5Acreate_by_name(loc_id, obj_name_segment, attr_name_segment, type_id, space_id,
+                                            H5P_DEFAULT(), aapl_id, lapl_id);
             }
 
             ret_val = H5.H5Arename_by_name(loc_id, obj_name, old_attr_name, new_attr_name, lapl_id);
@@ -513,7 +516,7 @@ public class TestH5A {
                 // Allocate a MemorySegment to hold the string bytes
                 MemorySegment new_name_segment = arena.allocateFrom(new_attr_name);
                 MemorySegment obj_name_segment = arena.allocateFrom(obj_name);
-                bool_val                       = H5Aexists_by_name(loc_id, obj_name_segment, new_name_segment, lapl_id);
+                bool_val = H5Aexists_by_name(loc_id, obj_name_segment, new_name_segment, lapl_id);
             }
             assertTrue("testH5Arename_by_name: H5Aexists_by_name", bool_val == true);
 
@@ -523,7 +526,7 @@ public class TestH5A {
                 // Allocate a MemorySegment to hold the string bytes
                 MemorySegment old_name_segment = arena.allocateFrom(old_attr_name);
                 MemorySegment obj_name_segment = arena.allocateFrom(obj_name);
-                bool_val                       = H5Aexists_by_name(loc_id, obj_name_segment, old_name_segment, lapl_id);
+                bool_val = H5Aexists_by_name(loc_id, obj_name_segment, old_name_segment, lapl_id);
             }
             assertEquals(bool_val, false);
         }
@@ -554,8 +557,8 @@ public class TestH5A {
                 // Allocate a MemorySegment to hold the string bytes
                 MemorySegment attr_name_segment = arena.allocateFrom(attr_name);
                 MemorySegment obj_name_segment  = arena.allocateFrom(obj_name);
-                attribute_id                    = H5Acreate_by_name(H5fid, obj_name_segment, attr_name_segment,
-                                                                    type_id, space_id, H5P_DEFAULT(), aapl_id, lapl_id);
+                attribute_id = H5Acreate_by_name(H5fid, obj_name_segment, attr_name_segment, type_id,
+                                                 space_id, H5P_DEFAULT(), aapl_id, lapl_id);
             }
             assertTrue("testH5Aget_name: H5Acreate_by_name ", attribute_id > 0);
             ret_name = H5.H5Aget_name(attribute_id);
@@ -593,15 +596,15 @@ public class TestH5A {
                 // Allocate a MemorySegment to hold the string bytes
                 MemorySegment attr_name_segment = arena.allocateFrom(attr_name);
                 MemorySegment obj_name_segment  = arena.allocateFrom(obj_name);
-                attr1_id                        = H5Acreate_by_name(loc_id, obj_name_segment, attr_name_segment,
-                                                                    type_id, space_id, H5P_DEFAULT(), H5P_DEFAULT(), lapl_id);
+                attr1_id = H5Acreate_by_name(loc_id, obj_name_segment, attr_name_segment, type_id, space_id,
+                                             H5P_DEFAULT(), H5P_DEFAULT(), lapl_id);
             }
             try (Arena arena = Arena.ofConfined()) {
                 // Allocate a MemorySegment to hold the string bytes
                 MemorySegment attr_name_segment = arena.allocateFrom(attr2_name);
                 MemorySegment obj_name_segment  = arena.allocateFrom(obj_name);
-                attr2_id                        = H5Acreate_by_name(loc_id, obj_name_segment, attr_name_segment,
-                                                                    type_id, space_id, H5P_DEFAULT(), H5P_DEFAULT(), lapl_id);
+                attr2_id = H5Acreate_by_name(loc_id, obj_name_segment, attr_name_segment, type_id, space_id,
+                                             H5P_DEFAULT(), H5P_DEFAULT(), lapl_id);
             }
 
             // getting the 1st attribute name(n=0).
@@ -644,7 +647,7 @@ public class TestH5A {
             try (Arena arena = Arena.ofConfined()) {
                 // Allocate a MemorySegment to hold the string bytes
                 MemorySegment name_segment = arena.allocateFrom("dset");
-                attr_id                    = H5Acreate2(loc_id, name_segment, type_id, space_id, H5P_DEFAULT(), H5P_DEFAULT());
+                attr_id = H5Acreate2(loc_id, name_segment, type_id, space_id, H5P_DEFAULT(), H5P_DEFAULT());
             }
 
             attr_size = H5Aget_storage_size(attr_id);
@@ -675,7 +678,7 @@ public class TestH5A {
             try (Arena arena = Arena.ofConfined()) {
                 // Allocate a MemorySegment to hold the string bytes
                 MemorySegment name_segment = arena.allocateFrom("dset");
-                attr_id                    = H5Acreate2(H5did, name_segment, type_id, space_id, H5P_DEFAULT(), H5P_DEFAULT());
+                attr_id = H5Acreate2(H5did, name_segment, type_id, space_id, H5P_DEFAULT(), H5P_DEFAULT());
             }
             try (Arena arena = Arena.ofConfined()) {
                 // Allocate a MemorySegment to hold the string bytes
@@ -722,12 +725,13 @@ public class TestH5A {
             try (Arena arena = Arena.ofConfined()) {
                 // Allocate a MemorySegment to hold the string bytes
                 MemorySegment name_segment = arena.allocateFrom(".");
-                attr_id                    = H5Acreate2(H5did, name_segment, type_id, space_id, H5P_DEFAULT(), H5P_DEFAULT());
+                attr_id = H5Acreate2(H5did, name_segment, type_id, space_id, H5P_DEFAULT(), H5P_DEFAULT());
             }
             try (Arena arena = Arena.ofConfined()) {
                 // Allocate a MemorySegment to hold the string bytes
                 MemorySegment name_segment = arena.allocateFrom(".");
-                attribute_id               = H5Aopen_by_idx(H5did, name_segment, H5_INDEX_CRT_ORDER(), order, 0, H5P_DEFAULT(), lapl_id);
+                attribute_id = H5Aopen_by_idx(H5did, name_segment, H5_INDEX_CRT_ORDER(), order, 0,
+                                              H5P_DEFAULT(), lapl_id);
             }
             // Calling H5Aget_info with attribute_id returned from
             // H5Aopen_by_idx.
@@ -771,12 +775,12 @@ public class TestH5A {
             try (Arena arena = Arena.ofConfined()) {
                 // Allocate a MemorySegment to hold the string bytes
                 MemorySegment name_segment = arena.allocateFrom("dset1");
-                attr_id                    = H5Acreate2(H5did, name_segment, type_id, space_id, H5P_DEFAULT(), H5P_DEFAULT());
+                attr_id = H5Acreate2(H5did, name_segment, type_id, space_id, H5P_DEFAULT(), H5P_DEFAULT());
             }
             try (Arena arena = Arena.ofConfined()) {
                 // Allocate a MemorySegment to hold the string bytes
                 MemorySegment name_segment = arena.allocateFrom("dataset2");
-                attr2_id                    = H5Acreate2(H5did, name_segment, type_id, space_id, H5P_DEFAULT(), H5P_DEFAULT());
+                attr2_id = H5Acreate2(H5did, name_segment, type_id, space_id, H5P_DEFAULT(), H5P_DEFAULT());
             }
 
             // Verify info for 1st attribute, in increasing creation order
@@ -849,8 +853,8 @@ public class TestH5A {
                 // Allocate a MemorySegment to hold the string bytes
                 MemorySegment attr_name_segment = arena.allocateFrom(attr_name);
                 MemorySegment obj_name_segment  = arena.allocateFrom(obj_name);
-                attr_id                         = H5Acreate_by_name(H5fid, obj_name_segment, attr_name_segment,
-                                                                    type_id, space_id, H5P_DEFAULT(), H5P_DEFAULT(), lapl_id);
+                attr_id = H5Acreate_by_name(H5fid, obj_name_segment, attr_name_segment, type_id, space_id,
+                                            H5P_DEFAULT(), H5P_DEFAULT(), lapl_id);
             }
             attr_info = H5.H5Aget_info_by_name(H5fid, obj_name, attr_name, lapl_id);
             assertNotNull(attr_info);
@@ -882,14 +886,14 @@ public class TestH5A {
                 // Allocate a MemorySegment to hold the string bytes
                 MemorySegment attr_name_segment = arena.allocateFrom("DATASET");
                 MemorySegment obj_name_segment  = arena.allocateFrom(".");
-                attr_id                         = H5Acreate_by_name(H5fid, obj_name_segment, attr_name_segment,
-                                                                    type_id, space_id, H5P_DEFAULT(), H5P_DEFAULT(), lapl_id);
+                attr_id = H5Acreate_by_name(H5fid, obj_name_segment, attr_name_segment, type_id, space_id,
+                                            H5P_DEFAULT(), H5P_DEFAULT(), lapl_id);
             }
             try (Arena arena = Arena.ofConfined()) {
                 // Allocate a MemorySegment to hold the string bytes
                 MemorySegment attr_name_segment = arena.allocateFrom("DATASET");
                 MemorySegment obj_name_segment  = arena.allocateFrom(".");
-                ret_val                         = H5Adelete_by_name(H5fid, obj_name_segment, attr_name_segment, lapl_id);
+                ret_val = H5Adelete_by_name(H5fid, obj_name_segment, attr_name_segment, lapl_id);
             }
             assertTrue("H5Adelete_by_name", ret_val >= 0);
 
@@ -898,7 +902,7 @@ public class TestH5A {
                 // Allocate a MemorySegment to hold the string bytes
                 MemorySegment new_name_segment = arena.allocateFrom("DATASET");
                 MemorySegment obj_name_segment = arena.allocateFrom(".");
-                bool_val                       = H5Aexists_by_name(H5fid, obj_name_segment, new_name_segment, lapl_id);
+                bool_val = H5Aexists_by_name(H5fid, obj_name_segment, new_name_segment, lapl_id);
             }
             assertFalse("testH5Adelete_by_name: H5Aexists_by_name", bool_val);
             try (Arena arena = Arena.ofConfined()) {
@@ -915,10 +919,10 @@ public class TestH5A {
                     // Allocate a MemorySegment to hold the string bytes
                     MemorySegment attr_name_segment = arena.allocateFrom("DATASET");
                     MemorySegment obj_name_segment  = arena.allocateFrom(".");
-                    ret_val                         = H5Adelete_by_name(H5fid, obj_name_segment, attr_name_segment,lapl_id);
+                    ret_val = H5Adelete_by_name(H5fid, obj_name_segment, attr_name_segment, lapl_id);
                 }
                 assertTrue("H5Adelete_by_name", ret_val < 0);
-                //fail("Negative Test Failed: Error Not thrown.");
+                // fail("Negative Test Failed: Error Not thrown.");
             }
             catch (AssertionError err) {
                 fail("H5Adelete_by_name: " + err);
@@ -964,7 +968,7 @@ public class TestH5A {
             try (Arena arena = Arena.ofConfined()) {
                 // Allocate a MemorySegment to hold the string bytes
                 MemorySegment name_segment = arena.allocateFrom("dset");
-                attr_id                    = H5Acreate2(H5did, name_segment, type_id, space_id, H5P_DEFAULT(), H5P_DEFAULT());
+                attr_id = H5Acreate2(H5did, name_segment, type_id, space_id, H5P_DEFAULT(), H5P_DEFAULT());
             }
             try (Arena arena = Arena.ofConfined()) {
                 // Allocate a MemorySegment to hold the string bytes
@@ -977,8 +981,8 @@ public class TestH5A {
                 // Allocate a MemorySegment to hold the string bytes
                 MemorySegment attr_name_segment = arena.allocateFrom("attribute");
                 MemorySegment obj_name_segment  = arena.allocateFrom(".");
-                attribute_id                    = H5Acreate_by_name(H5fid, obj_name_segment, attr_name_segment,
-                                                                    type_id, space_id, H5P_DEFAULT(), H5P_DEFAULT(), lapl_id);
+                attribute_id = H5Acreate_by_name(H5fid, obj_name_segment, attr_name_segment, type_id,
+                                                 space_id, H5P_DEFAULT(), H5P_DEFAULT(), lapl_id);
             }
             try (Arena arena = Arena.ofConfined()) {
                 // Allocate a MemorySegment to hold the string bytes
@@ -1021,29 +1025,29 @@ public class TestH5A {
                 // Allocate a MemorySegment to hold the string bytes
                 MemorySegment attr_name_segment = arena.allocateFrom("attribute1");
                 MemorySegment obj_name_segment  = arena.allocateFrom(".");
-                attr1_id                        = H5Acreate_by_name(H5fid, obj_name_segment, attr_name_segment,
-                                                                    type_id, space_id, H5P_DEFAULT(), H5P_DEFAULT(), lapl_id);
+                attr1_id = H5Acreate_by_name(H5fid, obj_name_segment, attr_name_segment, type_id, space_id,
+                                             H5P_DEFAULT(), H5P_DEFAULT(), lapl_id);
             }
             try (Arena arena = Arena.ofConfined()) {
                 // Allocate a MemorySegment to hold the string bytes
                 MemorySegment attr_name_segment = arena.allocateFrom("attribute2");
                 MemorySegment obj_name_segment  = arena.allocateFrom(".");
-                attr2_id                        = H5Acreate_by_name(H5fid, obj_name_segment, attr_name_segment,
-                                                                    type_id, space_id, H5P_DEFAULT(), H5P_DEFAULT(), lapl_id);
+                attr2_id = H5Acreate_by_name(H5fid, obj_name_segment, attr_name_segment, type_id, space_id,
+                                             H5P_DEFAULT(), H5P_DEFAULT(), lapl_id);
             }
             try (Arena arena = Arena.ofConfined()) {
                 // Allocate a MemorySegment to hold the string bytes
                 MemorySegment attr_name_segment = arena.allocateFrom("attribute3");
                 MemorySegment obj_name_segment  = arena.allocateFrom(".");
-                attr3_id                        = H5Acreate_by_name(H5fid, obj_name_segment, attr_name_segment,
-                                                                    type_id, space_id, H5P_DEFAULT(), H5P_DEFAULT(), lapl_id);
+                attr3_id = H5Acreate_by_name(H5fid, obj_name_segment, attr_name_segment, type_id, space_id,
+                                             H5P_DEFAULT(), H5P_DEFAULT(), lapl_id);
             }
             try (Arena arena = Arena.ofConfined()) {
                 // Allocate a MemorySegment to hold the string bytes
                 MemorySegment attr_name_segment = arena.allocateFrom("attribute4");
                 MemorySegment obj_name_segment  = arena.allocateFrom(".");
-                attr4_id                        = H5Acreate_by_name(H5fid, obj_name_segment, attr_name_segment,
-                                                                    type_id, space_id, H5P_DEFAULT(), H5P_DEFAULT(), lapl_id);
+                attr4_id = H5Acreate_by_name(H5fid, obj_name_segment, attr_name_segment, type_id, space_id,
+                                             H5P_DEFAULT(), H5P_DEFAULT(), lapl_id);
             }
 
             H5.H5Adelete_by_idx(H5fid, ".", H5_INDEX_CRT_ORDER(), H5_ITER_INC(), 3, lapl_id);
@@ -1099,22 +1103,22 @@ public class TestH5A {
                 // Allocate a MemorySegment to hold the string bytes
                 MemorySegment attr_name_segment = arena.allocateFrom("attribute1");
                 MemorySegment obj_name_segment  = arena.allocateFrom(".");
-                attr1_id                        = H5Acreate_by_name(H5fid, obj_name_segment, attr_name_segment,
-                                                                    type_id, space_id, H5P_DEFAULT(), H5P_DEFAULT(), lapl_id);
+                attr1_id = H5Acreate_by_name(H5fid, obj_name_segment, attr_name_segment, type_id, space_id,
+                                             H5P_DEFAULT(), H5P_DEFAULT(), lapl_id);
             }
             try (Arena arena = Arena.ofConfined()) {
                 // Allocate a MemorySegment to hold the string bytes
                 MemorySegment attr_name_segment = arena.allocateFrom("attribute2");
                 MemorySegment obj_name_segment  = arena.allocateFrom(".");
-                attr2_id                        = H5Acreate_by_name(H5fid, obj_name_segment, attr_name_segment,
-                                                                    type_id, space_id, H5P_DEFAULT(), H5P_DEFAULT(), lapl_id);
+                attr2_id = H5Acreate_by_name(H5fid, obj_name_segment, attr_name_segment, type_id, space_id,
+                                             H5P_DEFAULT(), H5P_DEFAULT(), lapl_id);
             }
             try (Arena arena = Arena.ofConfined()) {
                 // Allocate a MemorySegment to hold the string bytes
                 MemorySegment attr_name_segment = arena.allocateFrom("attribute3");
                 MemorySegment obj_name_segment  = arena.allocateFrom(".");
-                attr3_id                        = H5Acreate_by_name(H5fid, obj_name_segment, attr_name_segment,
-                                                                    type_id, space_id, H5P_DEFAULT(), H5P_DEFAULT(), lapl_id);
+                attr3_id = H5Acreate_by_name(H5fid, obj_name_segment, attr_name_segment, type_id, space_id,
+                                             H5P_DEFAULT(), H5P_DEFAULT(), lapl_id);
             }
             H5.H5Adelete_by_idx(H5fid, ".", H5_INDEX_NAME(), H5_ITER_INC(), 2, lapl_id);
             try (Arena arena = Arena.ofConfined()) {
@@ -1164,29 +1168,29 @@ public class TestH5A {
                 // Allocate a MemorySegment to hold the string bytes
                 MemorySegment attr_name_segment = arena.allocateFrom("attribute1");
                 MemorySegment obj_name_segment  = arena.allocateFrom(".");
-                attr1_id                        = H5Acreate_by_name(H5fid, obj_name_segment, attr_name_segment,
-                                                                    type_id, space_id, H5P_DEFAULT(), H5P_DEFAULT(), lapl_id);
+                attr1_id = H5Acreate_by_name(H5fid, obj_name_segment, attr_name_segment, type_id, space_id,
+                                             H5P_DEFAULT(), H5P_DEFAULT(), lapl_id);
             }
             try (Arena arena = Arena.ofConfined()) {
                 // Allocate a MemorySegment to hold the string bytes
                 MemorySegment attr_name_segment = arena.allocateFrom("attribute2");
                 MemorySegment obj_name_segment  = arena.allocateFrom(".");
-                attr2_id                        = H5Acreate_by_name(H5fid, obj_name_segment, attr_name_segment,
-                                                                    type_id, space_id, H5P_DEFAULT(), H5P_DEFAULT(), lapl_id);
+                attr2_id = H5Acreate_by_name(H5fid, obj_name_segment, attr_name_segment, type_id, space_id,
+                                             H5P_DEFAULT(), H5P_DEFAULT(), lapl_id);
             }
             try (Arena arena = Arena.ofConfined()) {
                 // Allocate a MemorySegment to hold the string bytes
                 MemorySegment attr_name_segment = arena.allocateFrom("attribute3");
                 MemorySegment obj_name_segment  = arena.allocateFrom(".");
-                attr3_id                        = H5Acreate_by_name(H5fid, obj_name_segment, attr_name_segment,
-                                                                    type_id, space_id, H5P_DEFAULT(), H5P_DEFAULT(), lapl_id);
+                attr3_id = H5Acreate_by_name(H5fid, obj_name_segment, attr_name_segment, type_id, space_id,
+                                             H5P_DEFAULT(), H5P_DEFAULT(), lapl_id);
             }
             try (Arena arena = Arena.ofConfined()) {
                 // Allocate a MemorySegment to hold the string bytes
                 MemorySegment attr_name_segment = arena.allocateFrom("attribute4");
                 MemorySegment obj_name_segment  = arena.allocateFrom(".");
-                attr4_id                        = H5Acreate_by_name(H5fid, obj_name_segment, attr_name_segment,
-                                                                    type_id, space_id, H5P_DEFAULT(), H5P_DEFAULT(), lapl_id);
+                attr4_id = H5Acreate_by_name(H5fid, obj_name_segment, attr_name_segment, type_id, space_id,
+                                             H5P_DEFAULT(), H5P_DEFAULT(), lapl_id);
             }
 
             H5.H5Adelete_by_idx(H5fid, ".", H5_INDEX_NAME(), H5_ITER_DEC(), 3, lapl_id);
@@ -1254,8 +1258,8 @@ public class TestH5A {
                 // Allocate a MemorySegment to hold the string bytes
                 MemorySegment attr_name_segment = arena.allocateFrom(attr_name);
                 MemorySegment obj_name_segment  = arena.allocateFrom(obj_name);
-                attribute_id                    = H5Acreate_by_name(H5fid, obj_name_segment, attr_name_segment,
-                                                                    type_id, space_id, H5P_DEFAULT(), H5P_DEFAULT(), lapl_id);
+                attribute_id = H5Acreate_by_name(H5fid, obj_name_segment, attr_name_segment, type_id,
+                                                 space_id, H5P_DEFAULT(), H5P_DEFAULT(), lapl_id);
             }
 
             // open Attribute by name
@@ -1265,8 +1269,8 @@ public class TestH5A {
                         // Allocate a MemorySegment to hold the string bytes
                         MemorySegment attr_name_segment = arena.allocateFrom(attr_name);
                         MemorySegment obj_name_segment  = arena.allocateFrom(obj_name);
-                        aid                             = H5Aopen_by_name(H5fid, obj_name_segment, attr_name_segment,
-                                                                            H5P_DEFAULT(), lapl_id);
+                        aid = H5Aopen_by_name(H5fid, obj_name_segment, attr_name_segment, H5P_DEFAULT(),
+                                              lapl_id);
                     }
                     assertTrue("testH5Aopen_by_name: ", aid >= 0);
                 }
@@ -1330,7 +1334,7 @@ public class TestH5A {
             try (Arena arena = Arena.ofConfined()) {
                 // Allocate a MemorySegment to hold the string bytes
                 MemorySegment name_segment = arena.allocateFrom(attr_name);
-                attr_id                    = H5Acreate2(H5did, name_segment, atype_id, aspace_id, H5P_DEFAULT(), H5P_DEFAULT());
+                attr_id = H5Acreate2(H5did, name_segment, atype_id, aspace_id, H5P_DEFAULT(), H5P_DEFAULT());
             }
             assertTrue("testH5Awrite_readVL: ", attr_id >= 0);
 
@@ -1414,7 +1418,8 @@ public class TestH5A {
                 try (Arena arena = Arena.ofConfined()) {
                     // Allocate a MemorySegment to hold the string bytes
                     MemorySegment name_segment = arena.allocateFrom(attr_name);
-                    attribute_id               = H5Acreate2(H5did, name_segment, type_id, space_id, plist_id, H5P_DEFAULT());
+                    attribute_id =
+                        H5Acreate2(H5did, name_segment, type_id, space_id, plist_id, H5P_DEFAULT());
                 }
                 assertTrue("testH5Aget_create_plist: H5Acreate", attribute_id >= 0);
             }
@@ -1487,29 +1492,29 @@ public class TestH5A {
                 // Allocate a MemorySegment to hold the string bytes
                 MemorySegment attr_name_segment = arena.allocateFrom("attribute1");
                 MemorySegment obj_name_segment  = arena.allocateFrom(".");
-                attr1_id                        = H5Acreate_by_name(H5fid, obj_name_segment, attr_name_segment,
-                                                                    type_id, space_id, H5P_DEFAULT(), H5P_DEFAULT(), lapl_id);
+                attr1_id = H5Acreate_by_name(H5fid, obj_name_segment, attr_name_segment, type_id, space_id,
+                                             H5P_DEFAULT(), H5P_DEFAULT(), lapl_id);
             }
             try (Arena arena = Arena.ofConfined()) {
                 // Allocate a MemorySegment to hold the string bytes
                 MemorySegment attr_name_segment = arena.allocateFrom("attribute2");
                 MemorySegment obj_name_segment  = arena.allocateFrom(".");
-                attr2_id                        = H5Acreate_by_name(H5fid, obj_name_segment, attr_name_segment,
-                                                                    type_id, space_id, H5P_DEFAULT(), H5P_DEFAULT(), lapl_id);
+                attr2_id = H5Acreate_by_name(H5fid, obj_name_segment, attr_name_segment, type_id, space_id,
+                                             H5P_DEFAULT(), H5P_DEFAULT(), lapl_id);
             }
             try (Arena arena = Arena.ofConfined()) {
                 // Allocate a MemorySegment to hold the string bytes
                 MemorySegment attr_name_segment = arena.allocateFrom("attribute3");
                 MemorySegment obj_name_segment  = arena.allocateFrom(".");
-                attr3_id                        = H5Acreate_by_name(H5fid, obj_name_segment, attr_name_segment,
-                                                                    type_id, space_id, H5P_DEFAULT(), H5P_DEFAULT(), lapl_id);
+                attr3_id = H5Acreate_by_name(H5fid, obj_name_segment, attr_name_segment, type_id, space_id,
+                                             H5P_DEFAULT(), H5P_DEFAULT(), lapl_id);
             }
             try (Arena arena = Arena.ofConfined()) {
                 // Allocate a MemorySegment to hold the string bytes
                 MemorySegment attr_name_segment = arena.allocateFrom("attribute4");
                 MemorySegment obj_name_segment  = arena.allocateFrom(".");
-                attr4_id                        = H5Acreate_by_name(H5fid, obj_name_segment, attr_name_segment,
-                                                                    type_id, space_id, H5P_DEFAULT(), H5P_DEFAULT(), lapl_id);
+                attr4_id = H5Acreate_by_name(H5fid, obj_name_segment, attr_name_segment, type_id, space_id,
+                                             H5P_DEFAULT(), H5P_DEFAULT(), lapl_id);
             }
             H5A_iterate_cb iter_cb = new H5A_iter_callback();
             try {
@@ -1599,29 +1604,29 @@ public class TestH5A {
                 // Allocate a MemorySegment to hold the string bytes
                 MemorySegment attr_name_segment = arena.allocateFrom("attribute4");
                 MemorySegment obj_name_segment  = arena.allocateFrom(".");
-                attr1_id                        = H5Acreate_by_name(loc_id, obj_name_segment, attr_name_segment,
-                                                                    type_id, space_id, H5P_DEFAULT(), H5P_DEFAULT(), lapl_id);
+                attr1_id = H5Acreate_by_name(loc_id, obj_name_segment, attr_name_segment, type_id, space_id,
+                                             H5P_DEFAULT(), H5P_DEFAULT(), lapl_id);
             }
             try (Arena arena = Arena.ofConfined()) {
                 // Allocate a MemorySegment to hold the string bytes
                 MemorySegment attr_name_segment = arena.allocateFrom("attribute3");
                 MemorySegment obj_name_segment  = arena.allocateFrom(".");
-                attr2_id                        = H5Acreate_by_name(loc_id, obj_name_segment, attr_name_segment,
-                                                                    type_id, space_id, H5P_DEFAULT(), H5P_DEFAULT(), lapl_id);
+                attr2_id = H5Acreate_by_name(loc_id, obj_name_segment, attr_name_segment, type_id, space_id,
+                                             H5P_DEFAULT(), H5P_DEFAULT(), lapl_id);
             }
             try (Arena arena = Arena.ofConfined()) {
                 // Allocate a MemorySegment to hold the string bytes
                 MemorySegment attr_name_segment = arena.allocateFrom("attribute2");
                 MemorySegment obj_name_segment  = arena.allocateFrom(".");
-                attr3_id                        = H5Acreate_by_name(loc_id, obj_name_segment, attr_name_segment,
-                                                                    type_id, space_id, H5P_DEFAULT(), H5P_DEFAULT(), lapl_id);
+                attr3_id = H5Acreate_by_name(loc_id, obj_name_segment, attr_name_segment, type_id, space_id,
+                                             H5P_DEFAULT(), H5P_DEFAULT(), lapl_id);
             }
             try (Arena arena = Arena.ofConfined()) {
                 // Allocate a MemorySegment to hold the string bytes
                 MemorySegment attr_name_segment = arena.allocateFrom("attribute1");
                 MemorySegment obj_name_segment  = arena.allocateFrom(".");
-                attr4_id                        = H5Acreate_by_name(H5fid, obj_name_segment, attr_name_segment,
-                                                                    type_id, space_id, H5P_DEFAULT(), H5P_DEFAULT(), lapl_id);
+                attr4_id = H5Acreate_by_name(H5fid, obj_name_segment, attr_name_segment, type_id, space_id,
+                                             H5P_DEFAULT(), H5P_DEFAULT(), lapl_id);
             }
             H5A_iterate_cb iter_cb = new H5A_iter_callback();
             try {
@@ -1716,7 +1721,8 @@ public class TestH5A {
                 try (Arena arena = Arena.ofConfined()) {
                     // Allocate a MemorySegment to hold the string bytes
                     MemorySegment name_segment = arena.allocateFrom(attr_int_name);
-                    attr_int_id                = H5Acreate2(H5did, name_segment, atype_int_id, aspace_id, H5P_DEFAULT(), H5P_DEFAULT());
+                    attr_int_id = H5Acreate2(H5did, name_segment, atype_int_id, aspace_id, H5P_DEFAULT(),
+                                             H5P_DEFAULT());
                 }
                 assertTrue("testH5AVLwr: ", attr_int_id >= 0);
 
@@ -1776,7 +1782,8 @@ public class TestH5A {
                 try (Arena arena = Arena.ofConfined()) {
                     // Allocate a MemorySegment to hold the string bytes
                     MemorySegment name_segment = arena.allocateFrom(attr_dbl_name);
-                    attr_dbl_id                = H5Acreate2(H5did, name_segment, atype_dbl_id, aspace_id, H5P_DEFAULT(), H5P_DEFAULT());
+                    attr_dbl_id = H5Acreate2(H5did, name_segment, atype_dbl_id, aspace_id, H5P_DEFAULT(),
+                                             H5P_DEFAULT());
                 }
                 assertTrue("testH5AVLwr: ", attr_dbl_id >= 0);
 
@@ -1959,7 +1966,8 @@ public class TestH5A {
                 try (Arena arena = Arena.ofConfined()) {
                     // Allocate a MemorySegment to hold the string bytes
                     MemorySegment name_segment = arena.allocateFrom(attr_int_name);
-                    attr_int_id                = H5Acreate2(H5did, name_segment, base_atype_int_id, aspace_id, H5P_DEFAULT(), H5P_DEFAULT());
+                    attr_int_id = H5Acreate2(H5did, name_segment, base_atype_int_id, aspace_id, H5P_DEFAULT(),
+                                             H5P_DEFAULT());
                 }
                 assertTrue("testH5AVLwrVL: ", attr_int_id >= 0);
 
@@ -2118,7 +2126,8 @@ public class TestH5A {
                 try (Arena arena = Arena.ofConfined()) {
                     // Allocate a MemorySegment to hold the string bytes
                     MemorySegment name_segment = arena.allocateFrom(att_int_name);
-                    att_int_id                 = H5Acreate2(H5did, name_segment, atype_int_id, aspace_id, H5P_DEFAULT(), H5P_DEFAULT());
+                    att_int_id = H5Acreate2(H5did, name_segment, atype_int_id, aspace_id, H5P_DEFAULT(),
+                                            H5P_DEFAULT());
                 }
                 assertTrue("testH5AVLwr: ", att_int_id >= 0);
 
@@ -2265,7 +2274,8 @@ public class TestH5A {
             try (Arena arena = Arena.ofConfined()) {
                 // Allocate a MemorySegment to hold the string bytes
                 MemorySegment name_segment = arena.allocateFrom(att_str_name);
-                att_str_id                 = H5Acreate2(H5did, name_segment, atype_str_id, aspace_id, H5P_DEFAULT(), H5P_DEFAULT());
+                att_str_id =
+                    H5Acreate2(H5did, name_segment, atype_str_id, aspace_id, H5P_DEFAULT(), H5P_DEFAULT());
             }
             assertTrue("testH5AArray_string_buffer: ", att_str_id >= 0);
 

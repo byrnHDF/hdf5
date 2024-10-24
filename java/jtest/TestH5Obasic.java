@@ -78,7 +78,7 @@ public class TestH5Obasic {
         try (Arena arena = Arena.ofConfined()) {
             // Allocate a MemorySegment to hold the string bytes
             MemorySegment filename_segment = arena.allocateFrom("Never_created");
-            oid                          = H5Oopen(H5fid, filename_segment, H5P_DEFAULT());
+            oid                            = H5Oopen(H5fid, filename_segment, H5P_DEFAULT());
         }
         assertTrue("H5Oopen", oid < 0);
 

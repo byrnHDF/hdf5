@@ -124,7 +124,7 @@ public class TestH5Dparams {
 
     public void testH5Dopen_invalid() throws Throwable
     {
-        long did         = H5I_INVALID_HID();
+        long did = H5I_INVALID_HID();
         try (Arena arena = Arena.ofConfined()) {
             // Allocate a MemorySegment to hold the string bytes
             MemorySegment filename_segment = arena.allocateFrom("Bogus");
